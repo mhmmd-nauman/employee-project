@@ -5,16 +5,16 @@
 		"type" => "MySQLDatabase",
 		"server" => "localhost",
 		"username" => 'root',
-		"password" => 'vertrigo',
+		"password" => '',
 		"database" => str_replace('"',"", "db_emp")
 	);
 	} else {
 		$databaseConfig = array(
 		"type" => "MySQLDatabase",
 		"server" => "localhost",
-		"username" => str_replace('"',"","online_username"),
-		"password" => str_replace('"',"","online_password"),
-		"database" => str_replace('"',"", "online_db_af")
+		"username" => str_replace('"',"","ezb2599b_sb"),
+		"password" => str_replace('"',"","46v*#}N}OgAG"),
+		"database" => str_replace('"',"", "ezb2599b_emp")
 	);
 	}
 	

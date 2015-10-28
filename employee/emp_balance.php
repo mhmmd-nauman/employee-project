@@ -8,10 +8,10 @@ include (dirname(__FILE__).'/../lib/header.php');
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php">Add</a>
+            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php">Add Balance</a>
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php">Employee List</a>
+            <a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php">Transaction List</a>
         </li>
     </ul>
 </div>
@@ -20,7 +20,7 @@ include (dirname(__FILE__).'/../lib/header.php');
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Balance Details</h2>
             </div>
             
             
@@ -28,8 +28,8 @@ include (dirname(__FILE__).'/../lib/header.php');
            <div class="box-content">
      <br>
 <?php 
-      $obj=new Queries();
-      $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
+      $objTransaction =new Transaction();
+      $trasanction_list=$objTransaction->GetAllTrasanctions("alpp_transactions.emp_id = ".$_REQUEST['view'],array("alpp_transactions.*"));
 
       
  	 
@@ -37,7 +37,7 @@ if(isset($_REQUEST['del']))
 {	
 
         $id = $_REQUEST['del'];
-	$del = $obj->Delete("alpp_emp",'emp_id='.$id);
+	$del = $objTransaction->DeleteTransantion($id);
 	 
 	if($del)
 	{
@@ -49,7 +49,7 @@ if(isset($_REQUEST['del']))
                             </div>
          </div>
      	 <?php
-		header('refresh:1, url=emp_list.php');
+		header('refresh:1, url=emp_balance.php');
 	}
 }
 ?>
@@ -68,33 +68,30 @@ if(isset($_REQUEST['del']))
     </tr>
     </thead>
     <tbody>
-        <?php foreach($employee_list as $employee) {   ?>
+        <?php foreach($trasanction_list as $trasanction) {   ?>
         
     <tr>
-        <td><img src="<?php echo SITE_ADDRESS.$employee['emp_pic']; ?>" height="50" width="50"></td>
-        <td><?php echo $employee['emp_name']; ?></td>
-        <td><?php echo $employee['emp_email']; ?></td>
-        <td><?php echo $employee['emp_account_no']; ?></td>
-        <td><?php echo $employee['emp_salary']; ?></td>
+        <td><?php echo $trasanction['id']; ?></td>
+        <td><?php echo $trasanction['amount']; ?></td>
+        <td><?php echo $trasanction['trans_type']; ?></td>
+        <td><?php echo $trasanction['date']; ?></td>
+        <td><?php echo $trasanction['done_by']; ?></td>
         <td class="center">
-           <?php if($employee['emp_status']==0) { ?>
+           <?php if($employee['status']==0) { ?>
             <span class="label-success label label-default">Active</span>
            <?php } ?>
         </td>
         <td class="center">
-            <a class="btn btn-success" href="emp_balance.php?view=<?php echo $employee['emp_id']; ?>">
-                <i class="glyphicon glyphicon-usd icon-white"></i>
-                Balance
-            </a>
-            <a class="btn btn-success" href="add_employee.php?view=<?php echo $employee['emp_id']; ?>">
+            
+            <a class="btn btn-success" href="add_employee.php?view=<?php echo $employee['id']; ?>">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 View
             </a>
-            <a class="btn btn-info" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+            <a class="btn btn-info" href="add_employee.php?update=<?php echo $employee['id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+            <a class="btn btn-danger" href="emp_list.php?del=<?php echo $employee['id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>
