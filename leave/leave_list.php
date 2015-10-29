@@ -59,7 +59,7 @@ if(isset($_REQUEST['del']))
 ?>
       
       
-     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
+     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
     <thead>
     <tr>
         <th>Name</th>
