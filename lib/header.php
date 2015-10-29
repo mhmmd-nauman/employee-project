@@ -1,7 +1,7 @@
 <?php
 //define("SSL_INSTALLED",1);
 if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0.1'){
-	define("SITE_ADDRESS","http://".$_SERVER['SERVER_NAME'].":8080/employee-project/");
+	define("SITE_ADDRESS","http://".$_SERVER['SERVER_NAME']."/employee_project/");
 }else{
 //	if(SSL_INSTALLED == 1 && $_SERVER['SERVER_NAME'] != 'employee_project.com'){
 //		$http = "https";
@@ -117,6 +117,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
                         <li class="nav-header">Main</li>
                         <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>dashboard.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
                         <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Employee</span></a></li>
+                        <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-star"></i><span> Leave</span></a></li>
                         <li><a href="<?php echo SITE_ADDRESS; ?>logout.php"><i class="glyphicon glyphicon-lock"></i><span> Logout</span></a></li>
                     </ul>
                  
