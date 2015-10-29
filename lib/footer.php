@@ -17,20 +17,13 @@
 
 </div><!--/.fluid-container-->
 
-<!-- external javascript -->
-<!--	<script type="text/javascript" language="javascript" src="<?php //echo SITE_ADDRESS; ?>bower_components/datatables/media/js/jquery.js"></script>
-		<script type="text/javascript" language="javascript" src="<?php // echo SITE_ADDRESS; ?>bower_components/datatables/media/js/jquery.dataTables.js"></script>-->
-
 <script src="<?php echo SITE_ADDRESS; ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
 <!-- library for cookie management -->
 <script src="<?php echo SITE_ADDRESS; ?>js/jquery.cookie.js"></script>
 <!-- calender plugin -->
 <script src='<?php echo SITE_ADDRESS; ?>bower_components/moment/min/moment.min.js'></script>
-
 <!-- data table plugin -->
 <script src='<?php echo SITE_ADDRESS; ?>js/jquery.dataTables.min.js'></script>
-
 <!-- select or dropdown enhancer -->
 <script src="<?php echo SITE_ADDRESS; ?>bower_components/chosen/chosen.jquery.min.js"></script>
 <!-- plugin for gallery image view -->

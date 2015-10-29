@@ -18,7 +18,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
     <title>Employee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The styles -->
-    <link id="bs-css" href="<?php echo SITE_ADDRESS; ?>css/bootstrap-cerulean.min.css" rel="stylesheet">
+    <link href="<?php echo SITE_ADDRESS; ?>css/bootstrap-cerulean.min.css" rel="stylesheet">
 
     <link href="<?php echo SITE_ADDRESS; ?>css/charisma-app.css" rel="stylesheet">
     <link href='<?php echo SITE_ADDRESS; ?>bower_components/fullcalendar/dist/fullcalendar.css' rel='stylesheet'>
