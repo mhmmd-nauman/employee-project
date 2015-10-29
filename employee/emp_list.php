@@ -86,6 +86,10 @@ if(isset($_REQUEST['del']))
                 <i class="glyphicon glyphicon-usd icon-white"></i>
                 Balance
             </a>
+             <a class="btn btn-warning" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?view=<?php echo $employee['emp_id']; ?>">
+                <i class="glyphicon glyphicon-star icon-white"></i>
+                Leaves
+            </a>
             <a class="btn btn-success" href="add_employee.php?view=<?php echo $employee['emp_id']; ?>">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 View

@@ -30,13 +30,13 @@ if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg
 <div>
     <ul class="breadcrumb">
         <li>
-            <a href="../dashboard.php">Home</a>
+            <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
         <li>
-            <a href="add_employee.php">Add</a>
+            <a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php">Add</a>
         </li>
         <li>
-            <a href="emp_list.php">Employee List</a>
+            <a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php">Employee List</a>
         </li>
     </ul>
 </div>
@@ -53,9 +53,39 @@ if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg
            <div class="box-content">
      <br>
 <?php 
+
+     /// upload pic code
+      $pic='';
+      function getExtension($str) 
+	{
+         $i = strrpos($str,".");
+         if (!$i) { return ""; }
+         $l = strlen($str) - $i;
+         $ext = substr($str,$i+1,$l);
+         return $ext;
+	}
+        
 if(isset($_REQUEST['update_button']))  // update code
 {
-           $submit=$obj->update("alpp_emp","emp_id=$id ",array(
+   if(isset($_FILES['image']['name']))
+		{
+		$image=$_FILES['image']['name'];
+
+		if ($image) 
+		{
+			$filename = stripslashes($_FILES['image']['name']);
+			$extension = getExtension($filename);
+			$extension = strtolower($extension);
+			$size=filesize($_FILES['image']['tmp_name']);
+
+				$image_name=time().'.'.$extension;
+				$pic="img/employee/".$image_name; // db path
+				$copied = copy($_FILES['image']['tmp_name'], "../".$pic); // actual path
+                            
+		}
+		}
+                
+                $submit=$obj->update("alpp_emp","emp_id=".$_REQUEST['id'],array(
                                                  'emp_name'         =>$_REQUEST['emp_name'],
                                                  'emp_fathername'   =>$_REQUEST['emp_fname'],
                                                  'emp_gender'       =>$_REQUEST['gender'],
@@ -67,7 +97,8 @@ if(isset($_REQUEST['update_button']))  // update code
                                                  'emp_qualification'=>$_REQUEST['emp_qua'],
                                                  'emp_email'        =>$_REQUEST['emp_email'],
                                                  'emp_password'      =>$_REQUEST['emp_password'],
-                                                 'emp_salary'      =>$_REQUEST['emp_salary']
+                                                 'emp_salary'      =>$_REQUEST['emp_salary'],
+                                                'emp_pic'       =>$pic
                                                   
               ));
         if($submit)
@@ -85,18 +116,7 @@ if(isset($_REQUEST['update_button']))  // update code
 
  if(isset($_REQUEST['submit']))  /// insert code
 {
-      
-     /// upload pic code
-      $pic='';
-      function getExtension($str) 
-	{
-         $i = strrpos($str,".");
-         if (!$i) { return ""; }
-         $l = strlen($str) - $i;
-         $ext = substr($str,$i+1,$l);
-         return $ext;
-	}
-
+   
 		if(isset($_FILES['image']['name']))
 		{
 		$image=$_FILES['image']['name'];
@@ -164,6 +184,7 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                         <label class="control-label col-sm-2">Employee Name</label>
                         <div class="col-sm-4">          
                             <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_name']; ?>" placeholder="Employee Name" name="emp_name">
+                            <input type="hidden" value="<?php echo $employee_list[0]['emp_id']; ?>" name="id">
                         </div>
                     
                         <label class="control-label col-sm-2">Gender</label>                     
@@ -245,6 +266,12 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                         <label class="control-label col-sm-2">Image</label>                     
                         <div class="col-sm-4">
                             <input type="file" name="image" id="img1" onChange="checkPhoto(this)" class="btn btn-info">
+                        <?php
+                        if($employee_list[0]['emp_pic']!='')
+                        { echo " <img src=".SITE_ADDRESS.$employee_list[0]['emp_pic']." height=50 width=50>"; }                        
+                        else
+                            { echo "No image exist"; }                        
+                        ?>
                         </div>        
                         
                       <label class="control-label col-sm-2">Salary</label>                     
