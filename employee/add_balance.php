@@ -6,31 +6,18 @@ $objTransaction =new Transaction();
 
 if(isset($_REQUEST['update_button']))  // update code
 {
-           $updated=$obj->update("alpp_emp","emp_id=$id ",array(
-                                                 'emp_name'         =>$_REQUEST['emp_name'],
-                                                 'emp_fathername'   =>$_REQUEST['emp_fname'],
-                                                 'emp_gender'       =>$_REQUEST['gender'],
-                                                 'emp_designation'  =>$_REQUEST['emp_des'],
-                                                 'emp_account_no'   =>$_REQUEST['emp_acc'],
-                                                 'emp_cellnum'      =>$_REQUEST['emp_cell'],
-                                                 'emp_landline'     =>$_REQUEST['emp_landline'],
-                                                 'emp_address'      =>$_REQUEST['emp_address'],
-                                                 'emp_qualification'=>$_REQUEST['emp_qua'],
-                                                 'emp_email'        =>$_REQUEST['emp_email'],
-                                                 'emp_password'      =>$_REQUEST['emp_password'],
-                                                 'emp_salary'      =>$_REQUEST['emp_salary']
-                                                  
-              ));
+           
 }
 if(isset($_REQUEST['submit']))  /// insert code
 {
     $insert=$objTransaction->InsertTransaction(array(
-                'emp_id'=>1,
+                'emp_id'=>$_REQUEST['view'],
+                'end_month_data'=>$_REQUEST['end_month_data'],
                 'amount'=>$_REQUEST['amount'],
                 'trans_type'=>$_REQUEST['trans_type'],
                 'date'=> date("Y-m-d h:i:s"),
-                'done_by'=>1,
-                'status'=>1
+                'done_by'=>$_SESSION['session_admin_id'],
+                'status'=>$_REQUEST['status']
             ));
                 
                 
@@ -47,7 +34,7 @@ if(isset($_REQUEST['submit']))  /// insert code
             <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php">Add Balance</a>
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php">Transaction List</a>
+            <a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php">Balance Details</a>
         </li>
     </ul>
 </div>
@@ -56,7 +43,7 @@ if(isset($_REQUEST['submit']))  /// insert code
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Transaction</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Balance</h2>
             </div>
             
             
@@ -86,7 +73,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                                 <strong>Success!</strong> Record Inserted.
                         </div>
                     </div>
-        <?php      header('REFRESH:2, url=emp_balance.php');
+        <?php      header('REFRESH:2, url=emp_balance.php?view='.$_REQUEST['view']);
 		}
 	
       
@@ -100,40 +87,44 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
 }
         ?>
      <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
-               
+         <input type="hidden" value="<?php echo $_REQUEST['view'];?>" name="view">
                     <div class="form-group">
                         
-                        <label class="control-label col-sm-2">Amount</label>
+                        <label class="control-label col-sm-2">Day</label>
                         <div class="col-sm-4">          
-                            <input type="text" class="form-control" value="<?php echo $transaction[0]['amount']; ?>" placeholder="Amount in $" name="amount">
+                            <input type="text" class="form-control" value="<?php echo $transaction[0]['amount']; ?>" placeholder="Days" name="amount">
                         </div>
                     
-                        <label class="control-label col-sm-2">Transaction Type</label>                     
+                        <label class="control-label col-sm-2">Balance Type</label>                     
                         <div class="col-sm-3">
                         <?php if($transaction[0]['trans_type']=='C') 
                         {   ?>
-                                        <input type="radio" name="trans_type" value="D" />Debit
-                                        <input type="radio" name="trans_type" value="C"  checked="" />Credit
+                                        <input type="radio" name="trans_type" value="D" />Consumed
+                                        <input type="radio" name="trans_type" value="C"  checked="" />Received
                         <?php    } else { ?> 
 
-                                                 <input type="radio" name="trans_type" value="D"  checked="" />Debit
-                                                 <input type="radio" name="trans_type" value="C"  />Credit
+                                                 <input type="radio" name="trans_type" value="D"  checked="" />Consumed
+                                                 <input type="radio" name="trans_type" value="C"  />Received
                         <?php     } ?> 
                         
                         </div>
                     
                     </div>
           <div class="form-group">
+              <label class="control-label col-sm-2">Month End</label>
+                    <div class="col-sm-4">          
+                        <input type="text" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="" name="end_month_data">
+                    </div>
               <label class="control-label col-sm-2">Status</label>                     
                         <div class="col-sm-3">
                         <?php if($transaction[0]['status']==0) 
                         {   ?>
-                                        <input type="radio" name="status" value="1" />Active
-                                        <input type="radio" name="status" value="0"  checked="" />Disabled
+                                        <input type="radio" name="status" value="0" />Active
+                                        <input type="radio" name="status" value="1"  checked="" />Disabled
                         <?php    } else { ?> 
 
-                                                 <input type="radio" name="status" value="1"  checked="" />Active
-                                                 <input type="radio" name="status" value="0"  />Disabled
+                                                 <input type="radio" name="status" value="0"  checked="" />Active
+                                                 <input type="radio" name="status" value="1"  />Disabled
                         <?php     } ?> 
                         
                         </div>

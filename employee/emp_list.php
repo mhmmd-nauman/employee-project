@@ -1,6 +1,7 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
+$objTransaction =new Transaction();
  ?>
 <div>
     <ul class="breadcrumb">
@@ -61,21 +62,22 @@ if(isset($_REQUEST['del']))
         <th>Image</th>
         <th>Name</th>
         <th>Email</th>
-        <th>Account #</th>
-        <th>Basic Salary</th>
+        <th>Balance</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-        <?php foreach($employee_list as $employee) {   ?>
+        <?php foreach($employee_list as $employee) {  
+            $balance = $objTransaction->GetEmpBalance($employee['emp_id']);
+            ?>
         
     <tr>
         <td><img src="<?php echo SITE_ADDRESS.$employee['emp_pic']; ?>" height="50" width="50"></td>
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_email']; ?></td>
-        <td><?php echo $employee['emp_account_no']; ?></td>
-        <td><?php echo $employee['emp_salary']; ?></td>
+       
+        <td><?php echo $balance; ?></td>
         <td class="center">
            <?php if($employee['emp_status']==0) { ?>
             <span class="label-success label label-default">Active</span>
@@ -83,8 +85,8 @@ if(isset($_REQUEST['del']))
         </td>
         <td class="center">
             <a class="btn btn-success" href="emp_balance.php?view=<?php echo $employee['emp_id']; ?>">
-                <i class="glyphicon glyphicon-usd icon-white"></i>
-                Balance
+                <i class="glyphicon icon-white"></i>
+                Balance Details
             </a>
              <a class="btn btn-warning" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?view=<?php echo $employee['emp_id']; ?>">
                 <i class="glyphicon glyphicon-star icon-white"></i>
@@ -104,7 +106,9 @@ if(isset($_REQUEST['del']))
             </a>
         </td>
     </tr>
-        <?php } ?>
+        <?php 
+        $balance = 0;
+           } ?>
     
     </tbody>
     </table>

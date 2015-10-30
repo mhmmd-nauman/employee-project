@@ -9,7 +9,7 @@
             } 
             //remove the last comma
             $strFields = substr($strFields, 0, strlen($strFields) - 1);	
-            $sql="SELECT $strFields FROM alpp_transactions  JOIN alpp_emp ON alpp_emp.emp_id = alpp_transactions.emp_id WHERE $strWhere " or die("Error in the consult.." . mysqli_error($link));
+            $sql="SELECT $strFields FROM alpp_transactions  JOIN alpp_emp ON alpp_emp.emp_id = alpp_transactions.emp_id WHERE $strWhere " ;
             $result=mysqli_query($link,$sql) ;
             while($row=mysqli_fetch_array($result)){
                 $arr[] = $row;
@@ -18,6 +18,22 @@
             return $arr; 
         }
 	
+        function GetEmpBalance($emp_id){
+            global $link;
+            	
+            $sql="SELECT (Select sum(amount) from alpp_transactions where trans_type = 'D' AND emp_id = $emp_id and status = 0) as Debit,(Select sum(amount) from alpp_transactions where trans_type = 'C' AND emp_id = $emp_id and status = 0 ) as Credit  FROM alpp_transactions WHERE emp_id = $emp_id and status = 0 group by emp_id" ;
+            $result=mysqli_query($link,$sql) ;
+            $row=mysqli_fetch_array($result);
+            
+            // also get the leave data
+            $sql_leave="SELECT sum(leave_duration) as leaves  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_approval = 2 group by leave_emp_id" ;
+            $result_leave=mysqli_query($link,$sql_leave) ;
+            $row_leave=mysqli_fetch_array($result_leave);
+            
+            //log_error($encoded_query);
+            return ((float)$row['Credit']-(float)$row['Debit'] - (float)$row_leave['leaves']); 
+        }
+        
 	function UpdateTransaction($where,$array){
             if($array){
                 $updated_id = util::updateRecord("alpp_transactions",$where,$array);

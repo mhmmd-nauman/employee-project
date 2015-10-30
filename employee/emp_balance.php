@@ -1,6 +1,10 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
+$objTransaction =new Transaction();
+$trasanction_list=$objTransaction->GetAllTrasanctions("alpp_transactions.emp_id = ".$_REQUEST['view']." ORDER BY end_month_data DESC",array("alpp_transactions.*"));
+$balance=0.00;
+$balance = $objTransaction->GetEmpBalance($_REQUEST['view']);
  ?>
 <div>
     <ul class="breadcrumb">
@@ -8,10 +12,10 @@ include (dirname(__FILE__).'/../lib/header.php');
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php">Add Balance</a>
+            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?view=<?php echo $_REQUEST['view']?>">Add Balance</a>
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php">Transaction List</a>
+            Employee Balance Details
         </li>
     </ul>
 </div>
@@ -23,14 +27,16 @@ include (dirname(__FILE__).'/../lib/header.php');
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Balance Details</h2>
             </div>
             
-            
+            <div class="col-md-12">
+                <br>
+                <h4>Balance: <?php echo $balance;?> day(s) after deducting leaves</h4>
+                <br>
+            </div>
             
            <div class="box-content">
      <br>
 <?php 
-      $objTransaction =new Transaction();
-      $trasanction_list=$objTransaction->GetAllTrasanctions("alpp_transactions.emp_id = ".$_REQUEST['view'],array("alpp_transactions.*"));
-
+      
       
  	 
 if(isset($_REQUEST['del']))	
@@ -58,11 +64,10 @@ if(isset($_REQUEST['del']))
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
     <thead>
     <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Account #</th>
-        <th>Basic Salary</th>
+        <th>Date</th>
+        <th>Days</th>
+        <th>Consumed/Received</th>
+        <th>Data Added</th>
         <th>Status</th>
         <th>Actions</th>
     </tr>
@@ -71,27 +76,28 @@ if(isset($_REQUEST['del']))
         <?php foreach($trasanction_list as $trasanction) {   ?>
         
     <tr>
-        <td><?php echo $trasanction['id']; ?></td>
+        <td><?php echo date("m/d/Y",strtotime($trasanction['end_month_data'])); ?></td>
         <td><?php echo $trasanction['amount']; ?></td>
-        <td><?php echo $trasanction['trans_type']; ?></td>
+        <td>
+            <?php
+            if($trasanction['trans_type']=='C') {
+                echo "Received"; 
+            }else{
+                echo "Consumed";
+            }?></td>
         <td><?php echo $trasanction['date']; ?></td>
-        <td><?php echo $trasanction['done_by']; ?></td>
         <td class="center">
-           <?php if($employee['status']==0) { ?>
+           <?php if($trasanction['status']==0) { ?>
             <span class="label-success label label-default">Active</span>
            <?php } ?>
         </td>
         <td class="center">
             
-            <a class="btn btn-success" href="add_employee.php?view=<?php echo $employee['id']; ?>">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                View
-            </a>
-            <a class="btn btn-info" href="add_employee.php?update=<?php echo $employee['id']; ?>">
+            <a class="btn btn-info" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="emp_list.php?del=<?php echo $employee['id']; ?>">
+            <a class="btn btn-danger" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>
