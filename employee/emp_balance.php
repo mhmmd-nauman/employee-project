@@ -2,9 +2,9 @@
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
-$trasanction_list=$objTransaction->GetAllTrasanctions("alpp_transactions.emp_id = ".$_REQUEST['view']." ORDER BY end_month_data DESC",array("alpp_transactions.*"));
+$trasanction_list=$objTransaction->GetAllTrasanctions("alpp_transactions.emp_id = ".$_REQUEST['emp_id']." ORDER BY end_month_data DESC",array("alpp_transactions.*"));
 $balance=0.00;
-$balance = $objTransaction->GetEmpBalance($_REQUEST['view']);
+$balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
  ?>
 <div>
     <ul class="breadcrumb">
@@ -12,7 +12,7 @@ $balance = $objTransaction->GetEmpBalance($_REQUEST['view']);
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?view=<?php echo $_REQUEST['view']?>">Add Balance</a>
+            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>">Add Balance</a>
         </li>
         <li>
             Employee Balance Details
@@ -55,7 +55,7 @@ if(isset($_REQUEST['del']))
                             </div>
          </div>
      	 <?php
-		header('refresh:1, url=emp_balance.php');
+		header('refresh:1, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);
 	}
 }
 ?>
@@ -97,7 +97,7 @@ if(isset($_REQUEST['del']))
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>">
+            <a class="btn btn-danger" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>

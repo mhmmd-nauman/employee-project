@@ -6,12 +6,22 @@ $objTransaction =new Transaction();
 
 if(isset($_REQUEST['update_button']))  // update code
 {
+   $emp_id=$_REQUEST['emp_id_update'];
+
+  $updated=$objTransaction->UpdateTransaction("id=".$_REQUEST['id'],array(
+                'end_month_data'=>$_REQUEST['end_month_data'],
+                'amount'=>$_REQUEST['amount'],
+                'trans_type'=>$_REQUEST['trans_type'],
+                'date'=> date("Y-m-d h:i:s"),
+                'done_by'=>$_SESSION['session_admin_id'],
+                'status'=>$_REQUEST['status']
+            ));
            
 }
 if(isset($_REQUEST['submit']))  /// insert code
 {
     $insert=$objTransaction->InsertTransaction(array(
-                'emp_id'=>$_REQUEST['view'],
+                'emp_id'=>$_REQUEST['emp_id'],
                 'end_month_data'=>$_REQUEST['end_month_data'],
                 'amount'=>$_REQUEST['amount'],
                 'trans_type'=>$_REQUEST['trans_type'],
@@ -59,7 +69,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <strong>Success!</strong> Record Update.
             </div>
         </div>
-<?php      header('REFRESH:2, url=emp_balance.php');
+<?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$emp_id);
     }
 	
 
@@ -73,21 +83,23 @@ if(isset($_REQUEST['submit']))  /// insert code
                                 <strong>Success!</strong> Record Inserted.
                         </div>
                     </div>
-        <?php      header('REFRESH:2, url=emp_balance.php?view='.$_REQUEST['view']);
+        <?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);
 		}
 	
       
  	 
-if(isset($_REQUEST['view']) || isset($_REQUEST['update']))	
+if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))	
 {	
-        if($_REQUEST['view']) $id = $_REQUEST['view'];
+        if($_REQUEST['emp_id']) $id = $_REQUEST['view'];
         else  $id = $_REQUEST['update'];
     
-        $transaction=$obj->select("alpp_emp","emp_id=$id ",array("*"));   
+        $transaction=$obj->select("alpp_transactions","id=$id ",array("*")); 
+       // var_dump($transaction);
 }
         ?>
      <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
-         <input type="hidden" value="<?php echo $_REQUEST['view'];?>" name="view">
+         <input type="hidden" value="<?php echo $_REQUEST['update'];?>" name="id">
+         <input type="hidden" value="<?php echo $transaction[0]['emp_id'];?>" name="emp_id_update">
                     <div class="form-group">
                         
                         <label class="control-label col-sm-2">Day</label>

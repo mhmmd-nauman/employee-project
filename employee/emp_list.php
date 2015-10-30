@@ -84,11 +84,11 @@ if(isset($_REQUEST['del']))
            <?php } ?>
         </td>
         <td class="center">
-            <a class="btn btn-success" href="emp_balance.php?view=<?php echo $employee['emp_id']; ?>">
+            <a class="btn btn-success" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
                 <i class="glyphicon icon-white"></i>
                 Balance Details
             </a>
-             <a class="btn btn-warning" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?view=<?php echo $employee['emp_id']; ?>">
+             <a class="btn btn-warning" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>">
                 <i class="glyphicon glyphicon-star icon-white"></i>
                 Leaves
             </a>
