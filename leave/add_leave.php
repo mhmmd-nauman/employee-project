@@ -32,12 +32,7 @@ if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg
         <li>
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php">Add</a>
-        </li>
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php">Leave List</a>
-        </li>
+        <li> Leave   </li>
     </ul>
 </div>
 
@@ -45,7 +40,7 @@ if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Leave</h2>
             </div>
             
             
@@ -72,8 +67,12 @@ if(isset($_REQUEST['update_button']))  // update code
                                 <strong>Success!</strong> Record Update.
                         </div>
                     </div>
-        <?php      header('REFRESH:2, url=leave_list.php');
-		}
+        <?php 
+        if(isset($_REQUEST['emp_id']))  { 
+                                    header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_leave.php?emp_id='.$_REQUEST['emp_id']);
+         }
+          else                        header('REFRESH:2, url=leave_list.php');
+        }
 	else    	echo "<script> alert('RECORD NOT Updated'); </script> ";
 }
 
@@ -98,8 +97,13 @@ if(isset($_REQUEST['update_button']))  // update code
                                 <strong>Success!</strong> Record Inserted.
                         </div>
                     </div>
-        <?php      header('REFRESH:2, url=leave_list.php');
-		}
+        <?php   
+         if(isset($_REQUEST['emp_id']))  { 
+                                    header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_leave.php?emp_id='.$_REQUEST['emp_id']);
+         }
+          else                        header('REFRESH:2, url=leave_list.php');
+          
+                }
 	else    	echo "<script> alert('RECORD NOT INSERTED'); </script> ";
 }
 
@@ -125,13 +129,23 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                         <label class="control-label col-sm-2">Name</label>
                         <div class="col-sm-4">          
                             <input type="hidden" value="<?php echo $leave_list[0]['leave_id']; ?>"  name="leave_id">
+                <?php     if(isset($_REQUEST['emp_id'])) 
+                    ?>
                             <select name="emp_id" class="form-control" <?php echo $readonly; ?>>
                                 <option value="">SELECT</option>
                                 <?php 
                                 foreach($employee_list as $employee)
-                                {    $sel=   ($employee['emp_id']==$leave_list[0]['leave_emp_id']) ? 'selected' : '' ;
-                                      echo "<option value=".$employee['emp_id']." $sel>".$employee['emp_name']."</option>";
-                                }
+                                {    
+                                         if(isset($_REQUEST['emp_id']) && $_REQUEST['emp_id']==$employee['emp_id']) 
+                                         {
+                                             echo "<option value=".$employee['emp_id']." selected>".$employee['emp_name']."</option>";
+                                         }   
+                                         else{
+                                                 $sel=   ($employee['emp_id']==$leave_list[0]['leave_emp_id']) ? 'selected' : '' ;
+                                                echo "<option value=".$employee['emp_id']." $sel>".$employee['emp_name']."</option>";
+                                            }
+                                
+                                         }
                                 ?>
                             </select>
                         
