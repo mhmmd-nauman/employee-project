@@ -54,7 +54,8 @@ if(isset($_REQUEST['del']))
 	}
 }
 ?>
-      
+      <p style="text-align: right;"><a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a></p>
+               
       
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
     <thead>
@@ -100,7 +101,7 @@ if(isset($_REQUEST['del']))
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+            <a class="btn btn-danger" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>
@@ -121,3 +122,13 @@ if(isset($_REQUEST['del']))
 
 
 <?php include('../lib/footer.php'); ?>
+    <script>
+    function confirmation() {
+        var answer = confirm("Do you want to delete this record?");
+    if(answer){
+            return true;
+    }else{
+            return false;
+    }
+}
+</script>

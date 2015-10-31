@@ -93,7 +93,9 @@ if(isset($_REQUEST['del']))
             
 
             <div class="box-content">
-                <p><a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-inverse btn-default btn-sm">Add Leaves</button></a> </p>
+                <p style="text-align: right;">
+                    <a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Add New Leave</button></a> 
+                </p>
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
     <thead>
     <tr>
@@ -143,7 +145,7 @@ if(isset($_REQUEST['del']))
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="leave_list.php?del=<?php echo $leave['leave_id']; ?>">
+            <a onclick="return confirmation();" class="btn btn-danger" href="leave_list.php?del=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>
@@ -162,3 +164,13 @@ if(isset($_REQUEST['del']))
 
 
 <?php include('../lib/footer.php'); ?>
+<script>
+    function confirmation() {
+        var answer = confirm("Do you want to delete this record?");
+    if(answer){
+            return true;
+    }else{
+            return false;
+    }
+}
+</script>

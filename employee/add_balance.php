@@ -9,7 +9,7 @@ if(isset($_REQUEST['update_button']))  // update code
    $emp_id=$_REQUEST['emp_id_update'];
 
   $updated=$objTransaction->UpdateTransaction("id=".$_REQUEST['id'],array(
-                'end_month_data'=>$_REQUEST['end_month_data'],
+                'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                 'amount'=>$_REQUEST['amount'],
                 'trans_type'=>$_REQUEST['trans_type'],
                 'date'=> date("Y-m-d h:i:s"),
@@ -22,7 +22,7 @@ if(isset($_REQUEST['submit']))  /// insert code
 {
     $insert=$objTransaction->InsertTransaction(array(
                 'emp_id'=>$_REQUEST['emp_id'],
-                'end_month_data'=>$_REQUEST['end_month_data'],
+                'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                 'amount'=>$_REQUEST['amount'],
                 'trans_type'=>$_REQUEST['trans_type'],
                 'date'=> date("Y-m-d h:i:s"),
@@ -41,10 +41,10 @@ if(isset($_REQUEST['submit']))  /// insert code
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php">Add Balance</a>
+            Add Balance
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php">Balance Details</a>
+            Balance Details
         </li>
     </ul>
 </div>
@@ -109,13 +109,16 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                     
                         <label class="control-label col-sm-2">Balance Type</label>                     
                         <div class="col-sm-3">
-                        <?php if($transaction[0]['trans_type']=='C') 
+                        <?php
+                        $trans_type=$transaction[0]['trans_type'];
+                        if(empty($trans_type))$trans_type="C";
+                        if($trans_type=="C") 
                         {   ?>
                                         <input type="radio" name="trans_type" value="D" />Consumed
-                                        <input type="radio" name="trans_type" value="C"  checked="" />Received
+                                        <input type="radio" name="trans_type" value="C"  checked />Received
                         <?php    } else { ?> 
 
-                                                 <input type="radio" name="trans_type" value="D"  checked="" />Consumed
+                                                 <input type="radio" name="trans_type" value="D"  checked />Consumed
                                                  <input type="radio" name="trans_type" value="C"  />Received
                         <?php     } ?> 
                         
@@ -124,19 +127,25 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                     </div>
           <div class="form-group">
               <label class="control-label col-sm-2">Month End</label>
-                    <div class="col-sm-4">          
-                        <input type="text" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="" name="end_month_data">
+                    <div class="col-sm-4">
+                        <?php
+                         $end_month_data=date("m/d/Y",strtotime($transaction[0]['end_month_data']));
+                        if(empty($end_month_data) || $end_month_data == "01/01/1970" ){
+                            $end_month_data = lastOfMonth();
+                        }
+                        ?>
+                        <input type="text" id="datepicker" class="form-control" value="<?php echo $end_month_data;?>" placeholder="" name="end_month_data">
                     </div>
               <label class="control-label col-sm-2">Status</label>                     
                         <div class="col-sm-3">
                         <?php if($transaction[0]['status']==0) 
                         {   ?>
-                                        <input type="radio" name="status" value="0" />Active
-                                        <input type="radio" name="status" value="1"  checked="" />Disabled
+                                        <input type="radio" name="status" value="0" checked />Active
+                                        <input type="radio" name="status" value="1"  />Disabled
                         <?php    } else { ?> 
 
-                                                 <input type="radio" name="status" value="0"  checked="" />Active
-                                                 <input type="radio" name="status" value="1"  />Disabled
+                                                 <input type="radio" name="status" value="0"  />Active
+                                                 <input type="radio" name="status" value="1"  checked />Disabled
                         <?php     } ?> 
                         
                         </div>
@@ -168,3 +177,19 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
 </div><!--/row-->
 
 <?php include('../lib/footer.php'); ?>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+  </script>
+  <?php
+ function lastOfMonth()  
+ {  
+      return date("m/d/Y", strtotime('-1 second',strtotime('+1 month',strtotime(date('m').'/01/'.date('Y').' 00:00:00'))));  
+ } 
+ ?>

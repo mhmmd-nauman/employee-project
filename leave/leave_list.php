@@ -93,7 +93,9 @@ if(isset($_REQUEST['del']))
             
 
             <div class="box-content">
-                     <p><a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-inverse btn-default btn-sm">Add Leaves</button></a> </p>
+                     <p style="text-align: right;">
+                         <a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-warning"><i class="glyphicon glyphicon-star icon-white"></i>Add Leave</button></a> 
+                     </p>
 
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
     <thead>
@@ -136,15 +138,15 @@ if(isset($_REQUEST['del']))
                                 </div>
        <?php } ?>
             
-            <a class="btn btn-success" href="add_leave.php?view=<?php echo $leave['leave_id']; ?>">
+            <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 View
             </a>
-            <a class="btn btn-info" href="add_leave.php?update=<?php echo $leave['leave_id']; ?>">
+            <a class="btn btn-info" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="leave_list.php?del=<?php echo $leave['leave_id']; ?>">
+            <a onclick="return confirmation();" class="btn btn-danger" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>
@@ -163,3 +165,13 @@ if(isset($_REQUEST['del']))
 
 
 <?php include('../lib/footer.php'); ?>
+<script>
+    function confirmation() {
+        var answer = confirm("Do you want to delete this record?");
+    if(answer){
+            return true;
+    }else{
+            return false;
+    }
+}
+</script>

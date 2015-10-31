@@ -27,9 +27,14 @@ $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Balance Details</h2>
             </div>
             
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <br>
                 <h4>Balance: <?php echo $balance;?> day(s) after deducting leaves</h4>
+                <br>
+            </div>
+            <div class="col-md-4 pull-right">
+                <br>
+                <p style="text-align: right;"><a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Balance</a></p>
                 <br>
             </div>
             
@@ -97,7 +102,7 @@ if(isset($_REQUEST['del']))
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a class="btn btn-danger" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
+            <a onclick="return confirmation();" class="btn btn-danger" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>
@@ -116,3 +121,13 @@ if(isset($_REQUEST['del']))
 
 
 <?php include('../lib/footer.php'); ?>
+<script>
+    function confirmation() {
+        var answer = confirm("Do you want to delete this record?");
+    if(answer){
+            return true;
+    }else{
+            return false;
+    }
+}
+</script>
