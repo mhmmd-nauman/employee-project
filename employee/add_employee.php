@@ -26,18 +26,20 @@ if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg
 }
 }
 </script>
-
 <div>
     <ul class="breadcrumb">
         <li>
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
+<?php if($_SESSION['session_admin_role']=='admin')
+   { ?>
         <li>
             <a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php">Add</a>
         </li>
         <li>
             <a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php">Employee List</a>
         </li>
+   <?php }?>
     </ul>
 </div>
 
