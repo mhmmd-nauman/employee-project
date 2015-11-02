@@ -26,8 +26,10 @@ require_once "lib/classes/business_objects/Queries.php";
  if(isset($_REQUEST['submit']))
  {
      $obj=new Queries();
-                     
-        $get_user=   $obj->select("alpp_adminlog","adminlog_email='".$_REQUEST['email']."' and adminlog_password='".md5($_REQUEST['password'])."'",  array("*"));
+      if(isset($_REQUEST['admin']))               
+      {
+          $get_user=   $obj->select("alpp_adminlog","adminlog_email='".$_REQUEST['email']."' and adminlog_password='".md5($_REQUEST['password'])."'",  array("*"));
+      
                     if($get_user)
                                 {
 		 			$_SESSION['session_admin_role']		=	'admin';	
@@ -37,8 +39,23 @@ require_once "lib/classes/business_objects/Queries.php";
 				
 					  header("Location: dashboard.php");	
                                 }
-    					else echo "<script>alert('Username or Password does not Exist');</script>";				
-     
+    					else echo "<script>alert('Username or Password is Incorrect');</script>";				
+     }
+     else
+     {
+         $get_user=   $obj->select("alpp_emp","emp_email='".$_REQUEST['email']."' and emp_password='".$_REQUEST['password']."'",  array("*"));
+      
+                    if($get_user)
+                                {
+		 			$_SESSION['session_admin_role']		=	'employee';	
+					$_SESSION['session_admin_id']		=	$get_user[0]['emp_id'];	
+					$_SESSION['session_admin_email']	=	$get_user[0]['emp_email'];	
+					$_SESSION['session_admin_name']		=	$get_user[0]['emp_name'];	
+				
+					  header("Location: dashboard.php");	
+                                }
+    					else echo "<script>alert('Username or Password is Incorrect');</script>";	 
+     }
  } 
      ?><div class="alert alert-info">
                 Please login with your Username and Password.
@@ -64,8 +81,11 @@ require_once "lib/classes/business_objects/Queries.php";
                         <button type="submit" name="submit" class="btn btn-primary">Login</button>
                     </p>
                 </fieldset>
+              
             </form>
         </div>
+        
+        <div class=" col-md-5 center login-box"> <a href="?admin=ok">Admin</a></div>
         <!--/span-->
     </div><!--/row-->
 <?php require('lib/footer.php'); ?>

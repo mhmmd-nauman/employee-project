@@ -21,7 +21,15 @@ function action(action_status,id){
 </script>
 <?php
   $obj=new Queries();
-  
+//// basic query to show records in table /// 
+  $where='1';
+if($_SESSION['session_admin_role']=='employee')    $where='leave_emp_id='.$_SESSION['session_admin_id'];
+    
+$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," $where order by leave_id desc",array("*"));
+
+
+
+
   /// code to edit status only /////
 if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	
 {	           
@@ -43,12 +51,6 @@ if(isset($action) )
 		header('refresh:1, url=leave_list.php');
 	}
 }
-
-//// basic query to show records in table ///    
-$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id ","1 order by leave_id desc",array("*"));
-
-
-          
 
 // delete  a record
 if(isset($_REQUEST['del']))	
@@ -94,7 +96,7 @@ if(isset($_REQUEST['del']))
 
             <div class="box-content">
                      <p style="text-align: right;">
-                         <a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-warning"><i class="glyphicon glyphicon-star icon-white"></i>Add Leave</button></a> 
+                         <a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-warning"><i class="glyphicon glyphicon-star icon-white"></i>Apply for Leave</button></a> 
                      </p>
 
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
@@ -104,7 +106,7 @@ if(isset($_REQUEST['del']))
         <th>Duration</th>
         <th>Reason</th>
         <th>Status</th>
-        <th>Actions</th>
+        <?php   if($_SESSION['session_admin_role']=='admin') { ?><th>Actions</th><?php } ?>
     </tr>
     </thead>
     <tbody>
@@ -122,11 +124,11 @@ if(isset($_REQUEST['del']))
 	else if($leave['leave_approval']==1)  echo"<td class='hidden-phone '><span class='label label-small label-danger'>Cancelled </span></td>";
 
         
-      ?>
+      
+        if($_SESSION['session_admin_role']=='admin') { ?> 
         <td>
             
             
- <?php if($_SESSION['session_admin_role']=='admin') { ?> 
                            <div class="btn-group">
                                     <button class="btn btn-warning">Status</button>
                                     <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2"><span class="caret"></span></button>
@@ -136,7 +138,7 @@ if(isset($_REQUEST['del']))
 <li><a href="javascript:;" onclick="return action('3','<?php  echo $leave['leave_id']; ?>');"><i class="icon-remove"></i>Delete</a></li>
                                     </ul>
                                 </div>
-       <?php } ?>
+      
             
             <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
@@ -151,6 +153,7 @@ if(isset($_REQUEST['del']))
                 Delete
             </a>
         </td>
+         <?php } ?>
     </tr>
         <?php } ?>
     

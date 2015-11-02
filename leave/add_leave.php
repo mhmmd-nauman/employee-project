@@ -78,13 +78,13 @@ if(isset($_REQUEST['update_button']))  // update code
 
  if(isset($_REQUEST['submit']))  /// insert code
 {
-
+if($_SESSION['session_admin_role']=='admin')  $approval=$_REQUEST['approval']; else $approval=0;
      
                 $submit=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$_REQUEST['emp_id'],
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$_REQUEST['duration'],
-                                                 'leave_approval'   =>$_REQUEST['approval'],
+                                                 'leave_approval'   =>$approval,
                                                  'leave_datetime'   =>date('d-m-Y H:i:s a'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
                                                   
@@ -98,11 +98,17 @@ if(isset($_REQUEST['update_button']))  // update code
                         </div>
                     </div>
         <?php   
-         if(isset($_REQUEST['emp_id']))  { 
-                                    header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_leave.php?emp_id='.$_REQUEST['emp_id']);
-         }
-          else                        header('REFRESH:2, url=leave_list.php');
-          
+       if($_SESSION['session_admin_role']=='admin')
+       { 
+                    if(isset($_REQUEST['emp_id']))  { 
+                                             header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_leave.php?emp_id='.$_REQUEST['emp_id']);
+                                         }
+                      else                        header('REFRESH:2, url=leave_list.php');
+       }
+       if($_SESSION['session_admin_role']=='employee')
+       { 
+                        header('REFRESH:2, url=leave_list.php');
+       }   
                 }
 	else    	echo "<script> alert('RECORD NOT INSERTED'); </script> ";
 }
@@ -121,7 +127,11 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
         ?>
      <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
                
-     <?php         $employee_list=$obj->select("alpp_emp","1 order by emp_name ASC ",array("*"));     ?>
+     
+<?php
+     $where='1';
+     if($_SESSION['session_admin_role']=='employee')    $where='emp_id='.$_SESSION['session_admin_id']; 
+     $employee_list=$obj->select("alpp_emp","$where order by emp_name ASC ",array("*"));     ?>
             
          
          <div class="form-group">
@@ -129,10 +139,8 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                         <label class="control-label col-sm-2">Name</label>
                         <div class="col-sm-4">          
                             <input type="hidden" value="<?php echo $leave_list[0]['leave_id']; ?>"  name="leave_id">
-                <?php     if(isset($_REQUEST['emp_id'])) 
-                    ?>
+    <?php     if(isset($_REQUEST['emp_id']))  ///  ?? ?>
                             <select name="emp_id" class="form-control" <?php echo $readonly; ?>>
-                                <option value="">SELECT</option>
                                 <?php 
                                 foreach($employee_list as $employee)
                                 {    
@@ -161,6 +169,7 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                         </div>
                     </div>
                         
+      <?php  if($_SESSION['session_admin_role']=='admin') {  ?>
          <div class="form-group">
                         <label class="control-label col-sm-2">Approval</label>
                         <div class="col-sm-4">          
@@ -177,7 +186,7 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                         </div>
                     
                     </div>
-                    
+      <?php } ?>
               
                 
           <div class="form-group">

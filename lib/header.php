@@ -70,8 +70,13 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Profile</a></li>
-                    <li class="divider"></li>
+               <?php if($_SESSION['session_admin_role']=='employee')   { ?>        
+                    <li><a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php?view=<?php echo $_SESSION['session_admin_id']; ?>">Profile</a></li>
+                <?php } else { ?>
+                <li><a href="">Profile</a></li>
+                <?php }  ?>
+
+<li class="divider"></li>
                     <li><a href="<?php echo SITE_ADDRESS; ?>logout.php">Logout</a></li>
                 </ul>
             </div>
@@ -116,7 +121,10 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
                     <ul class="nav nav-pills nav-stacked main-menu">
                         <li class="nav-header">Main</li>
                         <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>dashboard.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
-                        <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Employee</span></a></li>
+   <?php if($_SESSION['session_admin_role']=='admin')
+   {
+   ?>   <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Employee</span></a></li>
+   <?php } ?>
                         <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-star"></i><span> Leave</span></a></li>
                         <li><a href="<?php echo SITE_ADDRESS; ?>logout.php"><i class="glyphicon glyphicon-lock"></i><span> Logout</span></a></li>
                     </ul>
