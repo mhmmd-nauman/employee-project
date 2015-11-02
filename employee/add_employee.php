@@ -3,6 +3,7 @@ include ('../lib/include.php');
 include('../lib/header.php');
 $obj=new Queries();
 ?>
+
 <script>
 function checkPhoto(target) {
  {
@@ -84,7 +85,8 @@ if(isset($_REQUEST['update_button']))  // update code
 				$pic="img/employee/".$image_name; // db path
 				$copied = copy($_FILES['image']['tmp_name'], "../".$pic); // actual path
                             
-		}
+	      $submit0=$obj->update("alpp_emp","emp_id=".$_REQUEST['id'],array('emp_pic'=>$pic));
+          	}
 		}
                 
                 $submit=$obj->update("alpp_emp","emp_id=".$_REQUEST['id'],array(
@@ -99,21 +101,23 @@ if(isset($_REQUEST['update_button']))  // update code
                                                  'emp_qualification'=>$_REQUEST['emp_qua'],
                                                  'emp_email'        =>$_REQUEST['emp_email'],
                                                  'emp_password'      =>$_REQUEST['emp_password'],
-                                                 'emp_salary'      =>$_REQUEST['emp_salary'],
-                                                'emp_pic'       =>$pic
+                                                 'emp_salary'      =>$_REQUEST['emp_salary']
+                                                
                                                   
               ));
-        if($submit)
+        if($submit || $submit0)
 		{         ?>
                     <div class="widget-body">
                         <div class="alert alert-success">
                                 <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Record Update.
+                                <strong>Success!</strong> Employee Detail Updated.
                         </div>
                     </div>
-        <?php      header('REFRESH:2, url=emp_list.php');
+        <?php 
+          if($_SESSION['session_admin_role']=='admin')            header('REFRESH:2, url=emp_list.php');
+          if($_SESSION['session_admin_role']=='employee')            header('REFRESH:2, url='.SITE_ADDRESS.'dashboard.php'); // only profile update
 		}
-	else    	echo "<script> alert('RECORD NOT Updated'); </script> ";
+	else    	echo "<script> alert('Employee Detail not Updated'); </script> ";
 }
 
  if(isset($_REQUEST['submit']))  /// insert code
@@ -159,12 +163,12 @@ if(isset($_REQUEST['update_button']))  // update code
                     <div class="widget-body">
                         <div class="alert alert-success">
                                 <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Record Inserted.
+                                <strong>Success!</strong> Employee Detail Submitted.
                         </div>
                     </div>
         <?php      header('REFRESH:2, url=emp_list.php');
 		}
-	else    	echo "<script> alert('RECORD NOT INSERTED'); </script> ";
+	else    	echo "<script> alert('Employee Detail not Submitted ,Please try again'); </script> ";
 }
 
         
@@ -243,7 +247,7 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                         
                         <label class="control-label col-sm-2">Password</label>                     
                         <div class="col-sm-3">
-                            <input type="password" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
+                            <input type="text" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
                         </div>
                     
                     </div>

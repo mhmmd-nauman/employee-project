@@ -4,6 +4,7 @@ include (dirname(__FILE__).'/../lib/header.php');
 $obj=new Queries();
 $objTransaction =new Transaction();
 
+
 if(isset($_REQUEST['update_button']))  // update code
 {
    $emp_id=$_REQUEST['emp_id_update'];
@@ -66,7 +67,7 @@ if(isset($_REQUEST['submit']))  /// insert code
         <div class="widget-body">
             <div class="alert alert-success">
                     <button class="close" data-dismiss="alert">×</button>
-                    <strong>Success!</strong> Record Update.
+                    <strong>Success!</strong> Balance Detail Update.
             </div>
         </div>
 <?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$emp_id);
@@ -80,7 +81,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <div class="widget-body">
                         <div class="alert alert-success">
                                 <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Record Inserted.
+                                <strong>Success!</strong> Balance Detail Submitted.
                         </div>
                     </div>
         <?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);

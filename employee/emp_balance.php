@@ -5,7 +5,7 @@ $objTransaction =new Transaction();
 $trasanction_list=$objTransaction->GetAllTrasanctions("alpp_transactions.emp_id = ".$_REQUEST['emp_id']." ORDER BY end_month_data DESC",array("alpp_transactions.*"));
 $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
- ?>
+        ?>
 <div>
     <ul class="breadcrumb">
         <li>
@@ -56,7 +56,7 @@ if(isset($_REQUEST['del']))
          <div class="widget-body">
                             <div class="alert alert-success">
                                 <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Record Deleted.
+                                <strong>Success!</strong> Transaction Deleted.
                             </div>
          </div>
      	 <?php

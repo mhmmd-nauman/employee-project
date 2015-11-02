@@ -1,14 +1,13 @@
 <?php	
 ob_start();
 session_start();
-?>
-<?php
+
 $no_visible_elements = true;
 include('lib/header.php'); 
-
 require_once "lib/connect.php";
 require_once "lib/classes/util_objects/util.php";
 require_once "lib/classes/business_objects/Queries.php";
+$obj=new Queries();
 
 
 ?>
@@ -25,10 +24,9 @@ require_once "lib/classes/business_objects/Queries.php";
  <?php
  if(isset($_REQUEST['submit']))
  {
-     $obj=new Queries();
       if(isset($_REQUEST['admin']))               
       {
-          $get_user=   $obj->select("alpp_adminlog","adminlog_email='".$_REQUEST['email']."' and adminlog_password='".md5($_REQUEST['password'])."'",  array("*"));
+          $get_user=   $obj->select("alpp_adminlog","adminlog_email='".$_REQUEST['email']."' and adminlog_password='".$_REQUEST['password']."'",  array("*"));
       
                     if($get_user)
                                 {
@@ -39,7 +37,7 @@ require_once "lib/classes/business_objects/Queries.php";
 				
 					  header("Location: dashboard.php");	
                                 }
-    					else echo "<script>alert('Username or Password is Incorrect');</script>";				
+    					else $error='Wrong Login Credentials for Admin';				
      }
      else
      {
@@ -54,12 +52,19 @@ require_once "lib/classes/business_objects/Queries.php";
 				
 					  header("Location: dashboard.php");	
                                 }
-    					else echo "<script>alert('Username or Password is Incorrect');</script>";	 
+    					else $error='Wrong Login Credentials for Employee';	 
      }
  } 
-     ?><div class="alert alert-info">
-                Please login with your Username and Password.
-            </div>
+ 
+  if(isset($error)) {  ?>
+                            <div class="alert alert-warning">
+                                <?php echo $error; ?>, Please try again
+                            </div>
+  <?php  } else { ?>
+                            <div class="alert alert-info">
+                                Please login with your Username and Password.
+                            </div>
+  <?php   }  ?>
             <form class="form-horizontal" method="post">
                 <fieldset>
                     <div class="input-group input-group-lg">

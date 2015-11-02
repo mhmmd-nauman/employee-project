@@ -60,7 +60,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"> <img alt="Charisma Logo" src="<?php echo SITE_ADDRESS; ?>img/logo20.png" class="hidden-xs"/>
+            <a class="navbar-brand" href="index.html"> <img alt="Employee Logo" src="<?php echo SITE_ADDRESS; ?>img/logo20.png" class="hidden-xs"/>
                 <span>Employee</span></a>
 
             <!-- user dropdown starts -->
@@ -71,9 +71,9 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
                 </button>
                 <ul class="dropdown-menu">
                <?php if($_SESSION['session_admin_role']=='employee')   { ?>        
-                    <li><a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php?view=<?php echo $_SESSION['session_admin_id']; ?>">Profile</a></li>
+                    <li><a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Profile</a></li>
                 <?php } else { ?>
-                <li><a href="">Profile</a></li>
+                <li><a href="<?php echo SITE_ADDRESS; ?>admin_profile.php">Profile</a></li>
                 <?php }  ?>
 
 <li class="divider"></li>

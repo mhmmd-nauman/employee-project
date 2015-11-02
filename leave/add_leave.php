@@ -64,7 +64,7 @@ if(isset($_REQUEST['update_button']))  // update code
                     <div class="widget-body">
                         <div class="alert alert-success">
                                 <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Record Update.
+                                <strong>Success!</strong> Leave Updated.
                         </div>
                     </div>
         <?php 
@@ -78,10 +78,18 @@ if(isset($_REQUEST['update_button']))  // update code
 
  if(isset($_REQUEST['submit']))  /// insert code
 {
-if($_SESSION['session_admin_role']=='admin')  $approval=$_REQUEST['approval']; else $approval=0;
-     
+if($_SESSION['session_admin_role']=='admin') 
+{
+    $approval=$_REQUEST['approval'];
+    $employee=$_REQUEST['emp_id'];
+}
+else 
+{
+    $approval=0;
+    $employee=$_SESSION['session_admin_id'];
+}     
                 $submit=$obj->insert("alpp_leave",array(
-                                                 'leave_emp_id'     =>$_REQUEST['emp_id'],
+                                                 'leave_emp_id'     =>$employee,
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$_REQUEST['duration'],
                                                  'leave_approval'   =>$approval,
@@ -94,7 +102,7 @@ if($_SESSION['session_admin_role']=='admin')  $approval=$_REQUEST['approval']; e
                     <div class="widget-body">
                         <div class="alert alert-success">
                                 <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Record Inserted.
+                                <strong>Success!</strong> Leave Added.
                         </div>
                     </div>
         <?php   
@@ -129,13 +137,11 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                
      
 <?php
-     $where='1';
-     if($_SESSION['session_admin_role']=='employee')    $where='emp_id='.$_SESSION['session_admin_id']; 
-     $employee_list=$obj->select("alpp_emp","$where order by emp_name ASC ",array("*"));     ?>
-            
-         
+     $employee_list=$obj->select("alpp_emp","1 order by emp_name ASC ",array("*"));    
+
+if($_SESSION['session_admin_role']=='admin') 
+{ ?>
          <div class="form-group">
-                        
                         <label class="control-label col-sm-2">Name</label>
                         <div class="col-sm-4">          
                             <input type="hidden" value="<?php echo $leave_list[0]['leave_id']; ?>"  name="leave_id">
@@ -156,10 +162,9 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                                          }
                                 ?>
                             </select>
-                        
                         </div>
          </div>
-                    
+<?php } ?>                 
          
                     <div class="form-group">
                     
