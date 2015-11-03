@@ -1,7 +1,38 @@
 <?php  
     class Transaction extends util {
 	
-	function GetAllTrasanctions($strWhere,$fieldaArray=""){
+        function GetBalanceDetail($strWhere){
+            global $link;
+            $sql="SELECT distinct(alpp_transactions.id) as id,
+                   end_month_data as entered_on_date,
+                   trans_type,
+                   alpp_transactions.emp_id as emp_id, 
+                   alpp_transactions.amount as days, 
+                   `date` as entry_date,
+                   status
+                   FROM alpp_transactions 
+                   JOIN alpp_emp ON alpp_emp.emp_id = alpp_transactions.emp_id 
+                   WHERE status = 0 AND  $strWhere  
+                   UNION ALL
+                   SELECT 
+                   distinct(alpp_leave.leave_id) as id, 
+                   leave_datetime as entered_on_date,
+                   'L' as trans_type,
+                   leave_emp_id as emp_id, 
+                   leave_duration as days, 
+                   leave_datetime as entry_date,
+                   leave_approval as status 
+                   FROM alpp_transactions 
+                   JOIN alpp_leave ON alpp_leave.leave_emp_id = alpp_transactions.emp_id 
+                   WHERE leave_approval = 2 and  $strWhere "; 
+            $result=mysqli_query($link,$sql) ;
+            while($row=mysqli_fetch_array($result)){
+                $arr[] = $row;
+            }
+            //log_error($encoded_query);
+            return $arr; 
+        }
+        function GetAllTrasanctions($strWhere,$fieldaArray=""){
             global $link;
             reset($fieldaArray);
             foreach ($fieldaArray as $field){
@@ -9,7 +40,10 @@
             } 
             //remove the last comma
             $strFields = substr($strFields, 0, strlen($strFields) - 1);	
-            $sql="SELECT $strFields FROM alpp_transactions  JOIN alpp_emp ON alpp_emp.emp_id = alpp_transactions.emp_id WHERE $strWhere " ;
+            $sql="SELECT $strFields FROM alpp_transactions  "
+                    . "JOIN alpp_emp ON alpp_emp.emp_id = alpp_transactions.emp_id "
+                    . ""
+                    . " WHERE $strWhere " ;
             $result=mysqli_query($link,$sql) ;
             while($row=mysqli_fetch_array($result)){
                 $arr[] = $row;

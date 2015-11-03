@@ -2,10 +2,11 @@
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
-$trasanction_list=$objTransaction->GetAllTrasanctions("alpp_transactions.emp_id = ".$_REQUEST['emp_id']." ORDER BY end_month_data DESC",array("alpp_transactions.*"));
+$trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_REQUEST['emp_id']."");
 $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
-        ?>
+//print_r($trasanction_list);
+?>
 <div>
     <ul class="breadcrumb">
         <li>
@@ -69,6 +70,7 @@ if(isset($_REQUEST['del']))
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
     <thead>
     <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>Days</th>
         <th>Consumed/Received</th>
@@ -81,23 +83,36 @@ if(isset($_REQUEST['del']))
         <?php foreach($trasanction_list as $trasanction) {   ?>
         
     <tr>
-        <td><?php echo date("m/d/Y",strtotime($trasanction['end_month_data'])); ?></td>
-        <td><?php echo $trasanction['amount']; ?></td>
+        <td><?php echo $trasanction['id']; ?></td>
+        <td><?php echo date("m/d/Y",strtotime($trasanction['entered_on_date'])); ?></td>
+        <td><?php echo $trasanction['days']; ?></td>
         <td>
             <?php
-            if($trasanction['trans_type']=='C') {
-                echo "Received"; 
-            }else{
-                echo "Consumed";
+            switch($trasanction['trans_type']) {
+                case"C":
+                echo "Received";
+                    break;
+                case"D":
+                    echo "Consumed";
+                    break;
+                case"L":
+                    echo "Leave";
+                    break;
+                    
+                    
             }?></td>
-        <td><?php echo $trasanction['date']; ?></td>
+        <td><?php echo date("m/d/Y",strtotime($trasanction['entry_date'])); ?></td>
         <td class="center">
-           <?php if($trasanction['status']==0) { ?>
+           <?php if($trasanction['status']==0 && $trasanction['trans_type'] !='L') { ?>
             <span class="label-success label label-default">Active</span>
-           <?php } ?>
+           <?php } 
+            if($trasanction['status']==0 && $trasanction['trans_type'] =='L')       echo"<span class='label label-danger'>Pending</span>";
+            else if($trasanction['status']==2 && $trasanction['trans_type'] =='L')	echo"<span class='label label-success'>Approved</span>";
+            else if($trasanction['status']==1 && $trasanction['trans_type'] =='L')  echo"<span class='label label-small label-danger'>Cancelled </span>";
+        ?>
         </td>
         <td class="center">
-            
+            <?php if($trasanction['trans_type'] !="L"){?>
             <a class="btn btn-info" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
@@ -106,6 +121,7 @@ if(isset($_REQUEST['del']))
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>
+            <?php }?>
         </td>
     </tr>
         <?php } ?>

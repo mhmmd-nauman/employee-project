@@ -1,7 +1,7 @@
 <?php
 //define("SSL_INSTALLED",1);
 if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0.1'){
-	define("SITE_ADDRESS","http://".$_SERVER['SERVER_NAME']."/employee_project/");
+	define("SITE_ADDRESS","http://".$_SERVER['SERVER_NAME'].":8080/employee_project/");
 }else{
 //	if(SSL_INSTALLED == 1 && $_SERVER['SERVER_NAME'] != 'employee_project.com'){
 //		$http = "https";
@@ -107,13 +107,12 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
     
 <?php if($_SESSION['session_admin_role']=='admin')
    {
-   ?>                        <li class="accordion">
-                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span> Leave</span></a>
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php">Multiple Leave</a></li>
-                                <li><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php">Leave List</a></li>
-                            </ul>
-                        </li>
+   ?>                       
+                            
+                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php">Mass Leaves</a></li>
+                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php">Leave Applications</a></li>
+                            
+                        
                     
    <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
                         <li><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-list"></i> Leave</a></li>

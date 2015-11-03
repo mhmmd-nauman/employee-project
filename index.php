@@ -90,7 +90,7 @@ $obj=new Queries();
             </form>
         </div>
         
-        <div class=" col-md-5 center login-box"> <a href="?admin=ok">Admin</a></div>
+        <div class=" col-md-5 center login-box"> <a href="?admin=ok" class="btn btn-primary">Administrator Login</a></div>
         <!--/span-->
     </div><!--/row-->
 <?php require('lib/footer.php'); ?>
