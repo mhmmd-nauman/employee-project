@@ -3,29 +3,6 @@ include ('../lib/include.php');
 include('../lib/header.php');
 $obj=new Queries();
 ?>
-<script>
-function checkPhoto(target) {
- {
-var fileName = target.value;
-var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
-if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG" )
-		{
-							if(target.files[0].size > 2097152) 
-							{
-								alert("Image too big (max 2MB)");
-								document.getElementById("img1").value = "";
-								return false;
-							}
-		}
-		else
-							{
-								alert("Extension will be jpeg, gif or png");
-								document.getElementById("img1").value = "";
-								return false;
-							}
-}
-}
-</script>
 
 <div>
     <ul class="breadcrumb">
@@ -41,6 +18,10 @@ if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Leave</h2>
+                 <div class="box-icon">
+            <a href="#" class="btn btn-minimize btn-round btn-default"><i class="glyphicon glyphicon-chevron-up"></i></a>
+            <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
             </div>
             
             
@@ -50,10 +31,23 @@ if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg
 <?php 
 if(isset($_REQUEST['update_button']))  // update code
 {
+////////// number of days calculation just to save it in db       
+$total_days=1;
+        if($_REQUEST['duration_to'])
+        {
+            $date1 = new DateTime($_REQUEST['duration_from']);
+            $date2 = new DateTime($_REQUEST['duration_to']);
+
+            $total_days = $date2->diff($date1)->format("%a");
+        
+        }
+//////////////////////////////////////////////////////////////
            $submit=$obj->update("alpp_leave","leave_id=".$_REQUEST['leave_id'] ,array(
                                                 'leave_emp_id'     =>$_REQUEST['emp_id'],
                                                  'leave_reason'     =>$_REQUEST['reason'],
-                                                 'leave_duration'   =>$_REQUEST['duration'],
+                                                 'leave_duration'   =>$total_days,
+                                                 'leave_duration_from'   =>$_REQUEST['duration_from'],
+                                                 'leave_duration_to'   =>$_REQUEST['duration_to'],
                                                  'leave_approval'   =>$_REQUEST['approval'],
                                                  'leave_datetime'   =>date('d-m-Y H:i:s a'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
@@ -88,10 +82,24 @@ else
     $approval=0;
     $employee=$_SESSION['session_admin_id'];
 }     
-                $submit=$obj->insert("alpp_leave",array(
+////////// number of days calculation just to save it in db       
+$total_days=1;
+        if($_REQUEST['duration_to'])
+        {
+            $date1 = new DateTime($_REQUEST['duration_from']);
+            $date2 = new DateTime($_REQUEST['duration_to']);
+
+            $total_days = $date2->diff($date1)->format("%a");
+        
+        }
+//////////////////////////////////////////////////////////////
+
+$submit=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$employee,
                                                  'leave_reason'     =>$_REQUEST['reason'],
-                                                 'leave_duration'   =>$_REQUEST['duration'],
+                                                 'leave_duration'   =>$total_days,
+                                                 'leave_duration_from'   =>$_REQUEST['duration_from'],
+                                                 'leave_duration_to'   =>$_REQUEST['duration_to'],
                                                  'leave_approval'   =>$approval,
                                                  'leave_datetime'   =>date('d-m-Y H:i:s a'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
@@ -166,13 +174,21 @@ if($_SESSION['session_admin_role']=='admin')
          </div>
 <?php } ?>                 
          
-                    <div class="form-group">
-                    
-                        <label class="control-label col-sm-2">Duration</label>                     
+                    <div class="form-group">                    
+                        <label class="control-label col-sm-2">Duration from</label>                     
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" <?php echo $readonly; ?> value="<?php echo $leave_list[0]['leave_duration']; ?>" placeholder="No of Days" name="duration">
+                            <input type="date" class="form-control col-sm-4"  style="width:180px;" <?php echo $readonly; ?> value="<?php echo $leave_list[0]['leave_duration_from']; ?>"  name="duration_from">
                         </div>
                     </div>
+         
+                    <div class="form-group">                    
+                        <label class="control-label col-sm-2">Duration to    <font style=" font-size: 10px;" ><br>(if required)</font></label>                     
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control col-sm-4" style="width:180px;" <?php echo $readonly; ?> value="<?php echo $leave_list[0]['leave_duration_to']; ?>"  name="duration_to">
+                        </div>
+                    </div>
+         
+         
                         
       <?php  if($_SESSION['session_admin_role']=='admin') {  ?>
          <div class="form-group">

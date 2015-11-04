@@ -56,7 +56,7 @@ include('lib/header.php');
      ?>
 <div class=" row">
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="<?php echo $balance; ?> balance." class="well top-block" href="#">
+        <a data-toggle="tooltip" title="<?php echo $balance; ?> balance." class="well top-block" href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>">
             <i class="glyphicon glyphicon-user blue"></i>
 
             <div>Total Balance</div>

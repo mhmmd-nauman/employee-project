@@ -16,7 +16,7 @@ $obj=new Queries();
         <div class="col-md-12 center login-header">
             <h2>Welcome to Employee Management System</h2>
         </div>
-        <?php if($_REQUEST['admin'] =='ok'){
+        <?php if(isset($_REQUEST['admin']) && $_REQUEST['admin'] =='ok'){
         $user="m.nauman@gmail.com";
         $password="1234";
         ?>

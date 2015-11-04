@@ -100,6 +100,7 @@ if(isset($_REQUEST['del']))
     <thead>
     <tr>
         <th>Name</th>
+       <th>No of Days</th>
         <th>Duration</th>
         <th>Reason</th>
         <th>Status</th>
@@ -112,6 +113,26 @@ if(isset($_REQUEST['del']))
     <tr>
              <td><?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
+        <td>
+        <?php   $from=$to='';
+                    if($leave['leave_duration_from'])
+                    {
+                               $from = new DateTime($leave['leave_duration_from']);
+                               echo  $from = $from->format("d-m-Y");
+
+                            if($leave['leave_duration_to'])
+                            {
+                                        echo "  -  "; 
+                                        $to = new DateTime($leave['leave_duration_to']);
+                                       echo $to = $to->format("d-m-Y");
+                            }
+                    }
+        ?>
+        
+        
+        </td>
+        
+        
         <td><?php echo $leave['leave_reason']; ?></td>
        
         

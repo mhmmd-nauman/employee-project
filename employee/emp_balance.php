@@ -12,9 +12,11 @@ $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
         <li>
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
+<?php if($_SESSION['session_admin_role']=='admin') { ?>
         <li>
             <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>">Add Balance</a>
         </li>
+   <?php } ?>
         <li>
             Employee Balance Details
         </li>
@@ -33,11 +35,13 @@ $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
                 <h4>Balance: <?php echo $balance;?> day(s) after deducting leaves</h4>
                 <br>
             </div>
-            <div class="col-md-4 pull-right">
+          <?php if($_SESSION['session_admin_role']=='admin') { ?>
+  <div class="col-md-4 pull-right">
                 <br>
                 <p style="text-align: right;"><a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Balance</a></p>
                 <br>
             </div>
+          <?php } ?>
             
            <div class="box-content">
      <br>
@@ -76,7 +80,9 @@ if(isset($_REQUEST['del']))
         <th>Consumed/Received</th>
         <th>Data Added</th>
         <th>Status</th>
+<?php if($_SESSION['session_admin_role']=='admin') { ?>
         <th>Actions</th>
+<?php } ?>   
     </tr>
     </thead>
     <tbody>
@@ -111,6 +117,9 @@ if(isset($_REQUEST['del']))
             else if($trasanction['status']==1 && $trasanction['trans_type'] =='L')  echo"<span class='label label-small label-danger'>Cancelled </span>";
         ?>
         </td>
+    
+<?php if($_SESSION['session_admin_role']=='admin') { ?>    
+        
         <td class="center">
             <?php if($trasanction['trans_type'] !="L"){?>
             <a class="btn btn-info" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
@@ -123,8 +132,12 @@ if(isset($_REQUEST['del']))
             </a>
             <?php }?>
         </td>
-    </tr>
-        <?php } ?>
+        
+            
+<?php }?>
+
+            </tr>
+            <?php } ?>
     
     </tbody>
     </table>

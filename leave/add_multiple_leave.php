@@ -7,13 +7,27 @@ $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled");
  if(isset($_REQUEST['submit']))  /// insert code
 {
    $employees=$_REQUEST['emp_ids'];
-     
+     ////////// number of days calculation just to save it in db       
+$total_days=1;
+        if($_REQUEST['duration_to'])
+        {
+            $date1 = new DateTime($_REQUEST['duration_from']);
+            $date2 = new DateTime($_REQUEST['duration_to']);
+
+            $total_days = $date2->diff($date1)->format("%a");
+        
+        }
+//////////////////////////////////////////////////////////////
+   
    foreach($employees as $emp)
     {    
+       
        $inserted=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$emp,
                                                  'leave_reason'     =>$_REQUEST['reason'],
-                                                 'leave_duration'   =>$_REQUEST['duration'],
+                                                 'leave_duration'   =>$total_days,
+                                                 'leave_duration_from'   =>$_REQUEST['duration_from'],
+                                                 'leave_duration_to'   =>$_REQUEST['duration_to'],
                                                  'leave_approval'   =>$_REQUEST['approval'],
                                                  'leave_datetime'   =>date('d-m-Y H:i:s a'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
@@ -126,13 +140,21 @@ echo"<label><input type=checkbox class=selectedId name=emp_ids[] value=".$employ
          </div>
                
          
-                    <div class="form-group">
-                    
-                        <label class="control-label col-sm-2">Duration</label>                     
+                       <div class="form-group">                    
+                        <label class="control-label col-sm-2">Duration from</label>                     
                         <div class="col-sm-4">
-                            <input type="text" class="form-control"  placeholder="No of Days" name="duration">
+                            <input type="date" class="form-control col-sm-4"  style="width:180px;"  name="duration_from">
                         </div>
                     </div>
+         
+                    <div class="form-group">                    
+                        <label class="control-label col-sm-2">Duration to    <font style=" font-size: 10px;" ><br>(if required)</font></label>                     
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control col-sm-4" style="width:180px;"  name="duration_to">
+                        </div>
+                    </div>
+         
+         
                         
 
          <div class="form-group">
