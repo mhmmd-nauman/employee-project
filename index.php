@@ -16,6 +16,21 @@ $obj=new Queries();
         <div class="col-md-12 center login-header">
             <h2>Welcome to Employee Management System</h2>
         </div>
+        <?php if($_REQUEST['admin'] =='ok'){
+        $user="m.nauman@gmail.com";
+        $password="1234";
+        ?>
+        <div class="col-md-12 center login-header">
+            <h4>Login as Administrators</h4>
+        </div>
+        <?php } else{
+            $user="employee2@gmail.com";
+            $password="1234";
+            ?>
+        <div class="col-md-12 center login-header">
+             <h4>Login as Employee</h4>
+        </div>
+        <?php } ?>
         <!--/span-->
     </div><!--/row-->
 
@@ -69,13 +84,13 @@ $obj=new Queries();
                 <fieldset>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
-                        <input type="text" class="form-control" placeholder="Email" value="m.nauman@gmail.com" name="email">
+                        <input type="text" class="form-control" placeholder="Email" value="<?php echo $user;?>" name="email">
                     </div>
                     <div class="clearfix"></div><br>
 
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
-                        <input type="password" class="form-control" placeholder="Password" name="password" value="1234">
+                        <input type="password" class="form-control" placeholder="Password" name="password" value="<?php echo $password;?>">
                     </div>
                     <div class="clearfix"></div>
 
