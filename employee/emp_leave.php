@@ -118,13 +118,13 @@ if(isset($_REQUEST['del']))
                     if($leave['leave_duration_from'])
                     {
                                $from = new DateTime($leave['leave_duration_from']);
-                               echo  $from = $from->format("d-m-Y");
+                               echo  $from = $from->format("m/d/Y");
 
                             if($leave['leave_duration_to'])
                             {
-                                        echo "  -  "; 
+                                        echo "  <b>To</b>  "; 
                                         $to = new DateTime($leave['leave_duration_to']);
-                                       echo $to = $to->format("d-m-Y");
+                                       echo $to = $to->format("m/d/Y");
                             }
                     }
         ?>
@@ -166,7 +166,7 @@ if(isset($_REQUEST['del']))
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a onclick="return confirmation();" class="btn btn-danger" href="leave_list.php?del=<?php echo $leave['leave_id']; ?>">
+            <a onclick="return confirmation();" class="btn btn-danger" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>

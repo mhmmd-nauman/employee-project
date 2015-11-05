@@ -59,12 +59,14 @@ if(isset($_REQUEST['del']))
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
     <thead>
     <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Balance</th>
+        <th>Ficha</th>
+        <th>Nombre</th>
+        <th>RUT</th>
+        <th>Contrato Actual</th>
+        <th>Primer Contrato</th>
+        <th>Vacaciones Anuales</th>
         <th>Status</th>
-        <th>Actions</th>
+        <th width="20%">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -73,35 +75,37 @@ if(isset($_REQUEST['del']))
             ?>
         
     <tr>
-        <td><img src="<?php echo SITE_ADDRESS.$employee['emp_pic']; ?>" height="50" width="50"></td>
+        <td><a class="btn btn-success btn-sm" href="add_employee.php?view=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
         <td><?php echo $employee['emp_name']; ?></td>
-        <td><?php echo $employee['emp_email']; ?></td>
+        <td><?php echo $employee['emp_cellnum']; ?></td>
+        <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo date("m/d/Y",strtotime($employee['emp_first_contract'])); ?></td>
        
-        <td><?php echo $balance; ?></td>
+       
+        <td>
+            <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
+            <?php echo $balance; ?>
+            </a>
+            </td>
         <td class="center">
            <?php if($employee['emp_status']==0) { ?>
             <span class="label-success label label-default">Active</span>
            <?php } ?>
         </td>
         <td class="center">
-            <a class="btn btn-success" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
-                <i class="glyphicon icon-white"></i>
-                Balance Details
-            </a>
-             <a class="btn btn-warning" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>">
-                <i class="glyphicon glyphicon-star icon-white"></i>
+            
+             <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>">
+               
                 Leaves
             </a>
-            <a class="btn btn-success" href="add_employee.php?view=<?php echo $employee['emp_id']; ?>">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                View
-            </a>
-            <a class="btn btn-info" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
+            
+            
+            <a class="btn btn-info btn-sm" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+                
                 Edit
             </a>
-            <a class="btn btn-danger" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
-                <i class="glyphicon glyphicon-trash icon-white"></i>
+            <a class="btn btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+                
                 Delete
             </a>
         </td>

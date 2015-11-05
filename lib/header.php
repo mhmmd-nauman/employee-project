@@ -109,8 +109,8 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
    {
    ?>                       
                             
-                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php">Mass Leaves</a></li>
-                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php">Leave Applications</a></li>
+                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php">Manage Mass Leaves</a></li>
+                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php">Manage Leaves</a></li>
                             
                         
                     

@@ -33,10 +33,10 @@ if(isset($_REQUEST['update_button']))  // update code
 {
 ////////// number of days calculation just to save it in db       
 $total_days=1;
-        if($_REQUEST['duration_to'])
+        if($_REQUEST['leave_duration_to'])
         {
-            $date1 = new DateTime($_REQUEST['duration_from']);
-            $date2 = new DateTime($_REQUEST['duration_to']);
+            $date1 = new DateTime($_REQUEST['leave_duration_from']);
+            $date2 = new DateTime($_REQUEST['leave_duration_to']);
 
             $total_days = $date2->diff($date1)->format("%a");
         
@@ -46,10 +46,10 @@ $total_days=1;
                                                 'leave_emp_id'     =>$_REQUEST['emp_id'],
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$total_days,
-                                                 'leave_duration_from'   =>$_REQUEST['duration_from'],
-                                                 'leave_duration_to'   =>$_REQUEST['duration_to'],
+                                                 'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
+                                                 'leave_duration_to'   =>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_to'])),
                                                  'leave_approval'   =>$_REQUEST['approval'],
-                                                 'leave_datetime'   =>date('d-m-Y H:i:s a'),
+                                                 'leave_datetime'   =>date('Y-m-d h:i:s'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
                                                   
               ));
@@ -84,10 +84,10 @@ else
 }     
 ////////// number of days calculation just to save it in db       
 $total_days=1;
-        if($_REQUEST['duration_to'])
+        if($_REQUEST['leave_duration_to'])
         {
-            $date1 = new DateTime($_REQUEST['duration_from']);
-            $date2 = new DateTime($_REQUEST['duration_to']);
+            $date1 = new DateTime($_REQUEST['leave_duration_from']);
+            $date2 = new DateTime($_REQUEST['leave_duration_to']);
 
             $total_days = $date2->diff($date1)->format("%a");
         
@@ -98,10 +98,10 @@ $submit=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$employee,
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$total_days,
-                                                 'leave_duration_from'   =>$_REQUEST['duration_from'],
-                                                 'leave_duration_to'   =>$_REQUEST['duration_to'],
+                                                 'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
+                                                 'leave_duration_to'   =>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_to'])),
                                                  'leave_approval'   =>$approval,
-                                                 'leave_datetime'   =>date('d-m-Y H:i:s a'),
+                                                 'leave_datetime'   =>date('Y-m-d h:i:s'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
                                                   
               ));
@@ -138,7 +138,15 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
         if($_REQUEST['view']) { $id = $_REQUEST['view']; $readonly="readonly"; }
         else  $id = $_REQUEST['update'];
     
-        $leave_list=$obj->select("alpp_leave","leave_id=$id ",array("*"));   
+        $leave_list=$obj->select("alpp_leave","leave_id=$id ",array("*")); 
+        $leave_duration_to=date("m/d/Y",strtotime($leave_list[0]['leave_duration_to']));
+        if(empty($leave_duration_to) || $leave_duration_to == "01/01/1970" ){
+            $leave_duration_to = "";
+        }
+        $leave_duration_from=date("m/d/Y",strtotime($leave_list[0]['leave_duration_from']));
+        if(empty($leave_duration_from) || $leave_duration_from == "01/01/1970" ){
+            $leave_duration_from = "";
+        }
 }
         ?>
      <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
@@ -177,14 +185,14 @@ if($_SESSION['session_admin_role']=='admin')
                     <div class="form-group">                    
                         <label class="control-label col-sm-2">Duration from</label>                     
                         <div class="col-sm-4">
-                            <input type="date" class="form-control col-sm-4"  style="width:180px;" <?php echo $readonly; ?> value="<?php echo $leave_list[0]['leave_duration_from']; ?>"  name="duration_from">
+                            <input type="text" id="leave_duration_from" class="form-control col-sm-4"  style="width:180px;" <?php echo $readonly; ?> value="<?php echo $leave_duration_from; ?>"  name="leave_duration_from">
                         </div>
                     </div>
          
                     <div class="form-group">                    
                         <label class="control-label col-sm-2">Duration to    <font style=" font-size: 10px;" ><br>(if required)</font></label>                     
                         <div class="col-sm-4">
-                            <input type="date" class="form-control col-sm-4" style="width:180px;" <?php echo $readonly; ?> value="<?php echo $leave_list[0]['leave_duration_to']; ?>"  name="duration_to">
+                            <input type="text" id="leave_duration_to" class="form-control col-sm-4" style="width:180px;" <?php echo $readonly; ?> value="<?php echo $leave_duration_to; ?>"  name="leave_duration_to">
                         </div>
                     </div>
          
@@ -246,3 +254,13 @@ if($_SESSION['session_admin_role']=='admin')
 </div><!--/row-->
 
 <?php include('../lib/footer.php'); ?>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script>
+$(function() {
+  $( "#leave_duration_from" ).datepicker();
+  $( "#leave_duration_to" ).datepicker();
+});
+</script>

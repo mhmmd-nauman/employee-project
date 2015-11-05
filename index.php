@@ -16,19 +16,21 @@ $obj=new Queries();
         <div class="col-md-12 center login-header">
             <h2>Welcome to Employee Management System</h2>
         </div>
-        <?php if(isset($_REQUEST['admin']) && $_REQUEST['admin'] =='ok'){
-        $user="m.nauman@gmail.com";
+        <?php if(isset($_REQUEST['employee']) && $_REQUEST['employee'] =='ok'){
+        $user="1005";
         $password="1234";
+        
         ?>
         <div class="col-md-12 center login-header">
-            <h4>Login as Administrators</h4>
+            
+            <h4>Login as Employee</h4>
         </div>
         <?php } else{
-            $user="employee2@gmail.com";
+            $user="m.nauman@gmail.com";
             $password="1234";
             ?>
         <div class="col-md-12 center login-header">
-             <h4>Login as Employee</h4>
+             <h4>Login as Administrators</h4>
         </div>
         <?php } ?>
         <!--/span-->
@@ -39,7 +41,7 @@ $obj=new Queries();
  <?php
  if(isset($_REQUEST['submit']))
  {
-      if(isset($_REQUEST['admin']))               
+      if(!isset($_REQUEST['employee']))               
       {
           $get_user=   $obj->select("alpp_adminlog","adminlog_email='".$_REQUEST['email']."' and adminlog_password='".$_REQUEST['password']."'",  array("*"));
       
@@ -56,7 +58,7 @@ $obj=new Queries();
      }
      else
      {
-         $get_user=   $obj->select("alpp_emp","emp_email='".$_REQUEST['email']."' and emp_password='".$_REQUEST['password']."'",  array("*"));
+         $get_user=   $obj->select("alpp_emp","emp_file='".$_REQUEST['email']."' and emp_password='".$_REQUEST['password']."'",  array("*"));
       
                     if($get_user)
                                 {
@@ -105,7 +107,7 @@ $obj=new Queries();
             </form>
         </div>
         
-        <div class=" col-md-5 center login-box"> <a href="?admin=ok" class="btn btn-primary">Administrator Login</a></div>
+        <div class=" col-md-5 center login-box"> <a href="?employee=ok" class="btn btn-primary">Employee Login</a></div>
         <!--/span-->
     </div><!--/row-->
 <?php require('lib/footer.php'); ?>

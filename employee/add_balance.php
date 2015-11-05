@@ -12,7 +12,7 @@ if(isset($_REQUEST['update_button']))  // update code
   $updated=$objTransaction->UpdateTransaction("id=".$_REQUEST['id'],array(
                 'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                 'amount'=>$_REQUEST['amount'],
-                'trans_type'=>$_REQUEST['trans_type'],
+                //'trans_type'=>$_REQUEST['trans_type'],
                 'date'=> date("Y-m-d h:i:s"),
                 'done_by'=>$_SESSION['session_admin_id'],
                 'status'=>$_REQUEST['status']
@@ -25,7 +25,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                 'emp_id'=>$_REQUEST['emp_id'],
                 'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                 'amount'=>$_REQUEST['amount'],
-                'trans_type'=>$_REQUEST['trans_type'],
+                'trans_type'=>'C',
                 'date'=> date("Y-m-d h:i:s"),
                 'done_by'=>$_SESSION['session_admin_id'],
                 'status'=>$_REQUEST['status']
@@ -107,27 +107,7 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                         <div class="col-sm-4">          
                             <input type="text" class="form-control" value="<?php echo $transaction[0]['amount']; ?>" placeholder="Days" name="amount">
                         </div>
-                    
-                        <label class="control-label col-sm-2">Balance Type</label>                     
-                        <div class="col-sm-3">
-                        <?php
-                        $trans_type=$transaction[0]['trans_type'];
-                        if(empty($trans_type))$trans_type="C";
-                        if($trans_type=="C") 
-                        {   ?>
-                                        <input type="radio" name="trans_type" value="D" />Consumed
-                                        <input type="radio" name="trans_type" value="C"  checked />Received
-                        <?php    } else { ?> 
-
-                                                 <input type="radio" name="trans_type" value="D"  checked />Consumed
-                                                 <input type="radio" name="trans_type" value="C"  />Received
-                        <?php     } ?> 
-                        
-                        </div>
-                    
-                    </div>
-          <div class="form-group">
-              <label class="control-label col-sm-2">Month End</label>
+                    <label class="control-label col-sm-2">Month End</label>
                     <div class="col-sm-4">
                         <?php
                          $end_month_data=date("m/d/Y",strtotime($transaction[0]['end_month_data']));
@@ -137,6 +117,11 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                         ?>
                         <input type="text" id="datepicker" class="form-control" value="<?php echo $end_month_data;?>" placeholder="" name="end_month_data">
                     </div>
+                        
+                    
+                    </div>
+          <div class="form-group">
+              
               <label class="control-label col-sm-2">Status</label>                     
                         <div class="col-sm-3">
                         <?php if($transaction[0]['status']==0) 

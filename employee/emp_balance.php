@@ -77,7 +77,7 @@ if(isset($_REQUEST['del']))
         <th>ID</th>
         <th>Date</th>
         <th>Days</th>
-        <th>Consumed/Received</th>
+        <th>Description</th>
         <th>Data Added</th>
         <th>Status</th>
 <?php if($_SESSION['session_admin_role']=='admin') { ?>
@@ -98,9 +98,7 @@ if(isset($_REQUEST['del']))
                 case"C":
                 echo "Received";
                     break;
-                case"D":
-                    echo "Consumed";
-                    break;
+                
                 case"L":
                     echo "Leave";
                     break;
