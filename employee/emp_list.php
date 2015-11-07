@@ -2,14 +2,19 @@
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
- ?>
+?>
+<script>
+    $(document).ready(function(){
+            $(".add_employee").colorbox({iframe:true, width:"70%", height:"80%"});
+    });
+</script>
 <div>
     <ul class="breadcrumb">
         <li>
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
         <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php">Add</a>
+            <a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php">Add</a>
         </li>
         <li>
             <a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php">Employee List</a>
@@ -58,7 +63,9 @@ if(isset($_REQUEST['del']))
           
           <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/emp_import_data.php"><i class="glyphicon icon-white"></i>Import Employee Data</a>&nbsp;
           
-          <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
+          <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
+     
+     	
       </p>
         
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
@@ -105,10 +112,11 @@ if(isset($_REQUEST['del']))
             </a>
             
             
-            <a class="btn btn-info btn-sm" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+            <a class="btn btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
                 
                 Edit
             </a>
+           
             <a class="btn btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
                 
                 Delete

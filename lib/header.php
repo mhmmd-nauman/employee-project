@@ -1,7 +1,7 @@
 <?php
 //define("SSL_INSTALLED",1);
 if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0.1'){
-	define("SITE_ADDRESS","http://".$_SERVER['SERVER_NAME'].":8080/employee_project/");
+	define("SITE_ADDRESS","http://".$_SERVER['SERVER_NAME'].":/emp2/");
 }else{
 //	if(SSL_INSTALLED == 1 && $_SERVER['SERVER_NAME'] != 'employee_project.com'){
 //		$http = "https";
@@ -24,7 +24,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
     <link href='<?php echo SITE_ADDRESS; ?>bower_components/fullcalendar/dist/fullcalendar.css' rel='stylesheet'>
     <link href='<?php echo SITE_ADDRESS; ?>bower_components/fullcalendar/dist/fullcalendar.print.css' rel='stylesheet' media='print'>
     <link href='<?php echo SITE_ADDRESS; ?>bower_components/chosen/chosen.min.css' rel='stylesheet'>
-    <link href='<?php echo SITE_ADDRESS; ?>bower_components/colorbox/example3/colorbox.css' rel='stylesheet'>
+    <link href='<?php echo SITE_ADDRESS; ?>bower_components/colorbox/example5/colorbox.css' rel='stylesheet'>
     <link href='<?php echo SITE_ADDRESS; ?>bower_components/responsive-tables/responsive-tables.css' rel='stylesheet'>
     <link href='<?php echo SITE_ADDRESS; ?>bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css' rel='stylesheet'>
     <link href='<?php echo SITE_ADDRESS; ?>css/jquery.noty.css' rel='stylesheet'>
@@ -44,13 +44,17 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
     <![endif]-->
 
     <!-- The fav icon -->
-    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="shortcut icon" href="img/favicon.ico">		
 
 </head>
 
 <body>
 <?php if (!isset($no_visible_elements) || !$no_visible_elements) { ?>
-    <!-- topbar starts -->
+<script>
+    $(document).ready(function(){
+            $(".add_employee").colorbox({iframe:true, width:"70%", height:"80%"});
+    });
+</script>    <!-- topbar starts -->
     <div class="navbar navbar-default" role="navigation">
 
         <div class="navbar-inner">
@@ -71,7 +75,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
                 </button>
                 <ul class="dropdown-menu">
                <?php if($_SESSION['session_admin_role']=='employee')   { ?>        
-                    <li><a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Profile</a></li>
+                    <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Profile</a></li>
                 <?php } else { ?>
                 <li><a href="<?php echo SITE_ADDRESS; ?>admin_profile.php">Profile</a></li>
                 <?php }  ?>
@@ -101,7 +105,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
                         <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>dashboard.php"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a></li>
    <?php if($_SESSION['session_admin_role']=='admin')
    {
-   ?>   <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Employee</span></a></li>
+   ?>   <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-user"></i><span> Employee</span></a></li>
    <?php } ?>
                     
     
@@ -109,13 +113,14 @@ if($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0
    {
    ?>                       
                             
-                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php">Manage Mass Leaves</a></li>
-                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php">Manage Leaves</a></li>
+                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-file"></i><span> Manage Mass Leaves</span></a></li>
+                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Manage Leaves</span></a></li>
                             
                         
                     
    <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
                         <li><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-list"></i> Leave</a></li>
+                        <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>"><i class="glyphicon glyphicon-list"></i> Vacaciones Anuales</a></li>
      <?php }   ?>                       
                         
                         <li><a href="<?php echo SITE_ADDRESS; ?>logout.php"><i class="glyphicon glyphicon-lock"></i><span> Logout</span></a></li>

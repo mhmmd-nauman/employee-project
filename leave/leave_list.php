@@ -1,7 +1,43 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
- ?>
+$obj=new Queries();
+$where='1';  
+if($_SESSION['session_admin_role']=='employee')    $where='leave_emp_id='.$_SESSION['session_admin_id'];
+$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," $where order by leave_id desc",array("*")); ?>
+
+<?php
+if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	// code to edit status only 
+{	           
+        if($_REQUEST['status']==1 || $_REQUEST['status']==2)    // cancel | Approve
+        { 
+            $action=$obj->Update("alpp_leave",'leave_id='.$_REQUEST['leave_id'] , array('leave_approval'=>$_REQUEST['status']));
+        } 
+        else if($_REQUEST['status']==3) // delete
+        { 
+            $action = $obj->Delete("alpp_leave",'leave_id='.$_REQUEST['leave_id']);
+        }
+    
+        if($submit)
+	{        
+            $message_type="alert-success"; 
+            $message_text = "<strong>Success!</strong>". ($_REQUEST['status']==3) ? 'Record Deleted' : 'Status Updated' ;;
+            header('REFRESH:2, url='.SITE_ADDRESS.'leave/leave_list.php');
+	}
+}
+
+if(isset($_REQUEST['del']))	// delete  a record
+{	
+        $id = $_REQUEST['del'];
+	$del = $obj->Delete("alpp_leave",'leave_id='.$id);
+        if($del)
+	{        
+            $message_type="alert-success"; 
+            $message_text = "<strong>Success!</strong> Leave Record Submitted.";
+            header('REFRESH:2, url='.SITE_ADDRESS.'leave/leave_list.php');
+	}
+}
+?>  
 <script>
 function action(action_status,id){
         
@@ -18,64 +54,10 @@ function action(action_status,id){
                                 if (answer)   window.location="?leave_id="+id+"&status=3";
                               }        
     }
+    $(document).ready(function(){
+            $(".add_leave").colorbox({iframe:true, width:"40%", height:"90%"});
+    });
 </script>
-<?php
-  $obj=new Queries();
-//// basic query to show records in table /// 
-  $where='1';
-if($_SESSION['session_admin_role']=='employee')    $where='leave_emp_id='.$_SESSION['session_admin_id'];
-    
-$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," $where order by leave_id desc",array("*"));
-
-
-
-
-  /// code to edit status only /////
-if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	
-{	           
-if($_REQUEST['status']==1 || $_REQUEST['status']==2) { // cancel | Approve
-            $action=$obj->Update("alpp_leave",'leave_id='.$_REQUEST['leave_id'] , array('leave_approval'=>$_REQUEST['status']));
-} 
-else if($_REQUEST['status']==3) { // delete
-    $action = $obj->Delete("alpp_leave",'leave_id='.$_REQUEST['leave_id']);
-}
-if(isset($action) )
-	 {		 ?>
-         <div class="widget-body">
-                <div class="alert alert-success">
-                        <button class="close" data-dismiss="alert">×</button>
-                        <strong>Success!</strong> <?php echo ($_REQUEST['status']==3) ? 'Record Deleted' : 'Record Updated' ;?>
-                </div>
-         </div>
-     	 <?php
-		header('refresh:1, url=leave_list.php');
-	}
-}
-
-// delete  a record
-if(isset($_REQUEST['del']))	
-{	
-
-        $id = $_REQUEST['del'];
-	$del = $obj->Delete("alpp_leave",'leave_id='.$id);
-	 
-	if($del)
-	{
-		 ?>
-         <div class="widget-body">
-                            <div class="alert alert-success">
-                                <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Record Deleted.
-                            </div>
-         </div>
-     	 <?php
-		header('refresh:1, url=leave_list.php');
-	}
-}
-
-        ?>
-     
-
 
 <div>
     <ul class="breadcrumb">
@@ -85,7 +67,14 @@ if(isset($_REQUEST['del']))
         <li> Leave List  </li>
     </ul>
 </div>
-
+<?php if($message_type){ ?>
+     <div class="widget-body">
+        <div class="alert <?php echo $message_type;?>">
+                <button class="close" data-dismiss="alert">×</button>
+                <?php echo $message_text;?>
+        </div>
+    </div>
+<?php }?>
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
@@ -96,14 +85,14 @@ if(isset($_REQUEST['del']))
 
             <div class="box-content">
                      <p style="text-align: right;">
-                         <a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-warning"><i class="glyphicon glyphicon-star icon-white"></i>Apply For Leave</button></a> 
+                         <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-warning"><i class="glyphicon glyphicon-star icon-white"></i>Apply For Leave</button></a> 
                      </p>
 
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
     <thead>
     <tr>
         <th>Name</th>
-        <th>No of Days</th>
+        <th>Days</th>
         <th>Duration</th>
         <th>Reason</th>
         <th>Status</th>
@@ -159,11 +148,12 @@ if(isset($_REQUEST['del']))
                                 </div>
       
             
-            <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php echo $leave['leave_id']; ?>">
+            <!--            <a class="btn btn-success" href="<?php //echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php //echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                 View
             </a>
-            <a class="btn btn-info" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
+-->
+            <a class="btn btn-info add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>

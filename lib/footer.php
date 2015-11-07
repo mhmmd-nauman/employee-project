@@ -10,9 +10,8 @@
 
     <hr>
     <footer class="row">
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&nbsp;&nbsp;&copy; <a href="" target="_blank">Muhammad Nauman</a>  <?php echo date('Y') ?></p>
-
-    </footer>
+        <p class="col-md-6 col-sm-6 col-xs-9 copyright">&nbsp;&nbsp;&copy; <a href="" target="_blank">Muhammad Nauman</a>  <?php echo date('Y') ?></p>
+  </footer>
 <?php } ?>
 
 </div><!--/.fluid-container-->
@@ -26,7 +25,8 @@
 <script src='<?php echo SITE_ADDRESS; ?>js/jquery.dataTables.min.js'></script>
 <!-- select or dropdown enhancer -->
 <script src="<?php echo SITE_ADDRESS; ?>bower_components/chosen/chosen.jquery.min.js"></script>
-<!-- plugin for gallery image view -->
+<!-- plugin for gallery image view -->        	
+<script src="<?php echo SITE_ADDRESS; ?>bower_components/colorbox/jquery.colorbox.js"></script>
 <script src="<?php echo SITE_ADDRESS; ?>bower_components/colorbox/jquery.colorbox-min.js"></script>
 <!-- notification plugin -->
 <script src="<?php echo SITE_ADDRESS; ?>js/jquery.noty.js"></script>

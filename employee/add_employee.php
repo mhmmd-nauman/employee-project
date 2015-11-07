@@ -1,6 +1,6 @@
 <?php 
 include ('../lib/include.php');
-include('../lib/header.php');
+include('../lib/modal_header.php');
 $obj=new Queries();
 /// upload pic code
 $pic='';     
@@ -42,8 +42,8 @@ if(isset($_REQUEST['update_button']))  // update code
             $message_type="alert-success"; 
             $message_text = "<strong>Success!</strong> Employee Detail Updated.";
             
-            if($_SESSION['session_admin_role']=='admin')header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_list.php');
-            if($_SESSION['session_admin_role']=='employee')header('REFRESH:2, url='.SITE_ADDRESS.'dashboard.php'); // only profile update
+     //       if($_SESSION['session_admin_role']=='admin')header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_list.php');
+     //       if($_SESSION['session_admin_role']=='employee')header('REFRESH:2, url='.SITE_ADDRESS.'dashboard.php'); // only profile update
 	} else{
             $message_type="alert-error"; 
             $message_text = "<strong>Error!</strong> Employee Detail not Updated.";
@@ -142,25 +142,9 @@ else
 }
 }
 </script>
-<div>
-    <ul class="breadcrumb">
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
-        </li>
-<?php if($_SESSION['session_admin_role']=='admin')
-   { ?>
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php">Add</a>
-        </li>
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php">Employee List</a>
-        </li>
-   <?php }?>
-    </ul>
-</div>
 
 <div class="row">
-    <div class="box col-md-12">
+    <div class="box col-md-10">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
@@ -190,7 +174,7 @@ else
                         </div>
                         <label class="control-label col-sm-2">Nombre</label>
                         <div class="col-sm-4">          
-                            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_name']; ?>" placeholder="Employee Name" name="emp_name">
+                            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_name']; ?>" placeholder="Nombre" name="emp_name">
                             <input type="hidden" value="<?php echo $employee_list[0]['emp_id']; ?>" name="id">
                         </div>
                     <!--
@@ -286,8 +270,8 @@ else
                             <textarea  class="form-control" name="emp_address"  placeholder="Enter Address"><?php echo $employee_list[0]['emp_address']; ?></textarea>
                         </div>
                         <label class="control-label col-sm-2">Image</label>                     
-                        <div class="col-sm-4">
-                            <input type="file" name="image" id="img1" onChange="checkPhoto(this)" class="btn btn-info">
+                        <div class="col-sm-3">
+                            <input type="file" name="image" id="img1" onChange="checkPhoto(this)" >
                         <?php
                         if($employee_list[0]['emp_pic']!='')
                         { echo " <img src=".SITE_ADDRESS.$employee_list[0]['emp_pic']." height=50 width=50>"; }                        
@@ -328,7 +312,7 @@ else
 
 </div><!--/row-->
 
-<?php include('../lib/footer.php'); ?>
+<?php include('../lib/modal_footer.php'); ?>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
