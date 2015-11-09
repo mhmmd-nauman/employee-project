@@ -14,8 +14,8 @@ $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave
 
 
 
-// $employee_list=$obj->select("alpp_emp","1 ",array("count(emp_id)"));
-// $leave_list=$obj->select("alpp_leave","1 ",array("count(leave_id)"));
+$employee_list=$obj->select("alpp_emp","1 ",array("count(emp_id)"));
+$leave_list=$obj->select("alpp_leave","1 ",array("count(leave_id)"));
 // $balance = $objTransaction->GetEmpBalance($_SESSION['session_admin_id']);
 // 
 // /// to get the leaves of current month
