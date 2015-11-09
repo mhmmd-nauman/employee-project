@@ -3,13 +3,43 @@ include ('lib/include.php');
 include('lib/header.php'); 
 
 $obj=new Queries();
-
+$objEmployee =new Employee();
 $objTransaction =new Transaction();
 $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_SESSION['session_admin_id']." ");
 $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_SESSION['session_admin_id']);
 
-$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," leave_emp_id=".$_SESSION['session_admin_id']."  order by leave_id desc limit 3",array("*")); 
+$emp_starting_year = $objEmployee->GetAllEmployee("emp_id=".$_SESSION['session_admin_id'],array('emp_first_contract'));
+$job_starting_date=$emp_starting_year[0][0]; // get starting date
+
+    if(strtotime(date("Y-m-d h:i:s")) > strtotime($job_starting_date)   ) // in case if user entered wrong starting date
+        {
+            $starting = new DateTime($job_starting_date);
+            $today = new DateTime(date("Y-m-d h:i:s"));
+            $diff = $starting->diff($today);
+            $difference=$diff->y;
+
+                if($difference==13)   /// if years are equal to 13 
+                    {
+                        $balance=16;
+                    }
+                else if($difference>13)   /// if years are greater 
+                    {
+                        $difference-=13;  // get total num of years after 13 years
+                        $balance+=$difference;
+                    }
+                else
+                    {
+                        $balance=15;
+                    }
+        }
+    else
+        {
+                        $balance=15;
+        }
+
+
+$leave_of_emp=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," leave_emp_id=".$_SESSION['session_admin_id']."  order by leave_id desc limit 3",array("*")); 
 
 
 
@@ -66,7 +96,7 @@ if($_SESSION['session_admin_role']=='employee')
 <div>
     <ul class="breadcrumb">
         <li>
-            <h5>  <a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>">Balance </a> <?php echo $balance;?> day(s) after deducting leaves    </h5>
+            <h5>  <a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>">Dias disponibles </a> <?php echo $balance;?> day(s) after deducting leaves    </h5>
         </li>
     </ul>
 </div>
@@ -80,13 +110,13 @@ if($_SESSION['session_admin_role']=='employee')
         <th>Description</th>
         <th>Data Added</th>
         <th>Status</th>
-<?php if($_SESSION['session_admin_role']=='admin') { ?>
-        <th>Actions</th>
-<?php } ?>   
     </tr>
     </thead>
     <tbody>
-        <?php foreach($trasanction_list as $trasanction) {   ?>
+        <?php  
+         if(is_array($trasanction_list))
+    {
+   foreach($trasanction_list as $trasanction) {   ?>
         
     <tr>
         <td><?php echo $trasanction['id']; ?></td>
@@ -114,28 +144,15 @@ if($_SESSION['session_admin_role']=='employee')
             else if($trasanction['status']==2 && $trasanction['trans_type'] =='L')	echo"<span class='label label-success'>Approved</span>";
             else if($trasanction['status']==1 && $trasanction['trans_type'] =='L')  echo"<span class='label label-small label-danger'>Cancelled </span>";
         ?>
-        </td>
-    
-<?php if($_SESSION['session_admin_role']=='admin') { ?>    
-        
-        <td class="center">
-            <?php if($trasanction['trans_type'] !="L"){?>
-            <a class="btn btn-info" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
-                Edit
-            </a>
-            <a onclick="return confirmation();" class="btn btn-danger" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
-                <i class="glyphicon glyphicon-trash icon-white"></i>
-                Delete
-            </a>
-            <?php }?>
-        </td>
-        
-            
-<?php }?>
-
+        </td>  
             </tr>
-            <?php } ?>
+            <?php }
+    }
+     else
+        {
+           echo "<tr><td colspan=6 >No Record Found</td></tr>"; 
+        }
+    ?>
     
     </tbody>
     </table>
@@ -144,7 +161,7 @@ if($_SESSION['session_admin_role']=='employee')
 <div>
     <ul class="breadcrumb">
         <li>
-            <a href="#">Leaves</a>
+            <a href="#">Dias solicitados</a>
         </li>
     </ul>
 </div>
@@ -163,7 +180,10 @@ if($_SESSION['session_admin_role']=='employee')
     </tr>
     </thead>
     <tbody>
-    <?php foreach($leave_list as $leave) {      ?>
+    <?php 
+    if(is_array($leave_of_emp))
+    {
+        foreach($leave_of_emp as $leave) {      ?>
     <tr>
         <td><?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
@@ -188,7 +208,13 @@ if($_SESSION['session_admin_role']=='employee')
 	else if($leave['leave_approval']==2)	echo"<td class='hidden-phone '><span class='label label-success'>Approved</span></td>";
 	else if($leave['leave_approval']==1)  echo"<td class='hidden-phone '><span class='label label-small label-danger'>Cancelled </span></td>";
 ?>      </tr>
-        <?php } ?>
+        <?php }
+    }
+    else
+        {
+           echo "<tr><td colspan=5 >No Record Found</td></tr>"; 
+        }
+?>
     
     </tbody>
     </table>
@@ -199,6 +225,4 @@ if($_SESSION['session_admin_role']=='employee')
   
 <div class="row"></div>
 
-
-</div><!--/row-->
 <?php require('lib/footer.php'); ?>

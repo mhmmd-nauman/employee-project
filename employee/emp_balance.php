@@ -2,10 +2,58 @@
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
+$objEmployee =new Employee();
 $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_REQUEST['emp_id']."");
 $balance=0.00;
+
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
+$emp_starting_year = $objEmployee->GetAllEmployee("emp_id=".$_REQUEST['emp_id'],array('emp_first_contract'));
+$job_starting_date=$emp_starting_year[0][0]; // get starting date
+
+    if(strtotime(date("Y-m-d h:i:s")) > strtotime($job_starting_date)   ) // in case if user entered wrong starting date
+        {
+            $starting = new DateTime($job_starting_date);
+            $today = new DateTime(date("Y-m-d h:i:s"));
+            $diff = $starting->diff($today);
+            $difference=$diff->y;
+
+                if($difference==13)   /// if years are equal to 13 
+                    {
+                        $balance=16;
+                    }
+                else if($difference>13)   /// if years are greater 
+                    {
+                        $difference-=13;  // get total num of years after 13 years
+                        $balance+=$difference;
+                    }
+                else
+                    {
+                        $balance=15;
+                    }
+        }
+    else
+        {
+                        $balance=15;
+        }
+    
+    
+
+
 //print_r($trasanction_list);
+
+if(isset($_REQUEST['del']))	
+{	
+
+        $id = $_REQUEST['del'];
+	$del = $objTransaction->DeleteTransantion($id);
+	
+        if($del)
+	{        
+            $message_type="alert-success"; 
+            $message_text = "<strong>Success!</strong> Transaction Deleted.";
+            header('REFRESH:2, url='.SITE_ADDRESS.'emp_balance.php?emp_id='.$_REQUEST['emp_id']);
+	}
+}
 ?>
 <div>
     <ul class="breadcrumb">
@@ -22,7 +70,14 @@ $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
         </li>
     </ul>
 </div>
-
+<?php if($message_type){ ?>
+     <div class="widget-body">
+        <div class="alert <?php echo $message_type;?>">
+                <button class="close" data-dismiss="alert">×</button>
+                <?php echo $message_text;?>
+        </div>
+    </div>
+<?php }?>
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
@@ -31,7 +86,7 @@ $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
             </div>
             
             <div class="col-md-8">
-                <br>
+                <br><h5>Primer Contrato : <?php echo date("M-d-Y",strtotime($job_starting_date)); ?></h5>
                 <h4>Balance: <?php echo $balance;?> day(s) after deducting leaves</h4>
                 <br>
             </div>
@@ -43,35 +98,9 @@ $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
             </div>
           <?php } ?>
             
-           <div class="box-content">
-     <br>
-<?php 
-      
-      
- 	 
-if(isset($_REQUEST['del']))	
-{	
-
-        $id = $_REQUEST['del'];
-	$del = $objTransaction->DeleteTransantion($id);
-	 
-	if($del)
-	{
-		 ?>
-         <div class="widget-body">
-                            <div class="alert alert-success">
-                                <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Transaction Deleted.
-                            </div>
-         </div>
-     	 <?php
-		header('refresh:1, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);
-	}
-}
-?>
-      
-      
-     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
+<div class="box-content">
+   <br>
+    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
     <thead>
     <tr>
         <th>ID</th>

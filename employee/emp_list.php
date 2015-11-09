@@ -87,7 +87,8 @@ if(isset($_REQUEST['del']))
             ?>
         
     <tr>
-        <td><a class="btn btn-success btn-sm" href="add_employee.php?view=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
+        <td><a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
+<!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_cellnum']; ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
