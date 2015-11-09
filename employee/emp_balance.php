@@ -7,6 +7,8 @@ $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = 
 $balance=0.00;
 
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
+/////////////////////////////////////////////////////
+//Sir please check code from here , i am using above variable of balance , please verify following code
 $emp_starting_year = $objEmployee->GetAllEmployee("emp_id=".$_REQUEST['emp_id'],array('emp_first_contract'));
 $job_starting_date=$emp_starting_year[0][0]; // get starting date
 
@@ -35,7 +37,7 @@ $job_starting_date=$emp_starting_year[0][0]; // get starting date
         {
                         $balance=15;
         }
-    
+ ////////////////////////////////////////////////////////////////////////////////////////////   
     
 
 
