@@ -26,6 +26,7 @@ if(isset($_REQUEST['update_button']))  // update code
     $submit=$obj->update("alpp_emp","emp_id=".$_REQUEST['id'],array(
                             'emp_name'         =>$_REQUEST['emp_name'],
                             'emp_file'          =>$_REQUEST['emp_file'],
+                            'emp_department'          =>$_REQUEST['emp_department'],
                            // 'emp_gender'       =>$_REQUEST['gender'],
                             'emp_designation'  =>$_REQUEST['emp_des'],
                             'emp_current_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_current_contract'])),
@@ -76,6 +77,7 @@ if(isset($_REQUEST['update_button']))  // update code
     $submit=$obj->insert("alpp_emp",array(
                                      'emp_name'         =>$_REQUEST['emp_name'],
                                      'emp_file'          =>$_REQUEST['emp_file'],
+                                    'emp_department'          =>$_REQUEST['emp_department'],
                                      'emp_current_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_current_contract'])),
                                      //'emp_designation'  =>$_REQUEST['emp_des'],
                                      //'emp_account_no'   =>$_REQUEST['emp_acc'],
@@ -194,20 +196,30 @@ else
                     -->
                     </div>
                     <!--
-                    <div class="form-group">
                     
                         <label class="control-label col-sm-2">Designation</label>                     
                         <div class="col-sm-4">
                             <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_designation']; ?>" placeholder="Designation" name="emp_des">
                         </div>
-                    
-                        <label class="control-label col-sm-2">Father Name</label>
+                    -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Department</label>
                         <div class="col-sm-3">          
-                            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_fathername']; ?>" placeholder="Father Name" name="emp_fname">
+                            <select name="emp_department">
+                                <option value="">SELECT</option>
+                        <?php
+                                $dep_array=array('Indubal','Soinb');                               
+                                foreach ($dep_array as $dep)
+                                {
+                                    $sel=$employee_list[0]['emp_department']==$dep ? 'selected' : '';
+                                    echo "<option value=".$dep." $sel>$dep</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
                     
                     </div>
-                    -->
+                    
                    <div class="form-group">
                    
                        <label class="control-label col-sm-2">RUT</label>                     
