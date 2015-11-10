@@ -9,8 +9,9 @@ $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
 /////////////////////////////////////////////////////
 //Sir please check code from here , i am using above variable of balance , please verify following code
-$emp_starting_year = $objEmployee->GetAllEmployee("emp_id=".$_REQUEST['emp_id'],array('emp_first_contract'));
+$emp_starting_year = $objEmployee->GetAllEmployee("emp_id=".$_REQUEST['emp_id'],array('emp_first_contract','emp_salary'));
 $job_starting_date=$emp_starting_year[0][0]; // get starting date
+$initial_balance = $emp_starting_year[0][1];
 
     if(strtotime(date("Y-m-d h:i:s")) > strtotime($job_starting_date)   ) // in case if user entered wrong starting date
         {
@@ -21,21 +22,21 @@ $job_starting_date=$emp_starting_year[0][0]; // get starting date
 
                 if($difference==13)   /// if years are equal to 13 
                     {
-                        $balance=16;
+                        $initial_balance=16;
                     }
                 else if($difference>13)   /// if years are greater 
                     {
                         $difference-=13;  // get total num of years after 13 years
-                        $balance+=$difference;
+                        $initial_balance+=$difference;
                     }
                 else
                     {
-                        $balance=15;
+                        $initial_balance=15;
                     }
         }
     else
         {
-                        $balance=15;
+                        $initial_balance=15;
         }
  ////////////////////////////////////////////////////////////////////////////////////////////   
     
@@ -88,7 +89,7 @@ if(isset($_REQUEST['del']))
             </div>
             
             <div class="col-md-8">
-                <br><h5>Primer Contrato : <?php echo date("M-d-Y",strtotime($job_starting_date)); ?></h5>
+                <br><h5>Primer Contrato : <?php echo date("M-d-Y",strtotime($job_starting_date)); ?> , <?php echo $initial_balance; ?></h5>
                 <h4>Balance: <?php echo $balance;?> day(s) after deducting leaves</h4>
                 <br>
             </div>

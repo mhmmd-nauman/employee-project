@@ -61,9 +61,10 @@ if(isset($_REQUEST['del']))
 ?>
       <p style="text-align: right;">
           
+          <a class="btn btn-info add_employee" href="<?php echo SITE_ADDRESS; ?>employee/emp_import_balance.php"><i class="glyphicon icon-white"></i>Import Employee Balance</a>&nbsp;
           <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/emp_import_data.php"><i class="glyphicon icon-white"></i>Import Employee Data</a>&nbsp;
           
-          <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
+          <a class="btn btn-warning add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
      
      	
       </p>
