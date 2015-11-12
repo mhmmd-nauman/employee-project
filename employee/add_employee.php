@@ -28,7 +28,7 @@ if(isset($_REQUEST['update_button']))  // update code
                             'emp_file'          =>$_REQUEST['emp_file'],
                             'emp_department'          =>$_REQUEST['emp_department'],
                            // 'emp_gender'       =>$_REQUEST['gender'],
-                            'emp_designation'  =>$_REQUEST['emp_des'],
+                          //  'emp_designation'  =>$_REQUEST['emp_des'],
                             'emp_current_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_current_contract'])),
                             'emp_cellnum'      =>$_REQUEST['emp_cell'],
                             'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
