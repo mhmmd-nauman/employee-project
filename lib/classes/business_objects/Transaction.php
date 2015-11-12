@@ -76,6 +76,14 @@
                 return 0;
             }
 	}	
+	function UpdateTransactionByEmployee($where,$array){
+            if($array){
+                $updated_id = util::updateRecord("alpp_transactions join alpp_emp on alpp_emp.emp_id=alpp_transactions.emp_id",$where,$array);
+                return $updated_id;
+            } else {
+                return 0;
+            }
+	}	
 	
         function InsertTransaction($array){
             if($array){

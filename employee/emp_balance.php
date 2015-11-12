@@ -89,8 +89,8 @@ if(isset($_REQUEST['del']))
             </div>
             
             <div class="col-md-8">
-                <br><h5>Primer Contrato : <?php echo date("M-d-Y",strtotime($job_starting_date)); ?> , <?php echo $initial_balance; ?></h5>
-                <h4>Balance: <?php echo $balance;?> day(s) after deducting leaves</h4>
+<!--               <h5>Primer Contrato : <?php //echo date("M-d-Y",strtotime($job_starting_date)); ?> , <?php //echo $initial_balance; ?></h5>-->
+                 <br><h4>Balance: <?php echo $balance;?> day(s) after deducting leaves</h4>
                 <br>
             </div>
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
@@ -106,11 +106,14 @@ if(isset($_REQUEST['del']))
     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
     <thead>
     <tr>
-        <th>ID</th>
+<!--        <th>ID</th>-->
         <th>Date</th>
+      
+        
+        <th>Added</th>
+        <th>Consumed</th>
+<!--        <th>Data Added</th>-->
         <th>Days</th>
-        <th>Description</th>
-        <th>Data Added</th>
         <th>Status</th>
 <?php if($_SESSION['session_admin_role']=='admin') { ?>
         <th>Actions</th>
@@ -121,23 +124,23 @@ if(isset($_REQUEST['del']))
         <?php foreach($trasanction_list as $trasanction) {   ?>
         
     <tr>
-        <td><?php echo $trasanction['id']; ?></td>
+<!--        <td><?php //echo $trasanction['id']; ?></td>-->
         <td><?php echo date("m/d/Y",strtotime($trasanction['entered_on_date'])); ?></td>
-        <td><?php echo $trasanction['days']; ?></td>
-        <td>
+        
             <?php
             switch($trasanction['trans_type']) {
                 case"C":
-                echo "Received";
+                echo "<td>Received</td><td></td>";
                     break;
                 
                 case"L":
-                    echo "Leave";
+                    echo "<td></td><td>Leave</td>";
                     break;
                     
                     
             }?></td>
-        <td><?php echo date("m/d/Y",strtotime($trasanction['entry_date'])); ?></td>
+<!--        <td><?php //echo date("m/d/Y",strtotime($trasanction['entry_date'])); ?></td>-->
+        <td><?php echo $trasanction['days']; ?></td>
         <td class="center">
            <?php if($trasanction['status']==0 && $trasanction['trans_type'] !='L') { ?>
             <span class="label-success label label-default">Active</span>
