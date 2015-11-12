@@ -29,7 +29,7 @@ $obj=new Employee();
 	$handle = fopen($_FILES['filename']['tmp_name'], "r");
 
 	while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            $submit=$obj->UpdateEmployee("emp_file='".$data[0]."'",array("emp_salary"=>$data[4]));
+            $submit=$obj->UpdateEmployee("emp_file='".$data[0]."'",array("emp_salary"=>$data[4],"emp_department"=>$_REQUEST['dept']));
         }
 
 	fclose($handle);
@@ -46,8 +46,32 @@ $obj=new Employee();
 
 	<form enctype='multipart/form-data'  method='post'>
 
-            Balance Sheet to import:<input size='50' type='file' name='filename' ><br>
-
+            
+              <div class="form-group">
+                        <label class="control-label col-sm-2"> Balance Sheet</label>
+                        <div class="col-sm-3">          
+                           <input size='50' type='file' name='filename' >
+                        </div>
+                    
+                    </div>
+            
+            <div class="form-group">
+                        <label class="control-label col-sm-2">Department</label>
+                        <div class="col-sm-3">          
+                            <select name="dept">
+                                <option value="">SELECT</option>
+                        <?php
+                                $dep_array=array('Indubal','Soinb');                               
+                                foreach ($dep_array as $dep)
+                                {
+                                    $sel=$employee_list[0]['emp_department']==$dep ? 'selected' : '';
+                                    echo "<option value=".$dep." $sel>$dep</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    
+                    </div>
 	<input type='submit' name='submit' value='Upload'>
         </form>
 
