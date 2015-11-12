@@ -74,6 +74,7 @@ if(isset($_REQUEST['del']))
     <tr>
         <th>Ficha</th>
         <th>Nombre</th>
+        <th>Department</th>
         <th>RUT</th>
         <th>Contrato Actual</th>
         <th>Primer Contrato</th>
@@ -91,6 +92,7 @@ if(isset($_REQUEST['del']))
         <td><a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
+        <td><?php echo $employee['emp_department']; ?></td>
         <td><?php echo $employee['emp_cellnum']; ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_first_contract'])); ?></td>
