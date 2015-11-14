@@ -110,8 +110,8 @@ if(isset($_REQUEST['del']))
         <th>Date</th>
       
         
-        <th>Added</th>
-        <th>Consumed</th>
+        <th>Reason</th>
+      
 <!--        <th>Data Added</th>-->
         <th>Days</th>
         <th>Status</th>
@@ -130,11 +130,11 @@ if(isset($_REQUEST['del']))
             <?php
             switch($trasanction['trans_type']) {
                 case"C":
-                echo "<td>Received</td><td></td>";
+                echo "<td>Initial Balance</td>";
                     break;
                 
                 case"L":
-                    echo "<td></td><td>Leave</td>";
+                    echo "<td>Leave</td>";
                     break;
                     
                     

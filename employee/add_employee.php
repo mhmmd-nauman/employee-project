@@ -36,7 +36,7 @@ if(isset($_REQUEST['update_button']))  // update code
                             //'emp_qualification'=>$_REQUEST['emp_qua'],
                             'emp_email'        =>$_REQUEST['emp_email'],
                             'emp_password'      =>$_REQUEST['emp_password'],
-                            'emp_salary'      =>$_REQUEST['emp_salary']
+                            'emp_count'      =>$_REQUEST['emp_count']
               ));
         if($submit || $submit0)
 	{
@@ -87,7 +87,7 @@ if(isset($_REQUEST['update_button']))  // update code
                                      'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
                                      'emp_email'        =>$_REQUEST['emp_email'],
                                      'emp_password'      =>$_REQUEST['emp_password'],
-                                     'emp_salary'      =>$_REQUEST['emp_salary'],
+                                     'emp_count'      =>$_REQUEST['emp_count'],
                                      'emp_pic'       =>$pic
               ));
         if($submit)
@@ -204,7 +204,7 @@ else
                     -->
                     <div class="form-group">
                         <label class="control-label col-sm-2">Department</label>
-                        <div class="col-sm-3">          
+                        <div class="col-sm-4">          
                             <select name="emp_department">
                                 <option value="">SELECT</option>
                         <?php
@@ -217,6 +217,10 @@ else
                                 ?>
                             </select>
                         </div>
+                         <label class="control-label col-sm-2">FERIADO LEGAL<br> PROPORCIONAL 2015<br> A LA FECHA</label>                     
+                        <div class="col-sm-4">
+                            <input type="text" name="emp_count" class="form-control" value="<?php echo $employee_list[0]['emp_count']; ?>"  placeholder="FERIADO LEGAL PROPORCIONAL 2015 A LA FECHA">
+                        </div> 
                     
                     </div>
                     
@@ -226,7 +230,7 @@ else
                         <div class="col-sm-4">
                              <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_cellnum']; ?>" placeholder="RUT" name="emp_cell">
                         </div>
-                     <label class="control-label col-sm-2">Contrato Actual</label>                     
+                     <label class="control-label col-sm-2">FECHA INGRESO</label>                     
                         <div class="col-sm-4">
                              <input type="text" id="emp_current_contract" class="form-control" value="<?php echo $emp_current_contract; ?>" placeholder="Contrato Actual" name="emp_current_contract">
                         </div>
@@ -235,25 +239,19 @@ else
                     </div>
                     <div class="form-group">
                         
-                        <label class="control-label col-sm-2">Primer Contrato</label>                     
-                        <div class="col-sm-4">
-                            <input type="text" id="emp_first_contract" name="emp_first_contract" class="form-control" value="<?php echo $emp_first_contract; ?>"  placeholder="Primer Contrato" >
-                        </div>
                         
-                        <label class="control-label col-sm-2">Salary</label>                     
-                        <div class="col-sm-2">
-                            <input type="text" name="emp_salary" class="form-control" value="<?php echo $employee_list[0]['emp_salary']; ?>"  placeholder="Basic Salary">
-                        </div> 
+                       
+                       
                     
                     </div>
                    
                     <div class="form-group">
                         
+                        
                         <label class="control-label col-sm-2">Email</label>                     
                         <div class="col-sm-4">
                             <input type="email" name="emp_email" class="form-control"  value="<?php echo $employee_list[0]['emp_email']; ?>" placeholder="Enter email">
                         </div>
-                        
                         <label class="control-label col-sm-2">Password</label>                     
                         <div class="col-sm-3">
                             <input type="text" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
@@ -261,40 +259,8 @@ else
                     
                     </div>
                    
-                   <!--
-                   <div class="form-group">
-                        
-                        <label class="control-label col-sm-2">Account #</label>                     
-                        <div class="col-sm-4">
-                            <input type="text" name="emp_acc" class="form-control" value="<?php echo $employee_list[0]['emp_account_no']; ?>"  placeholder="Enter Account #" >
-                        </div>
-                        
-                        <label class="control-label col-sm-2">Qualification</label>                     
-                        <div class="col-sm-3">
-                            <input type="text" name="emp_qua" class="form-control" value="<?php echo $employee_list[0]['emp_qualification']; ?>"   placeholder="Qualification">
-                        </div>
+                   
                     
-                    </div>
-                   -->
-                    <div class="form-group">
-                       <label class="control-label col-sm-2">Address</label>                     
-                        <div class="col-sm-4">
-                            <textarea  class="form-control" name="emp_address"  placeholder="Enter Address"><?php echo $employee_list[0]['emp_address']; ?></textarea>
-                        </div>
-                        <label class="control-label col-sm-2">Image</label>                     
-                        <div class="col-sm-3">
-                            <input type="file" name="image" id="img1" onChange="checkPhoto(this)" >
-                        <?php
-                        if($employee_list[0]['emp_pic']!='')
-                        { echo " <img src=".SITE_ADDRESS.$employee_list[0]['emp_pic']." height=50 width=50>"; }                        
-                        else
-                            { echo "No image exist"; }                        
-                        ?>
-                        </div>        
-                        
-                      
-                    
-                    </div>
                     
                 
           

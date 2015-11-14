@@ -60,10 +60,10 @@ if(isset($_REQUEST['del']))
 }
 ?>
       <p style="text-align: right;">
-          
+          <!--
           <a class="btn btn-info add_employee" href="<?php echo SITE_ADDRESS; ?>employee/emp_import_balance.php"><i class="glyphicon icon-white"></i>Import Employee Balance</a>&nbsp;
           <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/emp_import_data.php"><i class="glyphicon icon-white"></i>Import Employee Data</a>&nbsp;
-          
+          -->
           <a class="btn btn-warning add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
      
      	
@@ -76,8 +76,8 @@ if(isset($_REQUEST['del']))
         <th>Nombre</th>
         <th>Department</th>
         <th>RUT</th>
-        <th>Contrato Actual</th>
-        <th>Primer Contrato</th>
+        <th>FECHA INGRESO</th>
+        <th>FERIADO LEGAL<br> PROPORCIONAL 2015<br> A LA FECHA</th>
         <th>Vacaciones Anuales</th>
         <th>Status</th>
         <th width="20%">Actions</th>
@@ -95,7 +95,7 @@ if(isset($_REQUEST['del']))
         <td><?php echo $employee['emp_department']; ?></td>
         <td><?php echo $employee['emp_cellnum']; ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
-        <td><?php echo date("m/d/Y",strtotime($employee['emp_first_contract'])); ?></td>
+        <td><?php echo $employee['emp_count']; ?></td>
        
        
         <td>
