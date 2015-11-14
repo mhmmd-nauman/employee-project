@@ -5,163 +5,83 @@ include('lib/header.php');
 $obj=new Queries();
 $objEmployee =new Employee();
 $objTransaction =new Transaction();
-$trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_SESSION['session_admin_id']." ");
-$balance=0.00;
-$balance = $objTransaction->GetEmpBalance($_SESSION['session_admin_id']);
 
-$emp_starting_year = $objEmployee->GetAllEmployee("emp_id=".$_SESSION['session_admin_id'],array('emp_first_contract'));
-$job_starting_date=$emp_starting_year[0][0]; // get starting date
-
-    if(strtotime(date("Y-m-d h:i:s")) > strtotime($job_starting_date)   ) // in case if user entered wrong starting date
-        {
-            $starting = new DateTime($job_starting_date);
-            $today = new DateTime(date("Y-m-d h:i:s"));
-            $diff = $starting->diff($today);
-            $difference=$diff->y;
-
-                if($difference==13)   /// if years are equal to 13 
-                    {
-                        $balance=16;
-                    }
-                else if($difference>13)   /// if years are greater 
-                    {
-                        $difference-=13;  // get total num of years after 13 years
-                        $balance+=$difference;
-                    }
-                else
-                    {
-                        $balance=15;
-                    }
-        }
-    else
-        {
-                        $balance=15;
-        }
-
-
-$leave_of_emp=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," leave_emp_id=".$_SESSION['session_admin_id']."  order by leave_id desc limit 3",array("*")); 
-
-
-
-
-$employee_list=$obj->select("alpp_emp","1 ",array("count(emp_id)"));
-$leave_list=$obj->select("alpp_leave","1 ",array("count(leave_id)"));
-// $balance = $objTransaction->GetEmpBalance($_SESSION['session_admin_id']);
-// 
-// /// to get the leaves of current month
-// $last_day = date("Y-m-t", strtotime(date('Y-m-01')) ) ;
-// $leaves_applied=$obj->select("alpp_leave","leave_emp_id=".$_SESSION['session_admin_id']." and  "
-//         . "( leave_duration_from  between '".date('Y-m-01')."' and '".$last_day."' || leave_duration_to  between '".date('Y-m-01')."' and '".$last_day."') " ,array("count(leave_id)"));
- 
-     
 if($_SESSION['session_admin_role']=='admin')
-{       
+    {
+    $employee_list=$obj->select("alpp_emp","1 order by emp_name limit 3",array("*"));
+    $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id ","1 order by emp_name limit 3",array("*"));
+    $emp_link ="<a href=".SITE_ADDRESS."employee/emp_list.php>Employee list [All]</a>";
+    $leave_link ="<a href=".SITE_ADDRESS."leave/leave_list.php>Dias solicitados [All]</a>";
+    }
+else 
+    {
+    $employee_list=$obj->select("alpp_emp","emp_id = ".$_SESSION['session_admin_id'] ." order by emp_name limit 3",array("*"));
+    $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id ","leave_emp_id=".$_SESSION['session_admin_id']." order by emp_name limit 3",array("*"));
+    $emp_link="Balance Detail";
+    $leave_link ="Dias solicitados";
+    }   
 ?>
 <div>
     <ul class="breadcrumb">
         <li>
-            <a href="#">Home</a>
-        </li>
-        <li>
-            <a href="dashboard.php">Dashboard</a>
+            <h5>  <?php echo $emp_link; ?>  </h5>
         </li>
     </ul>
 </div>
-<div class=" row">
-    <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="<?php echo $employee_list[0][0]; ?> new employees." class="well top-block" href="#">
-            <i class="glyphicon glyphicon-user blue"></i>
-
-            <div>Total Employees</div>
-
-            <div><?php echo $employee_list[0][0]; ?></div>
-        </a>
-    </div>
-
-    <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="<?php echo $leave_list[0][0]; ?>." class="well top-block" href="#">
-            <i class="glyphicon glyphicon-star green"></i>
-
-            <div>Leave Notification</div>
-            <div><?php echo $leave_list[0][0]; ?></div>
-        </a>
-    </div>
-
-    
-</div>
-   <?php }
-if($_SESSION['session_admin_role']=='employee')
-{
-?>
-<div>
-    <ul class="breadcrumb">
-        <li>
-            <h5>  <a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>">Dias disponibles </a> <?php echo $balance;?> day(s) after deducting leaves    </h5>
-        </li>
-    </ul>
-</div>
-  
-     <table class="table table-striped table-bordered" >
+        
+        
+<table class="table table-striped table-bordered ">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Days</th>
-        <th>Description</th>
-        <th>Data Added</th>
+        <th>Ficha</th>
+        <th>Nombre</th>
+        <th>Department</th>
+        <th>RUT</th>
+        <th>FECHA INGRESO</th>
+        <th>FERIADO LEGAL<br> PROPORCIONAL 2015<br> A LA FECHA</th>
+        <th>Vacaciones Anuales</th>
         <th>Status</th>
     </tr>
     </thead>
     <tbody>
-        <?php  
-         if(is_array($trasanction_list))
-    {
-   foreach($trasanction_list as $trasanction) {   ?>
+        <?php foreach($employee_list as $employee) {  
+            $balance = $objTransaction->GetEmpBalance($employee['emp_id']);
+            ?>
         
     <tr>
-        <td><?php echo $trasanction['id']; ?></td>
-        <td><?php echo date("m/d/Y",strtotime($trasanction['entered_on_date'])); ?></td>
-        <td><?php echo $trasanction['days']; ?></td>
+        <td><a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
+<!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
+        <td><?php echo $employee['emp_name']; ?></td>
+        <td><?php echo $employee['emp_department']; ?></td>
+        <td><?php echo $employee['emp_cellnum']; ?></td>
+        <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo $employee['emp_count']; ?></td>
+       
+       
         <td>
-            <?php
-            switch($trasanction['trans_type']) {
-                case"C":
-                echo "Received";
-                    break;
-                
-                case"L":
-                    echo "Leave";
-                    break;
-                    
-                    
-            }?></td>
-        <td><?php echo date("m/d/Y",strtotime($trasanction['entry_date'])); ?></td>
+            <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
+            <?php echo $balance; ?>
+            </a>
+            </td>
         <td class="center">
-           <?php if($trasanction['status']==0 && $trasanction['trans_type'] !='L') { ?>
+           <?php if($employee['emp_status']==0) { ?>
             <span class="label-success label label-default">Active</span>
-           <?php } 
-            if($trasanction['status']==0 && $trasanction['trans_type'] =='L')       echo"<span class='label label-danger'>Pending</span>";
-            else if($trasanction['status']==2 && $trasanction['trans_type'] =='L')	echo"<span class='label label-success'>Approved</span>";
-            else if($trasanction['status']==1 && $trasanction['trans_type'] =='L')  echo"<span class='label label-small label-danger'>Cancelled </span>";
-        ?>
-        </td>  
-            </tr>
-            <?php }
-    }
-     else
-        {
-           echo "<tr><td colspan=6 >No Record Found</td></tr>"; 
-        }
-    ?>
+           <?php } ?>
+        </td>
+  </tr>
+        <?php 
+        $balance = 0;
+           } ?>
     
     </tbody>
     </table>
-
+    
+            
 
 <div>
     <ul class="breadcrumb">
         <li>
-            <a href="#">Dias solicitados</a>
+            <h5>  <?php echo $leave_link; ?>  </h5>
         </li>
     </ul>
 </div>
@@ -176,14 +96,13 @@ if($_SESSION['session_admin_role']=='employee')
         <th>Duration</th>
         <th>Reason</th>
         <th>Status</th>
-        <?php   if($_SESSION['session_admin_role']=='admin') { ?><th>Actions</th><?php } ?>
     </tr>
     </thead>
     <tbody>
     <?php 
-    if(is_array($leave_of_emp))
+    if(is_array($leave_list))
     {
-        foreach($leave_of_emp as $leave) {      ?>
+        foreach($leave_list as $leave) {      ?>
     <tr>
         <td><?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
@@ -218,10 +137,11 @@ if($_SESSION['session_admin_role']=='employee')
     
     </tbody>
     </table>
-
-    </div><!--/row-->
-
-   <?php } ?>
+<?php 
+ 
+        
+ //////////// code below is for employee dashboard
+?>
   
 <div class="row"></div>
 
