@@ -3,8 +3,8 @@ ob_start();
 session_start();
 
 $no_visible_elements = true;
-include('lib/header.php'); 
 require_once "lib/connect.php";
+include('lib/header.php'); 
 require_once "lib/classes/util_objects/util.php";
 require_once "lib/classes/business_objects/Queries.php";
 $obj=new Queries();
