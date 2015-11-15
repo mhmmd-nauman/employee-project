@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <title>Employee</title>
+    <title>Employee Management Portal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The styles -->
     <link href="<?php echo SITE_ADDRESS; ?>css/bootstrap-cerulean.min.css" rel="stylesheet">
@@ -91,25 +91,25 @@
                     <ul class="nav nav-pills nav-stacked main-menu">
                         <li class="nav-header">Main</li>
                         <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>dashboard.php"><i class="glyphicon glyphicon-home"></i><span> Inicio</span></a></li>
-   <?php if($_SESSION['session_admin_role']=='admin')
-   {
-   ?>   <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-user"></i><span> Employee</span></a></li>
-   <?php } ?>
+                        <?php if($_SESSION['session_admin_role']=='admin')
+                        {
+                        ?>   
+                        <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-user"></i><span> Employee</span></a></li>
+                        <?php } ?>
                     
     
-<?php if($_SESSION['session_admin_role']=='admin')
-   {
-   ?>                       
+                        <?php if($_SESSION['session_admin_role']=='admin')
+                        {
+                        ?>                       
                             
                         <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-file"></i><span> Manage Mass Leaves</span></a></li>
-                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Historial</span></a></li>
-                            
+                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Historial</span></a></li>
+                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_cron.php"><i class="glyphicon glyphicon-eye-open"></i><span> Next Balance Test</span></a></li>
                         
-                    
-   <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
+                        <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
                         <li><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-list"></i> Historial </a></li>
                         <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>"><i class="glyphicon glyphicon-list"></i> Balance</a></li>
-     <?php }   ?>                       
+                        <?php }   ?>                       
                         
                         <li><a href="<?php echo SITE_ADDRESS; ?>logout.php"><i class="glyphicon glyphicon-lock"></i><span> Logout</span></a></li>
                    

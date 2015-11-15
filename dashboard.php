@@ -49,7 +49,7 @@ else
             ?>
         
     <tr>
-        <td><a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
+        <td><a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
@@ -59,7 +59,7 @@ else
        
        
         <td>
-            <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
+            <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
             <?php echo $balance; ?>
             </a>
             </td>
