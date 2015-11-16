@@ -56,23 +56,26 @@ $objTransaction =new Transaction();
         <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php echo $balance = $objTransaction->GetEmpBalance($employee['emp_id']); ?></td>
         <td><?php
-        $d1 = new DateTime(date("Y-m-d"));
-        $d2 = new DateTime(date("Y-m-d",strtotime($employee['emp_current_contract'])));
-
-         $diff = $d2->diff($d1);
-         $effective_year = $diff->y - 13;
-         //echo "=";
-         if($effective_year > 0){
-             echo number_format((double)(($effective_year+15)/12),2);
-         }
+//        $d1 = new DateTime(date("Y-m-d"));
+//        $d2 = new DateTime(date("Y-m-d",strtotime($employee['emp_current_contract'])));
+//
+//         $diff = $d2->diff($d1);
+//         $effective_year = $diff->y - 13;
+//         //echo "=";
+//         if($effective_year > 0){
+//             echo number_format((double)(($effective_year+15)/12),2);
+//         }
+        
+        echo "1.25";
           ?></td>
        
        
         
         <td class="center">
            <?php
+        echo $balance+1.25;
            
-           echo number_format((double)(($effective_year+15)/12)+$balance,2);
+//           echo number_format((double)(($effective_year+15)/12)+$balance,2);
            ?>
         </td>
         
