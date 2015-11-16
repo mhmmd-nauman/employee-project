@@ -61,7 +61,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <label class="control-label col-sm-2">Month</label>
              
                     <div class="col-sm-4">
-                        <input type="text" id="datepicker" class="form-control" name="date" value="<?php echo date('m/d/Y'); ?>">
+                        <input type="text" id="datepicker" class="form-control" name="end_month_data" value="<?php echo date('m/d/Y'); ?>">
                     </div>
                         
                     
