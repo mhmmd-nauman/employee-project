@@ -6,6 +6,7 @@ $objTransaction =new Transaction();
 <script>
     $(document).ready(function(){
             $(".add_employee").colorbox({iframe:true, width:"70%", height:"80%"});
+            $(".add_monthly").colorbox({iframe:true, width:"70%", height:"80%"});
     });
 </script>
 
@@ -66,8 +67,9 @@ if(isset($_REQUEST['del']))
           <a class="btn btn-info add_employee" href="<?php echo SITE_ADDRESS; ?>employee/emp_import_balance.php"><i class="glyphicon icon-white"></i>Import Employee Balance</a>&nbsp;
           <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/emp_import_data.php"><i class="glyphicon icon-white"></i>Import Employee Data</a>&nbsp;
           -->
-          <a class="btn btn-warning add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
-     
+        <a class="btn btn-warning add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
+        <a class="btn btn-success add_monthly" href="add_monthly.php">Balance</a>
+    
      	
       </p>
         
@@ -81,6 +83,7 @@ if(isset($_REQUEST['del']))
         <th>RUT</th>
         <th>FECHA INGRESO</th>
         <th>Feriados Disponibles</th>
+        
 <!--        <th>Vacaciones Anuales</th>-->
         <th>Status</th>
         <th width="20%">Actions</th>
@@ -96,14 +99,9 @@ if(isset($_REQUEST['del']))
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
-        <td><?php 
-        
-        echo str_replace("00", '', $employee['emp_cellnum']);
-        //echo $employee['emp_cellnum']; ?></td>
+        <td><?php echo str_replace("00", '', $employee['emp_cellnum']); ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php echo $employee['emp_count']; ?></td>
-       
-       
 <!--        <td>
             <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
             <?php //echo $balance; ?>
