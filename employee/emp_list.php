@@ -77,8 +77,8 @@ if(isset($_REQUEST['del']))
         <th>Department</th>
         <th>RUT</th>
         <th>FECHA INGRESO</th>
-        <th>FERIADO LEGAL<br> PROPORCIONAL 2015<br> A LA FECHA</th>
-        <th>Vacaciones Anuales</th>
+        <th>Feriados Disponibles</th>
+<!--        <th>Vacaciones Anuales</th>-->
         <th>Status</th>
         <th width="20%">Actions</th>
     </tr>
@@ -93,16 +93,19 @@ if(isset($_REQUEST['del']))
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
-        <td><?php echo $employee['emp_cellnum']; ?></td>
+        <td><?php 
+        
+echo                str_replace("00", '', $employee['emp_cellnum']);
+        //echo $employee['emp_cellnum']; ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php echo $employee['emp_count']; ?></td>
        
        
-        <td>
+<!--        <td>
             <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
-            <?php echo $balance; ?>
+            <?php //echo $balance; ?>
             </a>
-            </td>
+            </td>-->
         <td class="center">
            <?php if($employee['emp_status']==0) { ?>
             <span class="label-success label label-default">Active</span>
