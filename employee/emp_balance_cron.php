@@ -8,6 +8,7 @@ $objTransaction =new Transaction();
             $(".add_employee").colorbox({iframe:true, width:"70%", height:"80%"});
     });
 </script>
+ <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
 
 
 <div class="row">
@@ -29,8 +30,8 @@ $objTransaction =new Transaction();
 ?>
       
         
-     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
-    <thead>
+        <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+ <thead>
     <tr>
         <th>Ficha</th>
         <th>Nombre</th>

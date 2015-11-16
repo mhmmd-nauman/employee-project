@@ -94,7 +94,7 @@
                         <?php if($_SESSION['session_admin_role']=='admin')
                         {
                         ?>   
-                        <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-user"></i><span> Employee</span></a></li>
+                        <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-user"></i><span> Empleado</span></a></li>
                         <?php } ?>
                     
     

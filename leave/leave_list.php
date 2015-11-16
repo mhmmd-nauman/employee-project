@@ -59,6 +59,11 @@ function action(action_status,id){
     });
 </script>
 
+
+ <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
+
+ 
+
 <div>
     <ul class="breadcrumb">
         <li>
@@ -88,8 +93,8 @@ function action(action_status,id){
                          <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-warning"><i class="glyphicon glyphicon-star icon-white"></i>Apply For Leave</button></a> 
                      </p>
 
-     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
-    <thead>
+         <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+  <thead>
     <tr>
         <th>Name</th>
         <th>Days</th>

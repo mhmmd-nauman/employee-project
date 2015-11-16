@@ -58,6 +58,7 @@ if(isset($_REQUEST['del']))
 	}
 }
 ?>
+
 <div>
     <ul class="breadcrumb">
         <li>
@@ -100,10 +101,11 @@ if(isset($_REQUEST['del']))
                 <br>
             </div>
           <?php } ?>
-            
+
+ <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">            
 <div class="box-content">
    <br>
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="example1">
+    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" >
     <thead>
     <tr>
 <!--        <th>ID</th>-->
