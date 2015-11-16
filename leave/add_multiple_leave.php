@@ -51,7 +51,7 @@ $total_days=1;
 
 <style>
 							.multiselect {
-								width:24em;
+								width:38em;
 								height:8em;
 								border:solid 1px #c0c0c0;
 								overflow:auto;
