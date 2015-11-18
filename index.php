@@ -16,23 +16,13 @@ $obj=new Queries();
         <div class="col-md-12 center login-header">
             <h2>Welcome to Employee Management System</h2>
         </div>
-        <?php if(isset($_REQUEST['employee']) && $_REQUEST['employee'] =='ok'){
-        $user="1005";
-        $password="1234";
-        
-        ?>
         <div class="col-md-12 center login-header">
-            
-            <h4>Login as Employee</h4>
+            <?php if(isset($_REQUEST['employee']) && $_REQUEST['employee'] =='ok'){ ?>
+                <h4>Login as Employee</h4>
+            <?php } else{    ?>
+                 <h4>Login as Administrators</h4>
+            <?php } ?>
         </div>
-        <?php } else{
-            $user="m.nauman@gmail.com";
-            $password="1234";
-            ?>
-        <div class="col-md-12 center login-header">
-             <h4>Login as Administrators</h4>
-        </div>
-        <?php } ?>
         <!--/span-->
     </div><!--/row-->
 
@@ -86,13 +76,13 @@ $obj=new Queries();
                 <fieldset>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
-                        <input type="text" class="form-control" placeholder="Email" value="<?php echo $user;?>" name="email">
+                        <input type="text" class="form-control" placeholder="Email"  name="email">
                     </div>
                     <div class="clearfix"></div><br>
 
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
-                        <input type="password" class="form-control" placeholder="Password" name="password" value="<?php echo $password;?>">
+                        <input type="password" class="form-control" placeholder="Password" name="password" >
                     </div>
                     <div class="clearfix"></div>
 
