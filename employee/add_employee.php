@@ -36,7 +36,7 @@ if(isset($_REQUEST['update_button']))  // update code
                             //'emp_qualification'=>$_REQUEST['emp_qua'],
                             'emp_email'        =>$_REQUEST['emp_email'],
                             'emp_password'      =>$_REQUEST['emp_password'],
-                            'emp_count'      =>$_REQUEST['emp_count']
+                            'emp_count'      =>$_REQUEST['years']
               ));
         if($submit || $submit0)
 	{
@@ -87,14 +87,14 @@ if(isset($_REQUEST['update_button']))  // update code
                                      'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
                                      'emp_email'        =>$_REQUEST['emp_email'],
                                      'emp_password'      =>$_REQUEST['emp_password'],
-                                     'emp_count'      =>$_REQUEST['emp_count'],
+                                     'emp_count'      =>$_REQUEST['years'],
                                      'emp_pic'       =>$pic
               ));
         if($submit)
 	{        
             $message_type="alert-success"; 
             $message_text = "<strong>Success!</strong> Employee Detail Submitted.";
-            header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_list.php');
+          //  header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_list.php');
 	}
 	else{ 
             $message_type="alert-error"; 
@@ -146,7 +146,7 @@ else
 </script>
 
 <div class="row">
-    <div class="box col-md-10">
+    <div class="box col-md-9">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
@@ -166,102 +166,60 @@ else
     </div>
      <?php }?>
 
-     <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
+<form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
                
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Ficha</label>
-                        <div class="col-sm-4">          
-                            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_file']; ?>" placeholder="Ficha" name="emp_file">
-                            
-                        </div>
-                        <label class="control-label col-sm-2">Nombre</label>
-                        <div class="col-sm-4">          
-                            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_name']; ?>" placeholder="Nombre" name="emp_name">
-                            <input type="hidden" value="<?php echo $employee_list[0]['emp_id']; ?>" name="id">
-                        </div>
-                    <!--
-                        <label class="control-label col-sm-2">Gender</label>                     
-                        <div class="col-sm-3">
-                        <?php if($employee_list[0]['emp_gender']==0) 
-                        {   ?>
-                                        <input type="radio" name="gender" value="1" />Male
-                                        <input type="radio" name="gender" value="0"  checked="" />Female
-                        <?php    } else { ?> 
-                        
-                                        <input type="radio" name="gender" value="1"  checked="" />Male
-                                        <input type="radio" name="gender" value="0"  />Female
-                        <?php     } ?> 
-                        
-                        </div>
-                    -->
-                    </div>
-                    <!--
-                    
-                        <label class="control-label col-sm-2">Designation</label>                     
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_designation']; ?>" placeholder="Designation" name="emp_des">
-                        </div>
-                    -->
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Department</label>
-                        <div class="col-sm-4">          
-                            <select name="emp_department">
-                                <option value="">SELECT</option>
-                        <?php
-                                $dep_array=array('Indubal','Soinb');                               
-                                foreach ($dep_array as $dep)
-                                {
-                                    $sel=$employee_list[0]['emp_department']==$dep ? 'selected' : '';
-                                    echo "<option value=".$dep." $sel>$dep</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-                         <label class="control-label col-sm-2">FERIADO LEGAL<br> PROPORCIONAL 2015<br> A LA FECHA</label>                     
-                        <div class="col-sm-4">
-                            <input type="text" name="emp_count" class="form-control" value="<?php echo $employee_list[0]['emp_count']; ?>"  placeholder="FERIADO LEGAL PROPORCIONAL 2015 A LA FECHA">
-                        </div> 
-                    
-                    </div>
-                    
-                   <div class="form-group">
-                   
-                       <label class="control-label col-sm-2">RUT</label>                     
-                        <div class="col-sm-4">
-                             <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_cellnum']; ?>" placeholder="RUT" name="emp_cell">
-                        </div>
-                     <label class="control-label col-sm-2">FECHA INGRESO</label>                     
-                        <div class="col-sm-4">
-                             <input type="text" id="emp_current_contract" class="form-control" value="<?php echo $emp_current_contract; ?>" placeholder="Contrato Actual" name="emp_current_contract">
-                        </div>
-                       
-                 
-                    </div>
-                    <div class="form-group">
-                        
-                        
-                       
-                       
-                    
-                    </div>
-                   
-                    <div class="form-group">
-                        
-                        
-                        <label class="control-label col-sm-2">Email</label>                     
-                        <div class="col-sm-4">
-                            <input type="email" name="emp_email" class="form-control"  value="<?php echo $employee_list[0]['emp_email']; ?>" placeholder="Enter email">
-                        </div>
-                        <label class="control-label col-sm-2">Password</label>                     
-                        <div class="col-sm-3">
-                            <input type="text" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
-                        </div>
-                    
-                    </div>
-                   
-                   
-                    
-                    
+    <div class="form-group">
+        <label class="control-label col-sm-2">Ficha</label>
+        <div class="col-sm-4">          
+            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_file']; ?>" placeholder="Ficha" name="emp_file">
+        </div>
+        <label class="control-label col-sm-2">Nombre</label>
+        <div class="col-sm-4">          
+            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_name']; ?>" placeholder="Nombre" name="emp_name">
+            <input type="hidden" value="<?php echo $employee_list[0]['emp_id']; ?>" name="id">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-2">RUT</label>                     
+        <div class="col-sm-4">
+             <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_cellnum']; ?>" placeholder="RUT" name="emp_cell">
+        </div>
+        <label class="control-label col-sm-2">Department</label>
+        <div class="col-sm-4">
+            <select name="emp_department" class="span4">
+                <option value="">SELECT</option>
+        <?php
+                $dep_array=array('Indubal','Soinb');                               
+                foreach ($dep_array as $dep)
+                {
+                    $sel=$employee_list[0]['emp_department']==$dep ? 'selected' : '';
+                    echo "<option value=".$dep." $sel>$dep</option>";
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+         <label class="control-label col-sm-2">FECHA INGRESO</label>                     
+            <div class="col-sm-4">
+            <input type="text" id="emp_current_contract" class="form-control" value="<?php echo $emp_current_contract; ?>" onchange="getyear(this.value,'<?php echo date('m/d/Y'); ?>')" placeholder="Contrato Actual" name="emp_current_contract">
+            </div>
+         <label class="control-label col-sm-2">Years</label>                     
+        <div class="col-sm-4">
+            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_count']; ?>" placeholder="years" name="years" id="years">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2">Email</label>                     
+        <div class="col-sm-4">
+            <input type="email" name="emp_email" class="form-control"  value="<?php echo $employee_list[0]['emp_email']; ?>" placeholder="Enter email">
+        </div>
+        <label class="control-label col-sm-2">Password</label>                     
+        <div class="col-sm-3">
+            <input type="text" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
+        </div>
+    </div>
                 
           
 <?php if(isset($_REQUEST['view']))	{  ?>                   
@@ -279,9 +237,8 @@ else
                     </div>  
 
 <?php }?>
-      
                     <br>
-                </form>
+</form>
 
             </div>
         </div>
@@ -301,6 +258,32 @@ $(function() {
   $( "#emp_current_contract" ).datepicker();
   
 });
+function getyear(contract2)
+{
+    contract = new Date(contract2);
+    contract_month  =   contract.getMonth();
+    contract_year   =   contract.getFullYear();
+    contract_day    =   contract.getDate();
+
+    todayDate = new Date();
+    todayYear = todayDate.getFullYear();
+    todayMonth = todayDate.getMonth();
+    todayDay = todayDate.getDate();
+    
+    age = todayYear - contract_year;
+
+    if (todayMonth < contract_month - 1)
+    {
+      age--;
+    }
+
+    if (contract_month - 1 == todayMonth && todayDay < contract_day)
+    {
+      age--;
+    }
+      document.getElementById("years").value=age;
+
+}
 </script>
 <?php
 function getExtension($str) 
