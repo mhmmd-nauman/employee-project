@@ -34,7 +34,7 @@ if(isset($_REQUEST['submit']))  /// insert code
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Balance</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Manual Balance</h2>
             </div>
             
             

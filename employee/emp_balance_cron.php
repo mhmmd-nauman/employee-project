@@ -2,6 +2,7 @@
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
+$objEmployee = new Employee();
 ?>
 <script>
     $(document).ready(function(){
@@ -37,8 +38,9 @@ $objTransaction =new Transaction();
         <th>Nombre</th>
         <th>Department</th>
         <th>FECHA INGRESO</th>
+        <th>Year</th>
         <th>Current Balance</th>
-        <th>Increment on 31/Nov/2015</th>
+        <th>Increment</th>
         
         <th>New Balance</th>
        
@@ -55,13 +57,15 @@ $objTransaction =new Transaction();
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
         <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo $employee['emp_count']; ?></td>
         <td><?php echo $balance = $objTransaction->GetEmpBalance($employee['emp_id']); ?></td>
         <td><?php
-//        $d1 = new DateTime(date("Y-m-d"));
-//        $d2 = new DateTime(date("Y-m-d",strtotime($employee['emp_current_contract'])));
-//
-//         $diff = $d2->diff($d1);
-//         $effective_year = $diff->y - 13;
+        $d1 = new DateTime(date("Y-m-d"));
+        $d2 = new DateTime(date("Y-m-d",strtotime($employee['emp_current_contract'])));
+
+         $diff = $d2->diff($d1);
+         $effective_year = $diff->y ;
+         //$objEmployee->UpdateEmployee("emp_id = ".$employee['emp_id'], array("emp_count"=>$effective_year));
 //         //echo "=";
 //         if($effective_year > 0){
 //             echo number_format((double)(($effective_year+15)/12),2);

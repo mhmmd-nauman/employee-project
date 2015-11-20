@@ -42,7 +42,7 @@ if(isset($_REQUEST['submit']))  /// insert code
             <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
         </li>
         <li>
-            Add Balance
+            Add Manual Balance
         </li>
         <li>
             Balance Details
@@ -54,12 +54,22 @@ if(isset($_REQUEST['submit']))  /// insert code
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Balance</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Manual Balance</h2>
             </div>
             
             
             
            <div class="box-content">
+               <div class="col-md-10">
+                   &nbsp;
+               </div>
+                <div class="col-md-2">
+                    <a class="btn btn-success" href="emp_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>">Go Back</a>
+               </div>
+               <div class="col-md-12">
+                   &nbsp;
+               </div>
+               
      <br>
 <?php 
     if($updated)
@@ -112,7 +122,8 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                         <?php
                          $end_month_data=date("m/d/Y",strtotime($transaction[0]['end_month_data']));
                         if(empty($end_month_data) || $end_month_data == "01/01/1970" ){
-                            $end_month_data = lastOfMonth();
+                            //$end_month_data = lastOfMonth();
+                            $end_month_data = date("m/d/Y");
                         }
                         ?>
                         <input type="text" id="datepicker" class="form-control" value="<?php echo $end_month_data;?>" placeholder="" name="end_month_data">

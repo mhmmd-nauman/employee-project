@@ -7,6 +7,8 @@ $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = 
 $balance=0.00;
 
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
+$emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
+//print_r($emp_data);
 /////////////////////////////////////////////////////
 //Sir please check code from here , i am using above variable of balance , please verify following code
 //$emp_starting_year = $objEmployee->GetAllEmployee("emp_id=".$_REQUEST['emp_id'],array('emp_first_contract','emp_salary'));
@@ -90,14 +92,15 @@ if(isset($_REQUEST['del']))
             </div>
             
             <div class="col-md-8">
-<!--               <h5>Primer Contrato : <?php //echo date("M-d-Y",strtotime($job_starting_date)); ?> , <?php //echo $initial_balance; ?></h5>-->
-                 <br><h4>Balance: <?php echo $balance;?> day(s) after deducting leaves</h4>
+                <h5>Person: <?php echo $emp_data[0]['emp_name'];?></h5> 
+                <br><h5>You Have: <?php echo $balance;?> days available</h5>
+                <h5>From: 1 Oct, 2015 to <?php echo date("d M, Y");?></h5>
                 <br>
             </div>
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
-  <div class="col-md-4 pull-right">
+            <div class="col-md-4 pull-right">
                 <br>
-                <p style="text-align: right;"><a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Balance</a></p>
+                <p style="text-align: right;"><a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Manual Balance</a></p>
                 <br>
             </div>
           <?php } ?>
@@ -132,14 +135,17 @@ if(isset($_REQUEST['del']))
             <?php
             switch($trasanction['trans_type']) {
                 case"C":
-                echo "<td>Initial Balance</td>";
+                    echo "<td>Auto System Added</td>";
                     break;
-                
+                case"I":
+                    echo "<td>Initial</td>";
+                    break;
+                case"M":
+                    echo "<td>Manual</td>";
+                    break;
                 case"L":
                     echo "<td>Leave</td>";
                     break;
-                    
-                    
             }?></td>
 <!--        <td><?php //echo date("m/d/Y",strtotime($trasanction['entry_date'])); ?></td>-->
         <td><?php echo $trasanction['days']; ?></td>
