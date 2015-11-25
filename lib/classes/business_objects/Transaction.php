@@ -55,11 +55,11 @@
         function GetEmpBalance($emp_id){
             global $link;
             	
-            $sql="SELECT (Select sum(amount) from alpp_transactions where trans_type = 'D' AND emp_id = $emp_id and status = 0) as Debit,(Select sum(amount) from alpp_transactions where trans_type = 'C' AND emp_id = $emp_id and status = 0 ) as Credit  FROM alpp_transactions WHERE emp_id = $emp_id and status = 0 group by emp_id" ;
+            $sql="SELECT (Select sum(amount) from alpp_transactions where trans_type = 'D' AND emp_id = $emp_id and status = 0) as Debit,(Select sum(amount) from alpp_transactions where trans_type = 'I' AND emp_id = $emp_id and status = 0 ) as Credit  FROM alpp_transactions WHERE emp_id = $emp_id and status = 0 group by emp_id" ;
             $result=mysqli_query($link,$sql) ;
             $row=mysqli_fetch_array($result);
-            
-            // also get the leave data
+            // Transaction types are C, I , M and L (Need to check this query )some file missing at my end . live is showing more links
+            // also get the leave data 
             $sql_leave="SELECT sum(leave_duration) as leaves  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_approval = 2 group by leave_emp_id" ;
             $result_leave=mysqli_query($link,$sql_leave) ;
             $row_leave=mysqli_fetch_array($result_leave);
