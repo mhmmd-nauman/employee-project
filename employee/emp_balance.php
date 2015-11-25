@@ -5,46 +5,8 @@ $objTransaction =new Transaction();
 $objEmployee =new Employee();
 $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_REQUEST['emp_id']."");
 $balance=0.00;
-
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
 $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
-//print_r($emp_data);
-/////////////////////////////////////////////////////
-//Sir please check code from here , i am using above variable of balance , please verify following code
-//$emp_starting_year = $objEmployee->GetAllEmployee("emp_id=".$_REQUEST['emp_id'],array('emp_first_contract','emp_salary'));
-//$job_starting_date=$emp_starting_year[0][0]; // get starting date
-//$initial_balance = $emp_starting_year[0][1];
-
-//    if(strtotime(date("Y-m-d h:i:s")) > strtotime($job_starting_date)   ) // in case if user entered wrong starting date
-//        {
-//            $starting = new DateTime($job_starting_date);
-//            $today = new DateTime(date("Y-m-d h:i:s"));
-//            $diff = $starting->diff($today);
-//            $difference=$diff->y;
-//
-//                if($difference==13)   /// if years are equal to 13 
-//                    {
-//                        $initial_balance=16;
-//                    }
-//                else if($difference>13)   /// if years are greater 
-//                    {
-//                        $difference-=13;  // get total num of years after 13 years
-//                        $initial_balance+=$difference;
-//                    }
-//                else
-//                    {
-//                        $initial_balance=15;
-//                    }
-//        }
-//    else
-//        {
-//                        $initial_balance=15;
-//        }
- ////////////////////////////////////////////////////////////////////////////////////////////   
-    
-
-
-//print_r($trasanction_list);
 
 if(isset($_REQUEST['del']))	
 {	
@@ -138,7 +100,7 @@ if(isset($_REQUEST['del']))
                     echo "<td>Auto System Added</td>";
                     break;
                 case"I":
-                    echo "<td>Initial</td>";
+                    echo "<td>Saldo inicial al 31 de Octubre 2015</td>";
                     break;
                 case"M":
                     echo "<td>Manual</td>";
