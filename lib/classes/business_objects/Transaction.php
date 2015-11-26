@@ -55,7 +55,7 @@
         function GetEmpBalance($emp_id){
             global $link;
             	
-            $sql="SELECT (Select sum(amount) from alpp_transactions where trans_type = 'D' AND emp_id = $emp_id and status = 0) as Debit,(Select sum(amount) from alpp_transactions where trans_type = 'I' AND emp_id = $emp_id and status = 0 ) as Credit  FROM alpp_transactions WHERE emp_id = $emp_id and status = 0 group by emp_id" ;
+            $sql="SELECT (Select sum(amount) from alpp_transactions where trans_type in ('C','I','M') AND emp_id = $emp_id and status = 0 ) as Credit  FROM alpp_transactions WHERE emp_id = $emp_id and status = 0 group by emp_id" ;
             $result=mysqli_query($link,$sql) ;
             $row=mysqli_fetch_array($result);
             // Transaction types are C, I , M and L (Need to check this query )some file missing at my end . live is showing more links
@@ -65,7 +65,7 @@
             $row_leave=mysqli_fetch_array($result_leave);
             
             //log_error($encoded_query);
-            return ((float)$row['Credit']-(float)$row['Debit'] - (float)$row_leave['leaves']); 
+            return ((float)$row['Credit'] - (float)$row_leave['leaves']); 
         }
         
 	function UpdateTransaction($where,$array){
