@@ -12,7 +12,11 @@ $obj=new Queries();
 
 ?>
 
-    <div class="row">
+<script>
+    $(document).ready(function(){
+            $(".change_pass").colorbox({iframe:true, width:"30%", height:"60%"});
+    });
+</script>    <div class="row">
         <div class="col-md-12 center login-header">
             <h2>Welcome to Employee Management System</h2>
         </div>
@@ -91,9 +95,11 @@ $obj=new Queries();
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
                         <input type="password" class="form-control" placeholder="Password" name="password" >
                     </div>
-                    <div class="clearfix"></div>
-
-                    
+                    <div class="clearfix pull-right">
+ <?php if(isset($_REQUEST['employee']) && $_REQUEST['employee'] =='ok'){ ?>
+                        <h7><a class="change_pass" href="<?php echo SITE_ADDRESS; ?>forget_password.php">Forget Password ?</a></h7>
+            <?php } ?>
+                    </div>
                     <div class="clearfix"></div>
 
                     <p class="center col-md-5">
