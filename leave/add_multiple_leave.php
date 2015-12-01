@@ -97,7 +97,7 @@ $total_days=1;
         <li> Leave   </li>
     </ul>
 </div>
-
+    
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
@@ -108,9 +108,6 @@ $total_days=1;
             <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
-            
-            
-            
 <div class="box-content">
      <br>
 <?php
@@ -121,23 +118,20 @@ else                    {   echo  $message_error; }
                
                         
          
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Name</label>
-                        <div class="col-sm-4">          
-                          
-                            
-<fieldset class="multiselect form-control">
-<label> <input type="checkbox" id="toggle" value="select" onClick="do_this()" />&nbsp;&nbsp;&nbsp;Select All</label>
-<?php
-	 foreach($employee_list as $employee)
-                                {  
-echo"<label><input type=checkbox class=selectedId name=emp_ids[] value=".$employee['emp_id']."/>&nbsp;&nbsp;&nbsp;".$employee['emp_name']."</label>";
-                                }
-?>
-</fieldset>
-                          
-                        </div>
-         </div>
+<div class="form-group">
+    <label class="control-label col-sm-2">Name</label>
+    <div class="col-sm-4">                                    
+        <fieldset class="multiselect form-control">
+        <label> <input type="checkbox" id="toggle" value="select" onClick="do_this()" />&nbsp;&nbsp;&nbsp;Select All</label>
+        <?php
+                 foreach($employee_list as $employee)
+                                        {  
+        echo"<label><input type=checkbox class=selectedId name=emp_ids[] value=".$employee['emp_id']."/>&nbsp;&nbsp;&nbsp;".$employee['emp_file']."  -  ".$employee['emp_name']."  -  ".$employee['emp_department']."</label>";
+                                        }
+        ?>
+        </fieldset>
+    </div>
+</div>
                
          
                        <div class="form-group">                    
