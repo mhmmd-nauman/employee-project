@@ -1,56 +1,32 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
- ?>
-<script>
-function action(status,leave_id,emp_id){
-        
-        if(status==1){                
-                                var answer = confirm ("Are you sure want to cancel Leave?");
-                                if (answer)   window.location="?leave_id="+leave_id+"&status=1&emp_id="+emp_id;
-                            }        
-   else if(status==2){                
-                               var answer = confirm ("Are you sure want to Approve Leave?");
-                                if (answer)   window.location="?leave_id="+leave_id+"&status=2&emp_id="+emp_id;
-                            }        
-    else if(status==3) {                
-                                var answer = confirm ("Are you sure want to Delete Leave?");
-                                if (answer)   window.location="?leave_id="+leave_id+"&status=3&emp_id="+emp_id;
-                              }        
-    }
-</script>
-<?php
-  $obj=new Queries();
-  
-  /// code to edit status only /////
-if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	
-{	           
-if($_REQUEST['status']==1 || $_REQUEST['status']==2) { // cancel | Approve
-            $action=$obj->Update("alpp_leave",'leave_id='.$_REQUEST['leave_id'] , array('leave_approval'=>$_REQUEST['status']));
-} 
-else if($_REQUEST['status']==3) { // delete
-    $action = $obj->Delete("alpp_leave",'leave_id='.$_REQUEST['leave_id']);
-}
-if(isset($action) )
-	 {		 ?>
-         <div class="widget-body">
-                <div class="alert alert-success">
-                        <button class="close" data-dismiss="alert">×</button>
-                        <strong>Success!</strong> <?php echo ($_REQUEST['status']==3) ? 'Record Deleted' : 'Record Updated' ;?>
-                </div>
-         </div>
-     	 <?php
-		header('refresh:1, url=emp_list.php?emp_id='.$_REQUEST['emp_id']);
-	}
-}
-//// basic query to show records in table ///    
+$obj=new Queries();
+$objEmployee =new Employee();
 
 $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id ","leave_emp_id=".$_REQUEST['emp_id']." order by leave_id desc",array("*"));
+$emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
 
-      
-
- 
-
+if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	
+{	           
+    if($_REQUEST['status']==1 || $_REQUEST['status']==2) { // cancel | Approve
+                $action=$obj->Update("alpp_leave",'leave_id='.$_REQUEST['leave_id'] , array('leave_approval'=>$_REQUEST['status']));
+    } 
+    else if($_REQUEST['status']==3) { // delete
+        $action = $obj->Delete("alpp_leave",'leave_id='.$_REQUEST['leave_id']);
+    }
+    if(isset($action) )
+             {		 ?>
+             <div class="widget-body">
+                    <div class="alert alert-success">
+                            <button class="close" data-dismiss="alert">×</button>
+                            <strong>Success!</strong> <?php echo ($_REQUEST['status']==3) ? 'Record Deleted' : 'Record Updated' ;?>
+                    </div>
+             </div>
+             <?php
+                    header('refresh:1, url=emp_list.php?emp_id='.$_REQUEST['emp_id']);
+            }
+}
 // delete  a record
 if(isset($_REQUEST['del']))	
 {	
@@ -71,11 +47,29 @@ if(isset($_REQUEST['del']))
 		header('refresh:1, url=leave_list.php');
 	}
 }
-
-        ?>
-     
-
-
+?>
+<script>
+    $(document).ready(function(){
+            $(".add_leave").colorbox({iframe:true, width:"50%", height:"80%"});
+    });
+</script>
+<script>
+function action(status,leave_id,emp_id){
+        
+        if(status==1){                
+                                var answer = confirm ("Are you sure want to cancel Leave?");
+                                if (answer)   window.location="?leave_id="+leave_id+"&status=1&emp_id="+emp_id;
+                            }        
+   else if(status==2){                
+                               var answer = confirm ("Are you sure want to Approve Leave?");
+                                if (answer)   window.location="?leave_id="+leave_id+"&status=2&emp_id="+emp_id;
+                            }        
+    else if(status==3) {                
+                                var answer = confirm ("Are you sure want to Delete Leave?");
+                                if (answer)   window.location="?leave_id="+leave_id+"&status=3&emp_id="+emp_id;
+                              }        
+    }
+</script>
 <div>
     <ul class="breadcrumb">
         <li><a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a></li>
@@ -93,8 +87,11 @@ if(isset($_REQUEST['del']))
             
 
             <div class="box-content">
+            
+                <h5>Person: <?php echo $emp_data[0]['emp_name'];?></h5> 
+                
                 <p style="text-align: right;">
-                    <a href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Add New Leave</button></a> 
+                    <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Add New Leave</button></a> 
                 </p>
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
     <thead>
