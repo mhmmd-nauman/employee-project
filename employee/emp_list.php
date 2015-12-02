@@ -40,8 +40,8 @@ $objTransaction =new Transaction();
      <br>
 <?php 
       $obj=new Queries();
+      //$employee_list=$obj->select("alpp_emp","emp_cellnum like '00%' order by emp_name",array("*"));
       $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
-
       
  	 
 if(isset($_REQUEST['del']))	
@@ -100,11 +100,15 @@ if(isset($_REQUEST['del']))
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
-        <td><?php $str=str_replace("00", '', $employee['emp_cellnum']);
-                    if($str[0]=="0")         
-                    echo $str=str_replace("0", '', $employee['emp_cellnum']);
-                    else
-                    echo $str; ?></td>
+        <td><?php echo $employee['emp_cellnum'];
+                    
+                    /*
+                    $submit=$obj->update("alpp_emp","emp_id=".$employee['emp_id'],array(
+                            'emp_cellnum'         =>$str));
+                     * 
+                     */
+        
+        ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php echo  $balance = $objTransaction->GetEmpBalance($employee['emp_id']); ?></td>
 <!--        <td>

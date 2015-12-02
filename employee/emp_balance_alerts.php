@@ -1,27 +1,6 @@
 <?php 
-include ('lib/include.php');
-include('lib/header.php'); 
-/*
-$obj=new Queries();
-$objEmployee =new Employee();
-$objTransaction =new Transaction();
-
-if($_SESSION['session_admin_role']=='admin')
-    {
-    $employee_list=$obj->select("alpp_emp","1 order by emp_name limit 3",array("*"));
-    $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id ","1 order by emp_name limit 3",array("*"));
-    $emp_link ="<a href=".SITE_ADDRESS."employee/emp_list.php>Employee list [All]</a>";
-    $leave_link ="<a href=".SITE_ADDRESS."leave/leave_list.php>Dias solicitados [All]</a>";
-    }
-else 
-    {
-    $employee_list=$obj->select("alpp_emp","emp_id = ".$_SESSION['session_admin_id'] ." order by emp_name limit 3",array("*"));
-    $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id ","leave_emp_id=".$_SESSION['session_admin_id']." order by emp_name limit 3",array("*"));
-    $emp_link="Balance Detail";
-    $leave_link ="Dias solicitados";
-    } 
- * 
- */
+include (dirname(__FILE__).'/../lib/include.php');
+include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $objEmployee = new Employee();
 ?>
@@ -60,11 +39,11 @@ $objEmployee = new Employee();
         <th>Nombre</th>
         <th>Department</th>
         <th>FECHA INGRESO</th>
-        
+        <th>Increment Date</th>
         <th>Current Balance</th>
         <th>Increment</th>
         <th>New Balance</th>
-        <th>Actions</th>
+       
     </tr>
     </thead>
     <tbody>
@@ -86,14 +65,19 @@ $objEmployee = new Employee();
             ?>
         
     <tr>
-        <td>
-            <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>/employee/emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a>
-        </td>
+        <td><a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
-        <td><?php echo $hire_date=date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
-        
+        <td><?php //echo $hire_date=date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td>
+            <?php 
+            
+            echo $diff->y;
+            
+            //echo $employee['emp_count']; 
+            ?>
+        </td>
         <td><?php echo $balance = number_format($objTransaction->GetEmpBalance($employee['emp_id']),2); ?></td>
         <td><?php
         //echo $hire_date;
@@ -116,9 +100,7 @@ $objEmployee = new Employee();
 //           echo number_format((double)(($effective_year+15)/12)+$balance,2);
            ?>
         </td>
-        <td>
-             <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>/employee/add_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">Add Manually</a>
-        </td>
+        
     </tr>
         <?php 
         $balance = 0;
@@ -136,4 +118,4 @@ $objEmployee = new Employee();
     </div><!--/row-->
 
 
-<?php require('lib/footer.php'); ?>
+<?php include('../lib/footer.php'); ?>
