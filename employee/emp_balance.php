@@ -18,7 +18,7 @@ if(isset($_REQUEST['del']))
 	{        
             $message_type="alert-success"; 
             $message_text = "<strong>Success!</strong> Transaction Deleted.";
-            header('REFRESH:2, url='.SITE_ADDRESS.'emp_balance.php?emp_id='.$_REQUEST['emp_id']);
+            header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_balance.php?emp_id='.$_REQUEST['emp_id']);
 	}
 }
 ?>

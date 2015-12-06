@@ -16,11 +16,12 @@ if(isset($_REQUEST['submit']))  /// insert code
     foreach($all_emp_id as $emp_id)
     {
      //   echo $emp_id;
+        $all_amount[$i]=str_replace(",", ".",$all_amount[$i]);
         $insert=$objTransaction->InsertTransaction(array(
                         'emp_id'=>$emp_id,
                         'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                         'amount'=>$all_amount[$i],
-                        'trans_type'=>'C',
+                        'trans_type'=>'M',
                         'date'=> date("Y-m-d h:i:s"),
                         'done_by'=>$_SESSION['session_admin_id'],
                         'status'=>0

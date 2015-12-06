@@ -21,11 +21,12 @@ if(isset($_REQUEST['update_button']))  // update code
 }
 if(isset($_REQUEST['submit']))  /// insert code
 {
+    $_REQUEST['amount']=str_replace(",", ".", $_REQUEST['amount']);
     $insert=$objTransaction->InsertTransaction(array(
                 'emp_id'=>$_REQUEST['emp_id'],
                 'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                 'amount'=>$_REQUEST['amount'],
-                'trans_type'=>'C',
+                'trans_type'=>'M',
                 'date'=> date("Y-m-d h:i:s"),
                 'done_by'=>$_SESSION['session_admin_id'],
                 'status'=>$_REQUEST['status']
