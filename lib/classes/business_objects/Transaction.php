@@ -55,7 +55,7 @@
         function GetEmpBalance($emp_id){
             global $link;
             	
-            $sql="SELECT (Select sum(amount) from alpp_transactions where trans_type in ('C','I','M') AND emp_id = $emp_id and status = 0 ) as Credit  FROM alpp_transactions WHERE emp_id = $emp_id and status = 0 group by emp_id" ;
+            $sql="SELECT (Select sum(amount) from alpp_transactions where trans_type in ('C','I','M','D') AND emp_id = $emp_id and status = 0 ) as Credit  FROM alpp_transactions WHERE emp_id = $emp_id and status = 0 group by emp_id" ;
             $result=mysqli_query($link,$sql) ;
             $row=mysqli_fetch_array($result);
             // Transaction types are C, I , M and L (Need to check this query )some file missing at my end . live is showing more links

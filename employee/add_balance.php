@@ -12,7 +12,7 @@ if(isset($_REQUEST['update_button']))  // update code
   $updated=$objTransaction->UpdateTransaction("id=".$_REQUEST['id'],array(
                 'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                 'amount'=>$_REQUEST['amount'],
-                //'trans_type'=>$_REQUEST['trans_type'],
+                'trans_type'=>$_REQUEST['trans_type'],
                 'date'=> date("Y-m-d h:i:s"),
                 'done_by'=>$_SESSION['session_admin_id'],
                 'status'=>$_REQUEST['status']
@@ -26,7 +26,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                 'emp_id'=>$_REQUEST['emp_id'],
                 'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                 'amount'=>$_REQUEST['amount'],
-                'trans_type'=>'M',
+                'trans_type'=>$_REQUEST['trans_type'],
                 'date'=> date("Y-m-d h:i:s"),
                 'done_by'=>$_SESSION['session_admin_id'],
                 'status'=>$_REQUEST['status']
@@ -133,7 +133,16 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                     
                     </div>
           <div class="form-group">
-              
+              <label class="control-label col-sm-2">Type</label>
+              <div class="col-sm-3">
+                  <select name="trans_type">
+                      <option value="M" <?php if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
+                      <option value="C" <?php if($transaction[0]['trans_type']=='C')echo"selected";?>>Auto System Added</option>
+                      <option value="I" <?php if($transaction[0]['trans_type']=='I')echo"selected";?>>FERIADO LEGAL</option>
+                      <option value="D" <?php if($transaction[0]['trans_type']=='D')echo"selected";?>>DIAS PROGRESIVOS</option>
+                      
+                  </select>
+              </div>
               <label class="control-label col-sm-2">Status</label>                     
                         <div class="col-sm-3">
                         <?php if($transaction[0]['status']==0) 

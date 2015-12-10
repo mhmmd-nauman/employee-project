@@ -100,10 +100,10 @@ if(isset($_REQUEST['del']))
                     echo "<td>Auto System Added</td>";
                     break;
                 case"I":
-                    echo "<td>Saldo inicial al 31 de Octubre 2015</td>";
+                    echo "<td>FERIADO LEGAL</td>";
                     break;
-                case"M":
-                    echo "<td>Manual</td>";
+                case"D":
+                    echo "<td>DIAS PROGRESIVOS</td>";
                     break;
                 case"L":
                     echo "<td>Leave</td>";

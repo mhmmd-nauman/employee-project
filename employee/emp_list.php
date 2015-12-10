@@ -110,7 +110,9 @@ if(isset($_REQUEST['del']))
         
         ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
-        <td><?php echo  $balance = $objTransaction->GetEmpBalance($employee['emp_id']); ?></td>
+        <td><?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
+        echo number_format($balance, 2);
+        ?></td>
 <!--        <td>
             <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
             <?php //echo $balance; ?>
