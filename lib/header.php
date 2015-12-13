@@ -63,7 +63,7 @@
                 </button>
                 <ul class="dropdown-menu">
                <?php if($_SESSION['session_admin_role']=='employee')   { ?>        
-                    <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Profile</a></li>
+                    <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Profile</a></li>
                 <?php } else { ?>
                 <li><a href="<?php echo SITE_ADDRESS; ?>admin_profile.php">Profile</a></li>
                 <?php }  ?>

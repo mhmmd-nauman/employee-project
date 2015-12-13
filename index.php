@@ -59,7 +59,7 @@ $obj=new Queries();
 //                else if($user[2]==".") $user= "0".$user;
 //                else if($user[1]==".") $user= "00".$user;
          }
-                $get_user=   $obj->select("alpp_emp"," emp_cellnum='".$user."' and emp_password='".$_REQUEST['password']."'",  array("*"));
+                $get_user=   $obj->select("alpp_emp"," ( emp_cellnum='".$user."' or emp_email='".$user."') and emp_password='".$_REQUEST['password']."'",  array("*"));
       
                     if($get_user)
                                 {

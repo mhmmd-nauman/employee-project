@@ -36,6 +36,8 @@ $objEmployee = new Employee();
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
+            <?php if($_SESSION['session_admin_role']=='admin')
+            {?>
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Manual Balance Entry Alerts</h2>
             </div>
@@ -45,6 +47,7 @@ $objEmployee = new Employee();
            <div class="box-content">
      <br>
 <?php 
+    
      //update `alpp_transactions` set `trans_type` = 'I' WHERE 1
       $obj=new Queries();
       $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
@@ -128,7 +131,21 @@ $objEmployee = new Employee();
     
     </tbody>
     </table>
+    
     </div>
+     <?php } else{?>
+      <div class="box-header well" data-original-title="">
+        <h2><i class="glyphicon glyphicon-star-empty"></i> Welcome <?php echo $_SESSION['session_admin_name'];?></h2>
+    </div>
+            <div class="box-content" style="text-align: center;">
+                <div class="row alert alert-info" style=" text-align: center;">
+                You can login using RUT or Email and Password.
+                </div>
+                <br>
+                <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Change Login Details</a>
+                <br>
+            </div>
+     <?php }?>
     </div>
     </div>
     <!--/span-->
