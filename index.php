@@ -8,8 +8,6 @@ include('lib/header.php');
 require_once "lib/classes/util_objects/util.php";
 require_once "lib/classes/business_objects/Queries.php";
 $obj=new Queries();
-
-
 ?>
 
 <script>
@@ -96,9 +94,9 @@ $obj=new Queries();
                         <input type="password" class="form-control" placeholder="Password" name="password" >
                     </div>
                     <div class="clearfix pull-right">
- <?php if(isset($_REQUEST['employee']) && $_REQUEST['employee'] =='ok'){ ?>
+                <?php if(isset($_REQUEST['employee']) && $_REQUEST['employee'] =='ok'){ ?>
                         <h7><a class="change_pass" href="<?php echo SITE_ADDRESS; ?>forget_password.php">Forget Password ?</a></h7>
-            <?php } ?>
+                <?php } ?>
                     </div>
                     <div class="clearfix"></div>
 
