@@ -110,7 +110,10 @@ $obj=new Queries();
             </form>
         </div>
         
+    <?php if(!isset($_REQUEST['employee'])) { ?>   
         <div class=" col-md-5 center login-box"> <a href="?employee=ok" class="btn btn-primary">Employee Login</a></div>
-        <!--/span-->
+    <?php } else {  ?>   
+        <div class=" col-md-5 center login-box"> <a href="?" class="btn btn-primary">Admin Login</a></div>
+    <?php }  ?> 
     </div><!--/row-->
 <?php require('lib/footer.php'); ?>
