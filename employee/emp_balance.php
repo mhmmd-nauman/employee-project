@@ -96,6 +96,9 @@ if(isset($_REQUEST['del']))
         
             <?php
             switch($trasanction['trans_type']) {
+                case"M":
+                    echo "<td>Manual</td>";
+                    break;
                 case"C":
                     echo "<td>Auto System Added</td>";
                     break;
