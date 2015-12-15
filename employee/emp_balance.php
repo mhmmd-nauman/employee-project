@@ -56,7 +56,7 @@ if(isset($_REQUEST['del']))
             <div class="col-md-8">
                 <h5>Person: <?php echo $emp_data[0]['emp_name'];?></h5> 
                 <br><h5>You Have: <?php echo $balance;?> days available</h5>
-                <h5>From: 1 Oct, 2015 to <?php echo date("d M, Y");?></h5>
+                <h5>Balance on <?php echo date("d M, Y");?></h5>
                 <br>
             </div>
           <?php if($_SESSION['session_admin_role']=='admin') { ?>

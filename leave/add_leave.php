@@ -168,14 +168,14 @@ if($_SESSION['session_admin_role']=='admin')
     <div class="form-group">                    
         <label class="control-label col-sm-2">Duration from</label>                     
         <div class="col-sm-2">
-            <input type="text" id="leave_duration_from" class="form-control col-sm-2"  <?php echo $readonly; ?> value="<?php echo $leave_duration_from; ?>"  name="leave_duration_from">
+            <input type="text" id="leave_duration_from" required="" class="form-control col-sm-2"  <?php echo $readonly; ?> value="<?php echo $leave_duration_from; ?>"  name="leave_duration_from">
         </div>
     </div>
 
     <div class="form-group">                    
-        <label class="control-label col-sm-2">Duration to    <font style=" font-size: 10px;" ><br>(if required)</font></label>                     
+        <label class="control-label col-sm-2">Duration to  </label>                     
         <div class="col-sm-2">
-            <input type="text" id="leave_duration_to" class="form-control col-sm-2" <?php echo $readonly; ?> value="<?php echo $leave_duration_to; ?>"  name="leave_duration_to">
+            <input type="text" id="leave_duration_to"  required="" class="form-control col-sm-2" <?php echo $readonly; ?> value="<?php echo $leave_duration_to; ?>"  name="leave_duration_to">
         </div>
     </div>
                         

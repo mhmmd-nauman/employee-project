@@ -135,16 +135,16 @@ else                    {   echo  $message_error; }
                
          
                        <div class="form-group">                    
-                        <label class="control-label col-sm-2">Duration from</label>                     
+                        <label class="control-label col-sm-2">Duration from *</label>                     
                         <div class="col-sm-4">
-                            <input type="text" class="form-control col-sm-4"  style="width:180px;"  id="leave_duration_from" name="leave_duration_from">
+                            <input type="text" required="" class="form-control col-sm-4"  style="width:180px;"  id="leave_duration_from" name="leave_duration_from">
                         </div>
                     </div>
          
                     <div class="form-group">                    
-                        <label class="control-label col-sm-2">Duration to    <font style=" font-size: 10px;" ><br>(if required)</font></label>                     
+                        <label class="control-label col-sm-2">Duration to *</label>                     
                         <div class="col-sm-4">
-                            <input type="text" class="form-control col-sm-4" style="width:180px;"  id="leave_duration_to" name="leave_duration_to">
+                            <input type="text" required="" class="form-control col-sm-4" style="width:180px;"  id="leave_duration_to" name="leave_duration_to">
                         </div>
                     </div>
          
@@ -154,7 +154,7 @@ else                    {   echo  $message_error; }
          <div class="form-group">
                         <label class="control-label col-sm-2">Approval</label>
                         <div class="col-sm-4">          
-                        <select name="approval" class="form-control">
+                            <select name="approval" class="form-control" required="">
                           <option value="">SELECT</option>
                            <?php 
                                 foreach($leave_array as $status=>$value)
