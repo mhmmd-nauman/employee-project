@@ -35,12 +35,12 @@ if(isset($_REQUEST['submit']))  /// insert code
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Leave Requests</h2>
                 <div class="box-icon">
-                    <a href="#" class="btn btn-minimize btn-round btn-default"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                    <a href="#" class="btn btn-minimize btn-round btn-default"><i class="glyphicon glyphicon-chevron-up"></i></a>
                     <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
             
-            <div class="box-content" style="display: none">
+            <div class="box-content" >
      <br>
     <form class="form-horizontal" role="form"  method="post" >
         <div class="form-group">
