@@ -186,7 +186,7 @@ else
         </div>
         <label class="control-label col-sm-2">Department</label>
         <div class="col-sm-4">
-            <select name="emp_department" class="span4">
+            <select name="emp_department" class="form-control">
                 <option value="">SELECT</option>
         <?php
                 $dep_array=array('Indubal','Soinb');                               
