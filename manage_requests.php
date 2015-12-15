@@ -43,18 +43,18 @@ if(isset($_REQUEST['submit']))  /// insert code
             <div class="box-content" >
      <br>
     <form class="form-horizontal" role="form"  method="post" >
+        
         <div class="form-group">
-            <div class="col-sm-2">
-                <label>Status</label>
-                    <select name="status" required="">
-                        <option value="">Select</option>
-                        <option value="2">Approve</option>
-                        <option value="1">Cancel</option>
-                        <option value="2">Delete</option>
-                    </select>
+            <label class="control-label col-sm-2">Status</label>
+            <div class="col-sm-4">          
+                <select name="status" required="" class="form-control">
+                    <option value="">Select</option>
+                    <option value="2">Approve</option>
+                    <option value="1">Cancel</option>
+                    <option value="2">Delete</option>
+                </select>
             </div>
         </div>
-          
          
 <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
    <thead>
