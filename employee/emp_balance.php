@@ -6,11 +6,11 @@ $objEmployee =new Employee();
 $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_REQUEST['emp_id']."");
 $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
+$balance_detail= $objTransaction->GetEmpBalanceDeatil($_REQUEST['emp_id']);
 $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
-
+//var_dump($balance_detail);
 if(isset($_REQUEST['del']))	
 {	
-
         $id = $_REQUEST['del'];
 	$del = $objTransaction->DeleteTransantion($id);
 	
@@ -50,14 +50,16 @@ if(isset($_REQUEST['del']))
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Balance Details</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i><?php echo $emp_data[0]['emp_name'];?>  ( Employee Balance Details )</h2>
             </div>
             
             <div class="col-md-8">
-                <h5>Person: <?php echo $emp_data[0]['emp_name'];?></h5> 
-                <br><h5>You Have: <?php echo $balance;?> days available</h5>
-                <h5>Balance on <?php echo date("d M, Y");?></h5>
+                <br><div class="alert"  style=" background-color:#f9f9f9;">
+                    <b>You Have Total: <?php echo $balance;?> days available on <?php echo date("d M, Y");?></b> 
+                    <br>FERIADO LEGAL         (<?php echo $balance_detail['I']-$balance_detail['leavesI'];?>)
+                    <br>DIAS PROGRESIVOS    (<?php echo $balance_detail['D']-$balance_detail['leavesD'];?>)
                 <br>
+                </div>
             </div>
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
             <div class="col-md-4 pull-right">
