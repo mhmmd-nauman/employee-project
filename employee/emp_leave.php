@@ -101,6 +101,7 @@ function action(status,leave_id,emp_id){
         <th>Duration</th>
         <th>Reason</th>
         <th>Status</th>
+        <th>Type</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -129,7 +130,11 @@ function action(status,leave_id,emp_id){
         
         </td>
         
-        
+         <td><?php if($leave['leave_balance_type']=='D') echo "DIAS PROGRESIVOS";
+                        else if($leave['leave_balance_type']=='I') echo "FERIADO LEGAL";
+                        else echo "";
+                  ?>
+        </td>
         <td><?php echo $leave['leave_reason']; ?></td>
        
         
@@ -157,15 +162,12 @@ function action(status,leave_id,emp_id){
             
             <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                View
             </a>
             <a class="btn btn-info" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
-                Edit
             </a>
             <a onclick="return confirmation();" class="btn btn-danger" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
-                Delete
             </a>
         </td>
     </tr>

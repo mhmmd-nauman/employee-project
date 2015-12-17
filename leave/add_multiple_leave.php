@@ -28,6 +28,7 @@ $total_days=1;
                                                  'leave_duration'   =>$total_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
                                                  'leave_duration_to'   =>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_to'])),
+                                                 'leave_balance_type'   =>$_REQUEST['trans_type'],
                                                  'leave_approval'   =>$_REQUEST['approval'],
                                                  'leave_datetime'   =>date('Y-m-d h:i:s'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
@@ -148,8 +149,18 @@ else                    {   echo  $message_error; }
                         </div>
                     </div>
          
-         
-                        
+         <div class="form-group">
+              <label class="control-label col-sm-2">Type</label>
+              <div class="col-sm-4">
+                  <select name="trans_type" class="form-control" >
+<!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
+                      <option value="C" <?php //if($transaction[0]['trans_type']=='C')echo"selected";?>>Auto System Added</option>-->
+                      <option value="D" <?php if($transaction[0]['trans_type']=='D')echo"selected";?>>DIAS PROGRESIVOS</option>
+                      <option value="I" <?php if($transaction[0]['trans_type']=='I')echo"selected";?>>FERIADO LEGAL</option>
+                      
+                  </select>
+              </div>
+         </div>             
 
          <div class="form-group">
                         <label class="control-label col-sm-2">Approval</label>

@@ -100,6 +100,7 @@ function action(action_status,id){
         <th>Days</th>
         <th>Duration</th>
         <th>Reason</th>
+        <th>Type</th>
         <th>Status</th>
         <?php   if($_SESSION['session_admin_role']=='admin') { ?><th>Actions</th><?php } ?>
     </tr>
@@ -128,7 +129,12 @@ function action(action_status,id){
         
         
         </td>
-        <td><?php echo $leave['leave_reason']; ?></td>
+       <td><?php echo $leave['leave_reason']; ?></td>
+        <td><?php if($leave['leave_balance_type']=='D') echo "DIAS PROGRESIVOS";
+                  else if($leave['leave_balance_type']=='I') echo "FERIADO LEGAL";
+                  else echo "";
+            ?>
+        </td>
        
         
         			
@@ -160,11 +166,11 @@ function action(action_status,id){
 -->
             <a class="btn btn-info add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
-                Edit
+               
             </a>
             <a onclick="return confirmation();" class="btn btn-danger" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
-                Delete
+           
             </a>
         </td>
          <?php } ?>

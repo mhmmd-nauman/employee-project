@@ -61,10 +61,11 @@ if(isset($_REQUEST['submit']))  /// insert code
     <tr>
         <th><input type="checkbox" id="toggle" value="select" onClick="do_this()"  /></th>
        <th>Ficha</th>
-        <th>Nombre</th>
-        <th>Days</th>
-        <th>Duration</th>
-        <th>Status</th>
+       <th>Nombre</th>
+       <th>Days</th>
+       <th>Duration</th>
+       <th>Type</th>
+       <th>Status</th>
     </tr>
     </thead>
     <tbody>
@@ -89,7 +90,14 @@ if(isset($_REQUEST['submit']))  /// insert code
                             }
                     }
         ?>
-        </td>   <?php	
+        </td> 
+
+        <td><?php if($request['leave_balance_type']=='D') echo "DIAS PROGRESIVOS";
+                        else if($leave['leave_balance_type']=='I') echo "FERIADO LEGAL";
+                        else echo "";
+                  ?>
+              </td>
+        <?php	
         if($request['leave_approval']==0)       echo"<td class='hidden-phone '><span class='label label-danger'>Pending</span></td>";
         else if($request['leave_approval']==2)	echo"<td class='hidden-phone '><span class='label label-success'>Approved</span></td>";
         else if($request['leave_approval']==1)  echo"<td class='hidden-phone '><span class='label label-small label-danger'>Cancelled </span></td>";?>
