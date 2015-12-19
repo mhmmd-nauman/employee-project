@@ -29,6 +29,9 @@ if(isset($_REQUEST['submit']))  /// insert code
 	}               
 }
 ?>
+
+ <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
+
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
@@ -45,8 +48,8 @@ if(isset($_REQUEST['submit']))  /// insert code
     <form class="form-horizontal" role="form"  method="post" >
         
         <div class="form-group">
-            <label class="control-label col-sm-2">Status</label>
-            <div class="col-sm-4">          
+            <label class="control-label col-sm-2" style=" text-align: left;">Checked Status<br><em style="font-size: 9px">Applied on checked records only</em></label>
+            <div class="col-sm-4" style=" align: left;">          
                 <select name="status" required="" class="form-control">
                     <option value="">Select</option>
                     <option value="2">Approve</option>
@@ -54,8 +57,11 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <option value="2">Delete</option>
                 </select>
             </div>
+             <div class="col-sm-4"> 
+                <button type="submit" name="submit" class="btn btn-small btn-success">Update Status</button>
+             </div>
         </div>
-         
+        <br>
 <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
    <thead>
     <tr>
@@ -71,7 +77,7 @@ if(isset($_REQUEST['submit']))  /// insert code
     <tbody>
         <?php foreach($list as $request) {  ?>
     <tr>
-        <td><input type=checkbox class=selectedId name=leave_ids[] value="<?php echo $request['leave_id']; ?>"/></td>
+        <td  style=" width: 5%;"><input type=checkbox class=selectedId name=leave_ids[] value="<?php echo $request['leave_id']; ?>"/></td>
         <td><?php echo $request['emp_file']; ?></td>
         <td><?php echo $request['emp_name']; ?></td>
          <td><?php echo $request['leave_duration']; ?></td>
@@ -107,11 +113,7 @@ if(isset($_REQUEST['submit']))  /// insert code
     </tbody>
     </table>
                   
-    <div class="form-group">        
-        <div class="col-sm-offset-4 col-sm-4">
-            <button type="submit" name="submit" class="btn btn-small btn-block btn-error">Update Status</button>
-         </div>
-    </div>  
+   
      <br>
                 </form>
             </div>
@@ -124,7 +126,7 @@ if(isset($_REQUEST['submit']))  /// insert code
 
     function do_this(){
 
-        var checkboxes = document.getElementsByName('emp_ids[]');
+        var checkboxes = document.getElementsByName('leave_ids[]');
         var button = document.getElementById('toggle');
 
         if(button.value == 'select'){

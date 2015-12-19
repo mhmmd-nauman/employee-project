@@ -149,8 +149,8 @@ function action(action_status,id){
             
             
                            <div class="btn-group">
-                                    <button class="btn btn-warning">Status</button>
-                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2"><span class="caret"></span></button>
+                                    <button class="btn btn-warning btn-sm">Status</button>
+                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
                                     <ul class="dropdown-menu">
 <li><a href="javascript:;" onclick="return action('2','<?php  echo $leave['leave_id']; ?>');"><i class="icon-ok"></i> Approve</a></li>
 <li><a href="javascript:;" onclick="return action('1','<?php  echo $leave['leave_id']; ?>');"><i class="icon-minus"></i> Cancel</a></li>
@@ -164,11 +164,11 @@ function action(action_status,id){
                 View
             </a>
 -->
-            <a class="btn btn-info add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
+            <a class="btn btn-info add_leave btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                
             </a>
-            <a onclick="return confirmation();" class="btn btn-danger" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
+            <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
            
             </a>

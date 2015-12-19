@@ -6,7 +6,7 @@ $objEmployee =new Employee();
 $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_REQUEST['emp_id']."");
 $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
-$balance_detail= $objTransaction->GetEmpBalanceDeatil($_REQUEST['emp_id']);
+$balance_detail= $objTransaction->GetEmpBalanceDetail($_REQUEST['emp_id']);
 $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
 //var_dump($balance_detail);
 if(isset($_REQUEST['del']))	
@@ -57,18 +57,12 @@ if(isset($_REQUEST['del']))
               
                 <br>
                  <table class="table table-striped table-bordered" >
-    <thead>
-        <tr>
-            <th>Today Balance</th>
-            <th>FERIADO LEGAL</th>
-            <th>DIAS PROGRESIVOS</th>
-        </tr>
-    </thead>
-    <tbody>
-    <td><?php echo $balance;?></td>
-    <td><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
-    <td><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
-    </tbody>                 </table>   
+                        <tr>
+                            <th>Today Balance</th> <td style=" background-color: #FFFFFF"><?php echo $balance;?></td>
+                            <th>FERIADO LEGAL</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
+                            <th>DIAS PROGRESIVOS</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
+                        </tr>
+                </table>   
             </div>
         
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
@@ -145,11 +139,11 @@ if(isset($_REQUEST['del']))
         
         <td class="center">
             <?php if($trasanction['trans_type'] !="L"){?>
-            <a class="btn btn-info" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
+            <a class="btn btn-info btn-sm" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                 Edit
             </a>
-            <a onclick="return confirmation();" class="btn btn-danger" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
+            <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
                 Delete
             </a>

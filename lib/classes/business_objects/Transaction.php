@@ -54,7 +54,7 @@
             return $arr; 
         }
 	
-        function GetEmpBalanceDeatil ($emp_id){
+        function GetEmpBalanceDetail ($emp_id){
             global $link;
             	
             $sqld="Select sum(amount) as D from alpp_transactions where trans_type ='D' AND emp_id = $emp_id and status = 0" ;
@@ -67,7 +67,9 @@
             $rowi=mysqli_fetch_array($resulti);
             $arr['I'] = $rowi['I'];
             
-           $sql_leaved="SELECT sum(leave_duration) as leavesD  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='D' and leave_approval = 2 " ;
+            $emp_id=  str_replace("date", "leave_datetime", $emp_id);// this is for emp_reports.php page only , it will not run for anyother page
+            
+            $sql_leaved="SELECT sum(leave_duration) as leavesD  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='D' and leave_approval = 2 " ;
             $result_leaved=mysqli_query($link,$sql_leaved) ;
             $row_leaved=mysqli_fetch_array($result_leaved);
             $arr['leavesD'] = $row_leaved['leavesD'];
