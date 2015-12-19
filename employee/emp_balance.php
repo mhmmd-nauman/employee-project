@@ -54,13 +54,23 @@ if(isset($_REQUEST['del']))
             </div>
             
             <div class="col-md-8">
-                <br><div class="alert"  style=" background-color:#f9f9f9;">
-                    <b>You Have Total: <?php echo $balance;?> days available on <?php echo date("d M, Y");?></b> 
-                    <br>FERIADO LEGAL         (<?php echo $balance_detail['I']-$balance_detail['leavesI'];?>)
-                    <br>DIAS PROGRESIVOS    (<?php echo $balance_detail['D']-$balance_detail['leavesD'];?>)
+              
                 <br>
-                </div>
+                 <table class="table table-striped table-bordered" >
+    <thead>
+        <tr>
+            <th>Today Balance</th>
+            <th>FERIADO LEGAL</th>
+            <th>DIAS PROGRESIVOS</th>
+        </tr>
+    </thead>
+    <tbody>
+    <td><?php echo $balance;?></td>
+    <td><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
+    <td><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
+    </tbody>                 </table>   
             </div>
+        
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
             <div class="col-md-4 pull-right">
                 <br>
@@ -111,7 +121,12 @@ if(isset($_REQUEST['del']))
                     echo "<td>DIAS PROGRESIVOS</td>";
                     break;
                 case"L":
-                    echo "<td>Leave</td>";
+                    echo "<td>Leave -  (";
+                    if($trasanction['leave_type']=='D') echo "DIAS PROGRESIVOS";
+                        else if($trasanction['leave_type']=='I') echo "FERIADO LEGAL";
+                        else echo "";
+                  
+                        echo")</td>";
                     break;
             }?></td>
 <!--        <td><?php //echo date("m/d/Y",strtotime($trasanction['entry_date'])); ?></td>-->

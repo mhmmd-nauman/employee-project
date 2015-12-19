@@ -9,6 +9,7 @@
                    alpp_transactions.emp_id as emp_id, 
                    alpp_transactions.amount as days, 
                    `date` as entry_date,
+                   '0' as leave_type,
                    status
                    FROM alpp_transactions 
                    JOIN alpp_emp ON alpp_emp.emp_id = alpp_transactions.emp_id 
@@ -21,6 +22,7 @@
                    leave_emp_id as emp_id, 
                    leave_duration as days, 
                    leave_datetime as entry_date,
+                   leave_balance_type as leave_type,
                    leave_approval as status 
                    FROM alpp_transactions 
                    JOIN alpp_leave ON alpp_leave.leave_emp_id = alpp_transactions.emp_id 
