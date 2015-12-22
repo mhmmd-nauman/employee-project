@@ -13,11 +13,10 @@ else
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
-   
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Report</h2>
             </div>         
-<div class="box-content">    
+    <div class="box-content">    
         <form class="form-horizontal" role="form"  method="post" >  
             <div class="control-group">
                 <label class="control-label" >Select Date</label>
@@ -31,7 +30,7 @@ else
             <div class=" col-sm-4 " style=" text-align: right;">
                 <a href="emp_reports_csv.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to CSV</a>
             </div>            
-        </form>  
+        </form> 
     <br><br><br>
 <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
      <thead>
@@ -72,7 +71,7 @@ else
     </table>
     
     </div>
-    </div>
+        </div>
     </div>
     <!--/span-->
 
@@ -86,5 +85,4 @@ $('#date').datepicker({
             dateFormat: 'yy-mm-dd'
         });
 });
-
 </script>
