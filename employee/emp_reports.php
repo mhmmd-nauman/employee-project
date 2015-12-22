@@ -3,63 +3,42 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-
-if(isset($_REQUEST['search']))
-{
-    $employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
-}
+$employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
+if($_REQUEST['date']) 
+    $date=date('Y-m-d',strtotime($_REQUEST['date']));
+else 
+    $date=date('Y-m-d');
 ?>
-
-<div>
-    <ul class="breadcrumb">
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
-        </li>
-<?php if($_SESSION['session_admin_role']=='admin') { ?>
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>">Add Balance</a>
-        </li>
-   <?php } ?>
-        <li>
-            Employee Balance Details
-        </li>
-    </ul>
-</div>
-<?php if($message_type){ ?>
-     <div class="widget-body">
-        <div class="alert <?php echo $message_type;?>">
-                <button class="close" data-dismiss="alert">×</button>
-                <?php echo $message_text;?>
-        </div>
-    </div>
-<?php }?>
-
- <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
-
+<link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
+<div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
+            <?php if($_SESSION['session_admin_role']=='admin')
+            {?>
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>Balance Report</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Report</h2>
             </div>
-        <div class="box-content">
-        <br>
-            <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">  
-                    <div class="form-group">                    
-                        <label class="control-label col-sm-2">Choose Date</label>                     
-                        <div class="col-sm-2">
-                            <input type="text" id="date" required="" class="form-control col-sm-2"  value="<?php echo $_REQUEST['date'];?>"  name="date">
-                        </div>
-                        <div class=" col-sm-4 " style=" text-align: left;">
-                            <button type="submit" name="search" class="btn btn-small btn-info">Search By Date</button>
-                         </div>
+            
+            
+            
+<div class="box-content">    
+        <form class="form-horizontal" role="form"  method="post" >  
+            <div class="control-group">
+                <label class="control-label" >Select Date</label>
+                    <div class="controls">
+                        <input type="date" style=" width: 20%" id="date" required="" class="form-control col-sm-2"  value="<?php echo $date;?>"  name="date">
                     </div>
-                        
-            </form>
-        </div>
-       <div class="box-content">
-           <h3>Balance till : <?php echo $_REQUEST['date'];?></h3>
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-    <thead>
+            </div>  
+            <div class=" col-sm-5 " style=" text-align: left;">
+                <button type="submit" name="search" class="btn btn-small btn-info">Search</button>
+            </div>            
+            <div class=" col-sm-4 " style=" text-align: right;">
+                <a href="emp_reports_csv.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to CSV</a>
+            </div>            
+        </form>  
+    <br><br><br>
+<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+     <thead>
         <tr>
             <th>Ficha</th>
             <th>Nombre</th>
@@ -75,7 +54,7 @@ if(isset($_REQUEST['search']))
     <tbody>
         <?php foreach($employee_list as $employee) { 
           
-            $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." and date <= '".$_REQUEST['date']." 12:60:60'");
+            $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." and date <= '".$date." 12:60:60'");
             $balance=($balance_detail['I']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);
         ?>      
         <tr>
@@ -95,23 +74,29 @@ if(isset($_REQUEST['search']))
     
     </tbody>
     </table>
+    
     </div>
-        </div>
+     <?php } else{?>
+      <div class="box-header well" data-original-title="">
+        <h2><i class="glyphicon glyphicon-star-empty"></i> Welcome <?php echo $_SESSION['session_admin_name'];?></h2>
     </div>
+            <div class="box-content" style="text-align: center;">
+                <div class="row alert alert-info" style=" text-align: center;">
+                You can login using RUT or Email and Password.
+                </div>
+                <br>
+                <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Change Login Details</a>
+                <br>
+            </div>
+     <?php }?>
+    </div>
+    </div>
+    <!--/span-->
+
+    </div><!--/row-->
+
+
 <?php include('../lib/footer.php'); ?>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script>
-    function confirmation() {
-        var answer = confirm("Do you want to delete this record?");
-    if(answer){
-            return true;
-    }else{
-            return false;
-    }
-}
-</script>
 <script>
 $(function() {
 $('#date').datepicker({
