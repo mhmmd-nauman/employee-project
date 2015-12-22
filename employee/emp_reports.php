@@ -32,8 +32,8 @@ else
             </div>            
         </form> 
     <br><br><br>
-<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-     <thead>
+    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+        <thead>
         <tr>
             <th>Ficha</th>
             <th>Nombre</th>
@@ -43,15 +43,12 @@ else
             <th>Today Balance</th>
             <th>FERIADO LEGAL</th>
             <th>DIAS PROGRESIVOS</th>
-        
         </tr>
-    </thead>
+        </thead>
     <tbody>
-        <?php foreach($employee_list as $employee) { 
-          
+        <?php foreach($employee_list as $employee) {           
             $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." and date <= '".$date." 12:60:60'");
-            $balance=($balance_detail['I']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);
-        ?>      
+            $balance=($balance_detail['I']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);?>      
         <tr>
             <td><?php echo $employee['emp_file']; ?></td>
             <td><?php echo $employee['emp_name']; ?></td>
@@ -61,23 +58,16 @@ else
             <td><?php   echo number_format($balance, 2);?></td>
             <td><?php   echo number_format(($balance_detail['I']-$balance_detail['leavesI']), 2);?></td>
             <td><?php   echo number_format(($balance_detail['D']-$balance_detail['leavesD']), 2);?></td>
-           
         </tr>
         <?php 
         $balance = 0;
            } ?>
-    
     </tbody>
     </table>
-    
-    </div>
+            </div>
         </div>
     </div>
-    <!--/span-->
-
-    </div><!--/row-->
-
-
+</div>
 <?php include('../lib/footer.php'); ?>
 <script>
 $(function() {
