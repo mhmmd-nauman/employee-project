@@ -29,6 +29,7 @@ else
             </div>            
             <div class=" col-sm-4 " style=" text-align: right;">
                 <a href="emp_reports_csv.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to CSV</a>
+                <a href="emp_reports_print.php?date=<?php echo $date;?>"  class="btn btn-small btn-warning">Print</a>
             </div>            
         </form> 
     <br><br><br>
