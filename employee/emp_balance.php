@@ -53,8 +53,7 @@ if(isset($_REQUEST['del']))
                 <h2><i class="glyphicon glyphicon-star-empty"></i><?php echo $emp_data[0]['emp_name'];?>  ( Employee Balance Details )</h2>
             </div>
             
-            <div class="col-md-8">
-              
+            <div class="col-md-6">
                 <br>
                  <table class="table table-striped table-bordered" >
                         <tr>
@@ -66,10 +65,12 @@ if(isset($_REQUEST['del']))
             </div>
         
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
-            <div class="col-md-4 pull-right">
+            <div class="col-md-6">
                 <br>
-                <p style="text-align: right;"><a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Manual Balance</a></p>
-                <br>
+                <p style="text-align: right;">
+                <a class="btn btn-success " href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Manual Balance</a>
+                <a class="btn btn-success " href="emp_list.php">Go Back</a>
+                </p><br>
             </div>
           <?php } ?>
 

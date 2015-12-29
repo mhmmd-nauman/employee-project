@@ -9,33 +9,28 @@ $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave
 <?php
 if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	// code to edit status only 
 {	           
-        if($_REQUEST['status']==1 || $_REQUEST['status']==2)    // cancel | Approve
-        { 
-            $action=$obj->Update("alpp_leave",'leave_id='.$_REQUEST['leave_id'] , array('leave_approval'=>$_REQUEST['status']));
-        } 
-        else if($_REQUEST['status']==3) // delete
-        { 
-            $action = $obj->Delete("alpp_leave",'leave_id='.$_REQUEST['leave_id']);
-        }
-    
-        if($submit)
-	{        
-            $message_type="alert-success"; 
-            $message_text = "<strong>Success!</strong>". ($_REQUEST['status']==3) ? 'Record Deleted' : 'Status Updated' ;;
-            header('REFRESH:2, url='.SITE_ADDRESS.'leave/leave_list.php');
-	}
+    if($_REQUEST['status']==1 || $_REQUEST['status']==2)  {  // cancel | Approve
+        $action=$obj->Update("alpp_leave",'leave_id='.$_REQUEST['leave_id'] , array('leave_approval'=>$_REQUEST['status']));
+    } 
+    else if($_REQUEST['status']==3) { // delete
+        $action = $obj->Delete("alpp_leave",'leave_id='.$_REQUEST['leave_id']);
+    }
+    if($action) {        
+        $message_type="alert-success"; 
+        $msg=($_REQUEST['status']==3)? 'Deleted' : ($_REQUEST['status']==1)?  'Cancelled' : 'Approved';  
+        $message_text = "<strong>Success!</strong> Leave Record ". $msg ;
+    }
 }
 
 if(isset($_REQUEST['del']))	// delete  a record
 {	
-        $id = $_REQUEST['del'];
-	$del = $obj->Delete("alpp_leave",'leave_id='.$id);
-        if($del)
-	{        
-            $message_type="alert-success"; 
-            $message_text = "<strong>Success!</strong> Leave Record Submitted.";
-            header('REFRESH:2, url='.SITE_ADDRESS.'leave/leave_list.php');
-	}
+    $id = $_REQUEST['del'];
+    $del = $obj->Delete("alpp_leave",'leave_id='.$id);
+    if($del)
+    {        
+        $message_type="alert-success"; 
+        $message_text = "<strong>Success!</strong> Leave Record Deleted.";
+    }
 }
 ?>  
 <script>
@@ -79,7 +74,9 @@ function action(action_status,id){
                 <?php echo $message_text;?>
         </div>
     </div>
-<?php }?>
+<?php 
+      header('REFRESH:2, url='.SITE_ADDRESS.'leave/leave_list.php');
+}?>
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">

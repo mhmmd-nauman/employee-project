@@ -92,8 +92,9 @@ function action(status,leave_id,emp_id){
                 
                 <p style="text-align: right;">
                     <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Add New Leave</button></a> 
-                </p>
-     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
+                    <a class="btn btn-success" href="emp_list.php">Go Back</a>
+                </p>                
+    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
     <thead>
     <tr>
         <th>Name</th>

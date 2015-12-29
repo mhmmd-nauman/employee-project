@@ -29,7 +29,7 @@ $objTransaction =new Transaction();
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>Employee List</h2>
                 <div class="box-icon">
                     <a href="#" class="btn btn-minimize btn-round btn-default"><i class="glyphicon glyphicon-chevron-up"></i></a>
                     <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
@@ -37,43 +37,35 @@ $objTransaction =new Transaction();
             </div>
             
            <div class="box-content">
-     <br>
+     
 <?php 
-      $obj=new Queries();
-      //$employee_list=$obj->select("alpp_emp","emp_cellnum like '00%' order by emp_name",array("*"));
-      $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
+$obj=new Queries();
+$employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
+//$employee_list=$obj->select("alpp_emp","emp_cellnum like '00%' order by emp_name",array("*"));
       
- 	 
 if(isset($_REQUEST['del']))	
 {	
-
-        $id = $_REQUEST['del'];
-	$del = $obj->Delete("alpp_emp",'emp_id='.$id);
-	 
-	if($del)
-	{
-		 ?>
-         <div class="widget-body">
-                            <div class="alert alert-success">
-                                <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Record Deleted.
-                            </div>
-         </div>
-     	 <?php
-		header('refresh:1, url=emp_list.php');
-	}
+    $id = $_REQUEST['del'];
+    $del = $obj->Delete("alpp_emp",'emp_id='.$id);
+    if($del)
+    {   ?>
+     <div class="widget-body">
+        <div class="alert alert-success">
+            <button class="close" data-dismiss="alert">×</button>
+            <strong>Success!</strong> Record Deleted.
+        </div>
+     </div>
+     <?php  header('refresh:1, url=emp_list.php');
+    }
 }
 ?>
-      <p style="text-align: right;">
-       
+    <p style="text-align: left;">
+        <a class="btn btn-warning add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
+    </p>  
 <!--    <a class="btn btn-info add_employee" href="<?php //echo SITE_ADDRESS; ?>employee/emp_import_balance.php"><i class="glyphicon icon-white"></i>Import Employee Balance</a>&nbsp;
         <a class="btn btn-success" href="<?php //echo SITE_ADDRESS; ?>employee/emp_import_data.php"><i class="glyphicon icon-white"></i>Import Employee Data</a>&nbsp;
--->
-        <a class="btn btn-warning add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon icon-white"></i>Add Employee</a>
         <a class="btn btn-success add_monthly" href="add_monthly.php">Add Manual Balance</a>
-      	
-      </p>
-        
+-->    
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
   
          <thead>
@@ -121,6 +113,8 @@ if(isset($_REQUEST['del']))
         <td class="center">
            <?php if($employee['emp_status']==0) { ?>
             <span class="label-success label label-default">Active</span>
+           <?php } else {?>
+            <span class="label-warning label label-default">Inactive</span>
            <?php } ?>
         </td>
         <td class="center">

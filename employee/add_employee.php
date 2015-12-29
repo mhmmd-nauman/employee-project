@@ -34,6 +34,7 @@ if(isset($_REQUEST['update_button']))  // update code
                             'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
                             'emp_address'      =>$_REQUEST['emp_address'],
                             //'emp_qualification'=>$_REQUEST['emp_qua'],
+                            'emp_status'        =>$_REQUEST['emp_status'],
                             'emp_email'        =>$_REQUEST['emp_email'],
                             'emp_password'      =>$_REQUEST['emp_password'],
                             'emp_count'      =>$_REQUEST['years']
@@ -152,10 +153,9 @@ else
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
             </div>
             
-            
-            
-           <div class="box-content">
-     <br>
+<div class="box-content">
+             <br>    
+               
      
      <?php if($message_type){ ?>
      <div class="widget-body">
@@ -221,7 +221,22 @@ else
         </div>
     </div>
                 
-          
+          <div class="form-group">
+        <label class="control-label col-sm-2">Status</label>
+        <div class="col-sm-4">
+            <select name="emp_status" class="form-control">
+                <option value="">SELECT</option>
+        <?php
+                $status_array=array('0'=>'Active','1'=>'Inactive');                               
+                foreach ($status_array as $key=>$value)
+                {
+                    $sel=$employee_list[0]['emp_status']==$key ? 'selected' : '';
+                    echo "<option value=".$key." $sel>$value</option>";
+                }
+                ?>
+            </select>
+        </div>
+    </div>
 <?php if(isset($_REQUEST['view']))	{  ?>                   
 <?php } else if(isset($_REQUEST['update']))	{  ?>
        <div class="form-group">        
