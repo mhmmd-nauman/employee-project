@@ -82,7 +82,22 @@
             //log_error($encoded_query);
             return $arr; 
         }
-        
+        function GetEmpLeaveBalanceDetail ($emp_id){
+            global $link;
+            	                        
+       echo     $sql_leaved="SELECT sum(leave_duration) as leavesD  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='D' and leave_approval = 2 " ;
+            $result_leaved=mysqli_query($link,$sql_leaved) ;
+            $row_leaved=mysqli_fetch_array($result_leaved);
+            $arr['leavesD'] = $row_leaved['leavesD'];
+            
+        echo   $sql_leavei="SELECT sum(leave_duration) as leavesI  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='I' and leave_approval = 2 " ;
+            $result_leavei=mysqli_query($link,$sql_leavei) ;
+            $row_leavei=mysqli_fetch_array($result_leavei);
+            $arr['leavesI'] = $row_leavei['leavesI'];
+
+            //log_error($encoded_query);
+            return $arr; 
+        }
         function GetEmpBalance($emp_id){
             global $link;
             	

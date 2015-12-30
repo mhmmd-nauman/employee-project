@@ -106,21 +106,22 @@
 <!--                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>manage_requests.php"><i class="glyphicon glyphicon-file"></i><span> Manage Requests</span></a></li>-->
                         <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Historial</span></a></li>
                         <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_cron.php"><i class="glyphicon glyphicon-random"></i><span> Next Balance Test</span></a></li>
-                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Reports</span></a></li>
                         
-                        <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
+                        <li class="accordion">
+                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Reports</span></a>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Report </span></a></li>
+                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_monthly_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Monthly Balance</span></a></li>
+                            </ul>
+                        </li>
+        
+
+           <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
                         <li><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-list"></i> Historial </a></li>
                         <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>"><i class="glyphicon glyphicon-list"></i> Balance</a></li>
                         <?php }   ?>                       
-                        
                         <li><a href="<?php echo SITE_ADDRESS; ?>logout.php"><i class="glyphicon glyphicon-lock"></i><span> Logout</span></a></li>
-                   
-                    
-                    
-                   
-                        
                     </ul>
-                 
                  </div>
             </div>
         </div>
