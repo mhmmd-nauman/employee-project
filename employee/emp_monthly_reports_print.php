@@ -3,13 +3,11 @@ include (dirname(__FILE__).'/../lib/include.php');
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
 $employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
-if($_REQUEST['month'])     
-    $month=$_REQUEST['month'];
-else     
-    $month=date('m');
+if($_REQUEST['month']) { $month=$_REQUEST['month']; $year=$_REQUEST['year'];}
+else                   { $month=date('m'); $year=date('Y');}
 
- $first_day_this_month = date('Y-'.$month.'-01'); // hard-coded '01' for first day
- $last_day_this_month  = date('Y-'.$month.'-t');
+ $first_day_this_month = date($year.'-'.$month.'-01'); // hard-coded '01' for first day
+ $last_day_this_month  = date($year.'-'.$month.'-t');
 ?>
 <script type="text/javascript">
 window.print()
@@ -50,8 +48,9 @@ window.print()
         </thead>
     <tbody>
         <?php foreach($employee_list as $employee) {           
-        $balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id']." and ( leave_duration_from >= '".$first_day_this_month." 12:60:60' && leave_duration_to <= '".$last_day_this_month." 12:60:60' )");
-        $balance=$balance_detail['leavesI']+$balance_detail['leavesD'];?>      
+        //$balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id']." and ( leave_duration_from >= '".$first_day_this_month." 12:60:60' && leave_duration_to <= '".$last_day_this_month." 12:60:60' )");
+          $balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id'] ,$first_day_this_month ,$last_day_this_month);
+          $balance=$balance_detail['leavesI']+$balance_detail['leavesD'];?>      
         <tr>
             <td><?php echo $employee['emp_file']; ?></td>
             <td><?php echo $employee['emp_name']; ?></td>

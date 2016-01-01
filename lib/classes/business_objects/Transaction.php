@@ -82,21 +82,72 @@
             //log_error($encoded_query);
             return $arr; 
         }
-        function GetEmpLeaveBalanceDetail ($emp_id){
+        function GetEmpLeaveBalanceDetail ($emp_id,$first_day_this_month,$last_day_this_month){
             global $link;
-            	                        
-       echo     $sql_leaved="SELECT sum(leave_duration) as leavesD  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='D' and leave_approval = 2 " ;
+            $first_day_this_month  = $first_day_this_month." 00:00:00";
+            $last_day_this_month  = $last_day_this_month." 12:00:00";   
+            $Dsum=$Isum=0.00;
+       
+            $sql_leaved="SELECT *  FROM alpp_leave WHERE leave_emp_id = $emp_id  "
+            . "and ( leave_duration_from >= '".$first_day_this_month."'  || leave_duration_to <= '".$last_day_this_month."' )"
+            . " and leave_balance_type='D' and leave_approval = 2 " ;
             $result_leaved=mysqli_query($link,$sql_leaved) ;
-            $row_leaved=mysqli_fetch_array($result_leaved);
-            $arr['leavesD'] = $row_leaved['leavesD'];
-            
-        echo   $sql_leavei="SELECT sum(leave_duration) as leavesI  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='I' and leave_approval = 2 " ;
-            $result_leavei=mysqli_query($link,$sql_leavei) ;
-            $row_leavei=mysqli_fetch_array($result_leavei);
-            $arr['leavesI'] = $row_leavei['leavesI'];
+            while($row_leaved=mysqli_fetch_array($result_leaved))
+            {            
+                $arr1['start'] = $row_leaved['leave_duration_from'];
+                $arr1['end'] = $row_leaved['leave_duration_to'];
 
-            //log_error($encoded_query);
-            return $arr; 
+                if($first_day_this_month > $arr1['start'])
+                {
+                    $date1 = new DateTime($arr1['start']);
+                    $date2 = new DateTime($first_day_this_month);
+                    $diff = $date2->diff($date1)->format("%a");
+                    $Dsum+= $diff;
+                }
+                else if($last_day_this_month < $arr1['end'])
+                {
+                    $date1 = new DateTime($arr1['end']);
+                    $date2 = new DateTime($last_day_this_month);
+                    $diff = $date2->diff($date1)->format("%a");
+                    $Dsum+=$diff;
+                }
+                else
+                {
+                      $Dsum+= $row_leaved['leave_duration'];
+                }
+            }
+            $arr['leavesD'] = $Dsum;
+         
+            $sql_leavei="SELECT *  FROM alpp_leave WHERE leave_emp_id = $emp_id  "
+            . "and ( leave_duration_from >= '".$first_day_this_month."'  || leave_duration_to <= '".$last_day_this_month."' )"
+            . " and leave_balance_type='I' and leave_approval = 2 " ;
+            $result_leavei=mysqli_query($link,$sql_leavei) ;
+            while($row_leavei=mysqli_fetch_array($result_leavei))
+            {            
+                $arr2['start'] = $row_leavei['leave_duration_from'];
+                $arr2['end'] = $row_leavei['leave_duration_to'];
+
+                if($first_day_this_month > $arr2['start'])
+                {
+                    $date1 = new DateTime($arr2['start']);
+                    $date2 = new DateTime($first_day_this_month);
+                    $diff = $date2->diff($date1)->format("%a");
+                    $Isum+= $diff;
+                }
+                else if($last_day_this_month < $arr2['end'])
+                {
+                    $date1 = new DateTime($last_day_this_month);
+                    $date2 = new DateTime($arr2['end']);
+                    $diff = $date2->diff($date1)->format("%a");
+                    $Isum+=$diff;
+                }
+                else
+                {
+                     $Isum+= $row_leavei['leave_duration'];
+                }
+            }
+                $arr['leavesI'] = $Isum;
+                return $arr; 
         }
         function GetEmpBalance($emp_id){
             global $link;

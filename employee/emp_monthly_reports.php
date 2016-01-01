@@ -6,11 +6,11 @@ $objEmployee =new Employee();
 $employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
 $month_array=array("01"=>"January","02"=>"February","03"=>"March","04"=>"April","05"=>"May","06"=>"June","07"=>"July","08"=>"August","09"=>"September","10"=>"October","11"=>"November","12"=>"December");
 
-if($_REQUEST['month'])  $month=$_REQUEST['month'];
-else                    $month=date('m');
+if($_REQUEST['month']) { $month=$_REQUEST['month']; $year=$_REQUEST['year'];}
+else                   { $month=date('m'); $year=date('Y');}
 
- $first_day_this_month = date('Y-'.$month.'-01'); // hard-coded '01' for first day
- $last_day_this_month  = date('Y-'.$month.'-t');
+ $first_day_this_month = date($year.'-'.$month.'-01'); // hard-coded '01' for first day
+ $last_day_this_month  = date($year.'-'.$month.'-t');
 ?>
 <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
 <div class="row">
@@ -22,8 +22,8 @@ else                    $month=date('m');
     <div class="box-content">    
         <form class="form-horizontal" role="form"  method="post" >  
             <div class="control-group">
-                    <div class="controls">
-                        <select name="month" required class="form-control col-sm-2" style=" width: 20%" >
+                    <div class="controls col-md-2">
+                        <select name="month" required class="form-control col-md-12"  >
                         <?php	foreach($month_array as $key=>$value) 	
                         {
                             $sel=($month==$key) ? 'selected' : '';
@@ -32,13 +32,23 @@ else                    $month=date('m');
                         } ?>	
                         </select>
                     </div>
+                    <div class="controls  col-md-2">
+                    <select name="year" required class="form-control col-md-12" >
+                        <?php	for($i=date('Y'); $i>=2015; $i--) 	
+                        {
+                            $sel=($year==$i) ? 'selected' : '';
+                            echo"<option value=".$i." $sel>".$i."</option>";
+                        
+                        } ?>	
+                        </select>
+                    </div>
             </div>  
-            <div class=" col-sm-5 " style=" text-align: left;">
+            <div class=" col-md-4 " style=" text-align: left;">
                 <button type="submit" name="search" class="btn btn-small btn-info">Search</button>
             </div>            
-            <div class=" col-sm-4 " style=" text-align: right;">
+            <div class=" col-md-4 " style=" text-align: right;">
 <!--                <a href="emp_reports_csv.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to CSV</a>-->
-                <a href="emp_monthly_reports_print.php?month=<?php echo $month;?>"  class="btn btn-small btn-warning">Print</a>
+                <a href="emp_monthly_reports_print.php?month=<?php echo $month;?>&year=<?php echo $year;?>"  class="btn btn-small btn-warning">Print</a>
             </div>           
         </form> 
         <br><br><br>
@@ -60,7 +70,9 @@ else                    $month=date('m');
 ?>      
         <tr>
             <td><?php 
-                        $balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id']." and ( leave_duration_from >= '".$first_day_this_month." 00:00:00' && leave_duration_to <= '".$last_day_this_month." 12:60:60' )");
+            $balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id'] ,$first_day_this_month ,$last_day_this_month);
+            
+            //$balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id']." and ( leave_duration_from >= '".$first_day_this_month." 00:00:00' && leave_duration_to <= '".$last_day_this_month." 12:60:60' )");
             $balance=$balance_detail['leavesI']+$balance_detail['leavesD'];
             
             echo $employee['emp_file']; ?></td>
