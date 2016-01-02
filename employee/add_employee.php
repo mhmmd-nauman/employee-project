@@ -163,7 +163,8 @@ else
                 <button class="close" data-dismiss="alert">×</button>
                 <?php echo $message_text;?>
         </div>
-    </div>
+    </div>   
+        <script> window.parent.location.reload();</script>
      <?php }?>
 
 <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">

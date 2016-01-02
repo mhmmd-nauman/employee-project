@@ -135,6 +135,8 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                 <?php echo $message_text;?>
         </div>
     </div>
+    
+ <script> window.parent.location.reload();</script>
      <?php }?>
 
 <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
