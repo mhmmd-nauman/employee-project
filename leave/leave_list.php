@@ -51,6 +51,7 @@ function action(action_status,id){
     }
     $(document).ready(function(){
             $(".add_leave").colorbox({iframe:true, width:"40%", height:"90%"});
+            $(".status_leave").colorbox({iframe:true, width:"40%", height:"50%"});
     });
 </script>
 
@@ -151,9 +152,9 @@ function action(action_status,id){
                                     <button class="btn btn-warning btn-sm">Status</button>
                                     <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-<li><a href="javascript:;" onclick="return action('2','<?php  echo $leave['leave_id']; ?>');"><i class="icon-ok"></i> Approve</a></li>
-<li><a href="javascript:;" onclick="return action('1','<?php  echo $leave['leave_id']; ?>');"><i class="icon-minus"></i> Cancel</a></li>
-<li><a href="javascript:;" onclick="return action('3','<?php  echo $leave['leave_id']; ?>');"><i class="icon-remove"></i>Delete</a></li>
+                                        <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=2"><i class="icon-ok"></i> Approve</a></li>
+                                        <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=1"><i class="icon-minus"></i> Cancel</a></li>
+                                        <li><a href="javascript:;" onclick="return action('3','<?php  echo $leave['leave_id']; ?>');"><i class="icon-remove"></i>Delete</a></li>
                                     </ul>
                                 </div>
       
