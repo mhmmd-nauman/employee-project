@@ -97,12 +97,11 @@ function action(status,leave_id,emp_id){
     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
     <thead>
     <tr>
-        <th>Name</th>
        <th>No of Days</th>
         <th>Duration</th>
         <th>Reason</th>
-        <th>Status</th>
         <th>Type</th>
+        <th>Status</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -110,7 +109,6 @@ function action(status,leave_id,emp_id){
         <?php foreach($leave_list as $leave) {   ?>
         
     <tr>
-             <td><?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
         <td>
         <?php   $from=$to='';
@@ -130,13 +128,13 @@ function action(status,leave_id,emp_id){
         
         
         </td>
+        <td><?php echo $leave['leave_reason']; ?></td>
         
          <td><?php if($leave['leave_balance_type']=='D') echo "DIAS PROGRESIVOS";
                         else if($leave['leave_balance_type']=='I') echo "FERIADO LEGAL";
                         else echo "";
                   ?>
         </td>
-        <td><?php echo $leave['leave_reason']; ?></td>
        
         
         			
@@ -151,8 +149,8 @@ function action(status,leave_id,emp_id){
             
  <?php if($_SESSION['session_admin_role']=='admin') { ?> 
                            <div class="btn-group">
-                                    <button class="btn btn-warning">Status</button>
-                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2"><span class="caret"></span></button>
+                                    <button class="btn btn-warning btn-sm">Status</button>
+                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
                                     <ul class="dropdown-menu">
 <li><a href="javascript:;" onclick="return action('2','<?php  echo $leave['leave_id']; ?>','<?php  echo $leave['leave_emp_id']; ?>');"><i class="icon-ok"></i> Approve</a></li>
 <li><a href="javascript:;" onclick="return action('1','<?php  echo $leave['leave_id']; ?>','<?php  echo $leave['leave_emp_id']; ?>');"><i class="icon-minus"></i> Cancel</a></li>
@@ -161,13 +159,13 @@ function action(status,leave_id,emp_id){
                                 </div>
        <?php } ?>
             
-            <a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php echo $leave['leave_id']; ?>">
+<!--            <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-            </a>
-            <a class="btn btn-info" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
+            </a>-->
+            <a class="btn btn-info btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
             </a>
-            <a onclick="return confirmation();" class="btn btn-danger" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
+            <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
             </a>
         </td>

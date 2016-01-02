@@ -86,14 +86,15 @@ function action(action_status,id){
             
 
             <div class="box-content">
-                     <p style="text-align: right;">
-                         <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-warning"><i class="glyphicon glyphicon-star icon-white"></i>Apply For Leave</button></a> 
+                     <p style="text-align: left;">
+                         <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><button class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-star icon-white"></i>Apply For Leave</button></a> 
                      </p>
 
-         <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style=" font-size: 12px">
   <thead>
     <tr>
-        <th>Name</th>
+        <th>Ficha</th>
+        <th>Nombre</th>
         <th>Days</th>
         <th>Duration</th>
         <th>Reason</th>
@@ -106,6 +107,7 @@ function action(action_status,id){
         <?php foreach($leave_list as $leave) {      ?>
         
     <tr>
+             <td><?php echo $leave['emp_file']; ?></td>
              <td><?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
         <td>
@@ -113,13 +115,13 @@ function action(action_status,id){
                     if($leave['leave_duration_from'])
                     {
                                $from = new DateTime($leave['leave_duration_from']);
-                               echo  $from = $from->format("d-m-Y");
+                               echo  $from = $from->format("m/d/Y");
 
                             if($leave['leave_duration_to'])
                             {
-                                        echo "  -  "; 
+                                        echo "  <b>To</b>  "; 
                                         $to = new DateTime($leave['leave_duration_to']);
-                                       echo $to = $to->format("d-m-Y");
+                                       echo $to = $to->format("m/d/Y");
                             }
                     }
         ?>

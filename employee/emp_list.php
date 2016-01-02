@@ -126,13 +126,11 @@ if(isset($_REQUEST['del']))
             
             
             <a class="btn btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
-                
-                Edit
+               <i class="glyphicon glyphicon-edit icon-white"></i>
             </a>
            
             <a class="btn btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
-                
-                Delete
+             <i class="glyphicon glyphicon-trash icon-white"></i>
             </a>
         </td>
     </tr>

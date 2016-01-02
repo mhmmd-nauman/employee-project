@@ -135,27 +135,19 @@ if(isset($_REQUEST['del']))
             else if($trasanction['status']==1 && $trasanction['trans_type'] =='L')  echo"<span class='label label-small label-danger'>Cancelled </span>";
         ?>
         </td>
-    
-<?php if($_SESSION['session_admin_role']=='admin') { ?>    
-        
+        <?php if($_SESSION['session_admin_role']=='admin') { ?>    
         <td class="center">
             <?php if($trasanction['trans_type'] !="L"){?>
             <a class="btn btn-info btn-sm" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
-                Edit
             </a>
             <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
-                Delete
             </a>
             <?php }?>
         </td>
-        
-            
-<?php }?>
-
-            </tr>
-            <?php } ?>
+        <?php }?>    </tr>
+<?php } ?>
     
     </tbody>
     </table>
