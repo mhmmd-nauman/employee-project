@@ -74,7 +74,7 @@ class util
 	
 	// execute query
 //         echo" hhhhfhdhfdfdhdhhj";
-//	 echo $strQuery;
+	 echo $strQuery;
 //	 echo "<br />";
 //	 echo"quary fail";
 	  mysqli_query($link,$strQuery) ;

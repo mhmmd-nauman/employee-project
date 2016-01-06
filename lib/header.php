@@ -103,9 +103,10 @@
                         ?>                       
                             
                         <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-list"></i><span> Manage Mass Leaves</span></a></li>
-<!--                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>manage_requests.php"><i class="glyphicon glyphicon-file"></i><span> Manage Requests</span></a></li>-->
+<!--                   <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>manage_requests.php"><i class="glyphicon glyphicon-file"></i><span> Manage Requests</span></a></li>-->
                         <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Historial</span></a></li>
                         <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_cron.php"><i class="glyphicon glyphicon-random"></i><span> Next Balance Test</span></a></li>
+                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/holidays_list.php"><i class="glyphicon glyphicon-random"></i><span> Holidays List</span></a></li>
                         
                         <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Reports</span></a>
