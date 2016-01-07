@@ -88,8 +88,9 @@
             $last_day_this_month  = $last_day_this_month." 12:00:00";   
             $Dsum=$Isum=0.00;
        
-            $sql_leaved="SELECT *  FROM alpp_leave WHERE leave_emp_id = $emp_id  "
-            . "and ( leave_duration_from >= '".$first_day_this_month."'  || leave_duration_to <= '".$last_day_this_month."' )"
+         $sql_leaved="SELECT *  FROM alpp_leave WHERE leave_emp_id = $emp_id  "
+            . "and (( leave_duration_from >= '".$first_day_this_month."' && leave_duration_from <= '".$last_day_this_month."' ) "
+            . "|| (leave_duration_to <= '".$last_day_this_month."' && leave_duration_to >= '".$first_day_this_month."' ))"
             . " and leave_balance_type='D' and leave_approval = 2 " ;
             $result_leaved=mysqli_query($link,$sql_leaved) ;
             while($row_leaved=mysqli_fetch_array($result_leaved))
@@ -99,17 +100,23 @@
 
                 if($first_day_this_month > $arr1['start'])
                 {
-                    $date1 = new DateTime($arr1['start']);
-                    $date2 = new DateTime($first_day_this_month);
-                    $diff = $date2->diff($date1)->format("%a");
-                    $Dsum+= $diff;
+                    $date1 = new DateTime($first_day_this_month);
+                    $date2 = new DateTime($arr1['end']);
+                    //$diff = $date2->diff($date1)->format("%a");
+                    //echo "<br><br>Starting of first IF".$first_day_this_month."<br><br>";
+                    //echo "<br><br>Ending".$arr1['end']."<br><br>";
+                    include "days_calculation.php";
+                    $Dsum+= $final_days;
                 }
                 else if($last_day_this_month < $arr1['end'])
                 {
-                    $date1 = new DateTime($arr1['end']);
+                    $date1 = new DateTime($arr1['start']);
                     $date2 = new DateTime($last_day_this_month);
-                    $diff = $date2->diff($date1)->format("%a");
-                    $Dsum+=$diff;
+                    //$diff = $date2->diff($date1)->format("%a");
+                    //echo "<br><br>Starting of Second IF".$arr1['start']."<br><br>";
+                    //echo "<br>Ending of Secong IF".$last_day_this_month ."<br><br>";
+                    include "days_calculation.php";
+                    $Dsum+=$final_days;
                 }
                 else
                 {
@@ -119,8 +126,9 @@
             $arr['leavesD'] = $Dsum;
          
             $sql_leavei="SELECT *  FROM alpp_leave WHERE leave_emp_id = $emp_id  "
-            . "and ( leave_duration_from >= '".$first_day_this_month."'  || leave_duration_to <= '".$last_day_this_month."' )"
-            . " and leave_balance_type='I' and leave_approval = 2 " ;
+            . "and (( leave_duration_from >= '".$first_day_this_month."' && leave_duration_from <= '".$last_day_this_month."' ) "
+            . "|| (leave_duration_to <= '".$last_day_this_month."' && leave_duration_to >= '".$first_day_this_month."' ))"
+             . " and leave_balance_type='I' and leave_approval = 2 " ;
             $result_leavei=mysqli_query($link,$sql_leavei) ;
             while($row_leavei=mysqli_fetch_array($result_leavei))
             {            
@@ -129,17 +137,17 @@
 
                 if($first_day_this_month > $arr2['start'])
                 {
-                    $date1 = new DateTime($arr2['start']);
-                    $date2 = new DateTime($first_day_this_month);
-                    $diff = $date2->diff($date1)->format("%a");
-                    $Isum+= $diff;
+                    $date1 = new DateTime($first_day_this_month);
+                    $date2 = new DateTime($arr1['end']);
+                     include "days_calculation.php";
+                    $Isum+= $final_days;
                 }
                 else if($last_day_this_month < $arr2['end'])
                 {
-                    $date1 = new DateTime($last_day_this_month);
-                    $date2 = new DateTime($arr2['end']);
-                    $diff = $date2->diff($date1)->format("%a");
-                    $Isum+=$diff;
+                    $date1 = new DateTime($arr1['start']);
+                    $date2 = new DateTime($last_day_this_month);
+                     include "days_calculation.php";
+                    $Isum+=$final_days;
                 }
                 else
                 {

@@ -2,24 +2,53 @@
 include ('../lib/include.php');
 include('../lib/modal_header.php');
 $obj=new Queries();
+$objHoliday =new Holiday();
+$total_days=$local_holiday=$final_days=0;
 
 if(isset($_REQUEST['update_button']))  // update code
 {
-////////// number of days calculation just to save it in db       
-$total_days=1;
-        if($_REQUEST['leave_duration_to'])
+    if($_REQUEST['leave_duration_to'])
         {
-            $date1 = new DateTime($_REQUEST['leave_duration_from']);
-            $date2 = new DateTime($_REQUEST['leave_duration_to']);
+        $date1 = new DateTime($_REQUEST['leave_duration_from']);
+        $date2 = new DateTime($_REQUEST['leave_duration_to']);
+        //echo  $total_days = $date2->diff($date1)->format("%a");
 
-            $total_days = $date2->diff($date1)->format("%a");
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($date1, $interval, $date2);
+        foreach ( $period as $dt )
+        {
+            $day=$dt->format( "l" );
+            $date=$dt->format( "m/d/Y" );
+            
+            if($day=='Saturday' || $day=='Sunday')
+            {
+                
+            }
+            else
+            {
+                $total_days++;
+            }   
+            
+            $holiday_list=array();
+            $holiday_list=$objHoliday->GetAllHoliday(" date='".$date."'",array("*"));
+            if($holiday_list)
+            {
+                $local_holiday++;
+            }
         
         }
+            //echo "Total :".$total_days."<br>";
+            //echo "Local :".$local_holiday."<br>";        
+
+            $final_days=$total_days-$local_holiday;
+        
+
+          
 //////////////////////////////////////////////////////////////
            $submit=$obj->update("alpp_leave","leave_id=".$_REQUEST['leave_id'] ,array(
                                                 'leave_emp_id'     =>$_REQUEST['emp_id'],
                                                  'leave_reason'     =>$_REQUEST['reason'],
-                                                 'leave_duration'   =>$total_days,
+                                                 'leave_duration'   =>$final_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
                                                  'leave_duration_to'   =>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_to'])),
                                                   'leave_balance_type'   =>$_REQUEST['trans_type'],
@@ -38,10 +67,11 @@ $total_days=1;
             $message_text = "<strong>Error!</strong> Leave not Submitted ,Please try again.";
         }
 }
-
+}
  if(isset($_REQUEST['submit']))  /// insert code
 {
-    $total_days=1;
+    
+        
     if($_SESSION['session_admin_role']=='admin') 
     {
         $approval=$_REQUEST['approval'];
@@ -57,15 +87,44 @@ $total_days=1;
     {
         $date1 = new DateTime($_REQUEST['leave_duration_from']);
         $date2 = new DateTime($_REQUEST['leave_duration_to']);
-        $total_days = $date2->diff($date1)->format("%a");
+        //echo  $total_days = $date2->diff($date1)->format("%a");
 
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($date1, $interval, $date2);
+        foreach ( $period as $dt )
+        {
+            $day=$dt->format( "l" );
+            $date=$dt->format( "m/d/Y" );
+            
+            if($day=='Saturday' || $day=='Sunday')
+            {
+                
+            }
+            else
+            {
+                $total_days++;
+            }   
+            
+            $holiday_list=array();
+            $holiday_list=$objHoliday->GetAllHoliday(" date='".$date."'",array("*"));
+            if($holiday_list)
+            {
+                $local_holiday++;
+            }
+        
+        }
+            //echo "Total :".$total_days."<br>";
+            //echo "Local :".$local_holiday."<br>";        
+
+            $final_days=$total_days-$local_holiday;
     }
+    
 //////////////////////////////////////////////////////////////
 
 $submit=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$employee,
                                                  'leave_reason'     =>$_REQUEST['reason'],
-                                                 'leave_duration'   =>$total_days,
+                                                 'leave_duration'   =>$final_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
                                                  'leave_duration_to'   =>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_to'])),
                                                   'leave_balance_type'   =>$_REQUEST['trans_type'],
