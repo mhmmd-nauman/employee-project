@@ -113,6 +113,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Report </span></a></li>
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_monthly_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Monthly Balance</span></a></li>
+                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/active_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span>Active Employees</span></a></li>
                             </ul>
                         </li>
         

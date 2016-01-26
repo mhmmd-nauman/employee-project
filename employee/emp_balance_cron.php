@@ -38,7 +38,7 @@ $objEmployee = new Employee();
         <th>Nombre</th>
         <th>Department</th>
         <th>FECHA INGRESO</th>
-        <th>Year</th>
+<!--        <th>Year</th>-->
         <th>Current Balance</th>
         <th>Increment</th>
         
@@ -57,7 +57,7 @@ $objEmployee = new Employee();
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
         <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
-        <td><?php echo $employee['emp_count']; ?></td>
+<!--        <td><?php //echo $employee['emp_count']; ?></td>-->
         <td><?php echo $balance = $objTransaction->GetEmpBalance($employee['emp_id']); ?></td>
         <td><?php
         $d1 = new DateTime(date("Y-m-d"));
