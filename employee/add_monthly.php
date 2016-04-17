@@ -21,7 +21,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                         'emp_id'=>$emp_id,
                         'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                         'amount'=>$all_amount[$i],
-                        'trans_type'=>'M',
+                        'trans_type'=>'D',
                         'date'=> date("Y-m-d h:i:s"),
                         'done_by'=>$_SESSION['session_admin_id'],
                         'status'=>0

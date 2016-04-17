@@ -3,6 +3,8 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $objEmployee = new Employee();
+$obj=new Queries();
+$employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
 ?>
 <script>
     $(document).ready(function(){
@@ -22,23 +24,14 @@ $objEmployee = new Employee();
             
             
            <div class="box-content">
-     <br>
-<?php 
-      $obj=new Queries();
-      $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
-
- 
-?>
-      
-        
-        <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style="font-size: 12px;">
  <thead>
     <tr>
         <th>Ficha</th>
         <th>Nombre</th>
         <th>Department</th>
         <th>FECHA INGRESO</th>
-        <th>Year</th>
+<!--        <th>Year</th>-->
         <th>Current Balance</th>
         <th>Increment</th>
         
@@ -57,7 +50,7 @@ $objEmployee = new Employee();
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
         <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
-        <td><?php echo $employee['emp_count']; ?></td>
+<!--        <td><?php //echo $employee['emp_count']; ?></td>-->
         <td><?php echo $balance = $objTransaction->GetEmpBalance($employee['emp_id']); ?></td>
         <td><?php
         $d1 = new DateTime(date("Y-m-d"));

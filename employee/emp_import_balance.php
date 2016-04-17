@@ -2,8 +2,7 @@
 include ('../lib/include.php');
 include('../lib/modal_header.php');
 $obj=new Transaction();
-/// upload pic code
-
+$objEmployee =new Employee();
 ?>
 <div class="row">
     <div class="box col-md-10">
@@ -17,30 +16,38 @@ $obj=new Transaction();
            <div class="box-content">
      <br>
     <?php
-     
      if (isset($_POST['submit'])) {
 	if (is_uploaded_file($_FILES['filename']['tmp_name'])) {
 		echo "<h1>" . "File ". $_FILES['filename']['name'] ." uploaded successfully." . "</h1>";
 		echo "<h2>Displaying contents:</h2>";
 		readfile($_FILES['filename']['tmp_name']);
 	}
-
 	//Import uploaded file to Database
 	$handle = fopen($_FILES['filename']['tmp_name'], "r");
-
 	while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-           $submit=$obj->UpdateTransactionByEmployee("alpp_emp.emp_file=".$data[0],array("alpp_transactions.amount"=>$data[4]));
+    //update initial balance
+//        $submit=$obj->UpdateTransactionByEmployee("alpp_emp.emp_file=".$data[0],array("alpp_transactions.amount"=>$data[6]));
+       
+            $emp_data = $objEmployee->GetAllEmployee("emp_file = ".$data[0],array("emp_id"));
+
+          if($emp_data[0][0])
+          {          
+          $submit=$obj->InsertTransaction(array( 
+                                                'emp_id'=>$emp_data[0][0], 
+                                                'end_month_data'=>'2015-11-30 00:00:00', 
+                                                'amount'=>$data[7], 
+                                                'trans_type'=>'M', 
+                                                'date'=>'2015-12-06 00:00:00', 
+                                                'done_by'=>'2', 
+                                                'status'=>0
+                                            ));         
         }
-
+        }
+   
 	fclose($handle);
-
 	print "Import done";
-
 	//view upload form
-}
-
-
-	    ?>
+}    ?>
 
   
 

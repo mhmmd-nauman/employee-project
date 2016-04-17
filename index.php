@@ -8,9 +8,7 @@ include('lib/header.php');
 require_once "lib/classes/util_objects/util.php";
 require_once "lib/classes/business_objects/Queries.php";
 $obj=new Queries();
-
-
-?>
+ ?>
 
 <script>
     $(document).ready(function(){
@@ -35,21 +33,29 @@ $obj=new Queries();
  <?php
  if(isset($_REQUEST['submit']))
  {
-      if(!isset($_REQUEST['employee']))               
-      {
-          $get_user=   $obj->select("alpp_adminlog","adminlog_email='".$_REQUEST['email']."' and adminlog_password='".$_REQUEST['password']."'",  array("*"));
-      
-                    if($get_user)
-                                {
-		 			$_SESSION['session_admin_role']		=	'admin';	
-					$_SESSION['session_admin_id']		=	$get_user[0]['adminlog_id'];	
-					$_SESSION['session_admin_email']	=	$get_user[0]['adminlog_email'];	
-					$_SESSION['session_admin_name']		=	$get_user[0]['adminlog_name'];	
-				
-					  header("Location: dashboard.php");	
-                                }
-    					else $error='Wrong Login Credentials for Admin';				
-     }
+    if(!isset($_REQUEST['employee']))               
+    {
+        $get_user=   $obj->select("alpp_adminlog","adminlog_email='".$_REQUEST['email']."' and adminlog_password='".$_REQUEST['password']."'",  array("*"));
+        if($get_user){
+            $_SESSION['session_admin_role']		=	'admin';	
+            $_SESSION['session_admin_id']		=	$get_user[0]['adminlog_id'];	
+            $_SESSION['session_admin_email']            =	$get_user[0]['adminlog_email'];	
+            $_SESSION['session_admin_name']		=	$get_user[0]['adminlog_name'];	
+            header("Location: dashboard.php");	
+        }
+        else   {
+            $get_user=   $obj->select("alpp_emp"," ( emp_cellnum='".$_REQUEST['email']."' or emp_email='".$_REQUEST['email']."') and emp_password='".$_REQUEST['password']."'",  array("*"));
+            if($get_user)
+            {
+                $_SESSION['session_admin_role']		=	'admin';	
+                $_SESSION['session_admin_id']		=	$get_user[0]['emp_id'];	
+                $_SESSION['session_admin_email']	=	$get_user[0]['emp_email'];	
+                $_SESSION['session_admin_name']		=	$get_user[0]['emp_name'];	
+                header("Location: dashboard.php");	
+            }
+            else $error='Wrong Login Credentials for Admin';				
+        }
+    }
      else
      {
          if($_REQUEST['email']) 
@@ -96,9 +102,9 @@ $obj=new Queries();
                         <input type="password" class="form-control" placeholder="Password" name="password" >
                     </div>
                     <div class="clearfix pull-right">
- <?php if(isset($_REQUEST['employee']) && $_REQUEST['employee'] =='ok'){ ?>
+                <?php if(isset($_REQUEST['employee']) && $_REQUEST['employee'] =='ok'){ ?>
                         <h7><a class="change_pass" href="<?php echo SITE_ADDRESS; ?>forget_password.php">Forget Password ?</a></h7>
-            <?php } ?>
+                <?php } ?>
                     </div>
                     <div class="clearfix"></div>
 
@@ -110,7 +116,10 @@ $obj=new Queries();
             </form>
         </div>
         
+    <?php if(!isset($_REQUEST['employee'])) { ?>   
         <div class=" col-md-5 center login-box"> <a href="?employee=ok" class="btn btn-primary">Employee Login</a></div>
-        <!--/span-->
+    <?php } else {  ?>   
+        <div class=" col-md-5 center login-box"> <a href="?" class="btn btn-primary">Admin Login</a></div>
+    <?php }  ?> 
     </div><!--/row-->
 <?php require('lib/footer.php'); ?>

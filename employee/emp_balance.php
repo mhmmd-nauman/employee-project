@@ -6,11 +6,11 @@ $objEmployee =new Employee();
 $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_REQUEST['emp_id']."");
 $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
+$balance_detail= $objTransaction->GetEmpBalanceDetail($_REQUEST['emp_id']);
 $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
-
+//var_dump($balance_detail);
 if(isset($_REQUEST['del']))	
 {	
-
         $id = $_REQUEST['del'];
 	$del = $objTransaction->DeleteTransantion($id);
 	
@@ -50,27 +50,34 @@ if(isset($_REQUEST['del']))
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Balance Details</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i><?php echo $emp_data[0]['emp_name'];?>  ( Employee Balance Details )</h2>
             </div>
             
-            <div class="col-md-8">
-                <h5>Person: <?php echo $emp_data[0]['emp_name'];?></h5> 
-                <br><h5>You Have: <?php echo $balance;?> days available</h5>
-                <h5>From: 1 Oct, 2015 to <?php echo date("d M, Y");?></h5>
+            <div class="col-md-6">
                 <br>
+                 <table class="table table-striped table-bordered" >
+                        <tr>
+                            <th>Today Balance</th> <td style=" background-color: #FFFFFF"><?php echo $balance;?></td>
+                            <th>FERIADO LEGAL</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
+                            <th>DIAS PROGRESIVOS</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
+                        </tr>
+                </table>   
             </div>
+        
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
-            <div class="col-md-4 pull-right">
+            <div class="col-md-6">
                 <br>
-                <p style="text-align: right;"><a class="btn btn-success" href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Manual Balance</a></p>
-                <br>
+                <p style="text-align: right;">
+                <a class="btn btn-success " href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Manual Balance</a>
+                <a class="btn btn-success " href="emp_list.php">Go Back</a>
+                </p><br>
             </div>
           <?php } ?>
 
  <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">            
 <div class="box-content">
    <br>
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" >
+   <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style=" font-size: 12px;" >
     <thead>
     <tr>
 <!--        <th>ID</th>-->
@@ -96,6 +103,9 @@ if(isset($_REQUEST['del']))
         
             <?php
             switch($trasanction['trans_type']) {
+                case"M":
+                    echo "<td>Manual</td>";
+                    break;
                 case"C":
                     echo "<td>Auto System Added</td>";
                     break;
@@ -106,7 +116,12 @@ if(isset($_REQUEST['del']))
                     echo "<td>DIAS PROGRESIVOS</td>";
                     break;
                 case"L":
-                    echo "<td>Leave</td>";
+                    echo "<td>Leave -  (";
+                    if($trasanction['leave_type']=='D') echo "DIAS PROGRESIVOS";
+                        else if($trasanction['leave_type']=='I') echo "FERIADO LEGAL";
+                        else echo "";
+                  
+                        echo")</td>";
                     break;
             }?></td>
 <!--        <td><?php //echo date("m/d/Y",strtotime($trasanction['entry_date'])); ?></td>-->
@@ -120,27 +135,19 @@ if(isset($_REQUEST['del']))
             else if($trasanction['status']==1 && $trasanction['trans_type'] =='L')  echo"<span class='label label-small label-danger'>Cancelled </span>";
         ?>
         </td>
-    
-<?php if($_SESSION['session_admin_role']=='admin') { ?>    
-        
+        <?php if($_SESSION['session_admin_role']=='admin') { ?>    
         <td class="center">
             <?php if($trasanction['trans_type'] !="L"){?>
-            <a class="btn btn-info" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
+            <a class="btn btn-info btn-sm" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
-                Edit
             </a>
-            <a onclick="return confirmation();" class="btn btn-danger" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
+            <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
-                Delete
             </a>
             <?php }?>
         </td>
-        
-            
-<?php }?>
-
-            </tr>
-            <?php } ?>
+        <?php }?>    </tr>
+<?php } ?>
     
     </tbody>
     </table>

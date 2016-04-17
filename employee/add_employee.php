@@ -34,8 +34,10 @@ if(isset($_REQUEST['update_button']))  // update code
                             'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
                             'emp_address'      =>$_REQUEST['emp_address'],
                             //'emp_qualification'=>$_REQUEST['emp_qua'],
+                            'emp_status'        =>$_REQUEST['emp_status'],
                             'emp_email'        =>$_REQUEST['emp_email'],
                             'emp_password'      =>$_REQUEST['emp_password'],
+                            'emp_type'      =>$_REQUEST['emp_type'],
                             'emp_count'      =>$_REQUEST['years']
               ));
         if($submit || $submit0)
@@ -75,20 +77,21 @@ if(isset($_REQUEST['update_button']))  // update code
     //// insert query
                 
     $submit=$obj->insert("alpp_emp",array(
-                                     'emp_name'         =>$_REQUEST['emp_name'],
-                                     'emp_file'          =>$_REQUEST['emp_file'],
-                                    'emp_department'          =>$_REQUEST['emp_department'],
-                                     'emp_current_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_current_contract'])),
-                                     //'emp_designation'  =>$_REQUEST['emp_des'],
-                                     //'emp_account_no'   =>$_REQUEST['emp_acc'],
-                                     'emp_cellnum'      =>$_REQUEST['emp_cell'],
-                                     'emp_landline'     =>$_REQUEST['emp_landline'],
-                                     'emp_address'      =>$_REQUEST['emp_address'],
-                                     'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
-                                     'emp_email'        =>$_REQUEST['emp_email'],
-                                     'emp_password'      =>$_REQUEST['emp_password'],
-                                     'emp_count'      =>$_REQUEST['years'],
-                                     'emp_pic'       =>$pic
+                            'emp_name'         =>$_REQUEST['emp_name'],
+                            'emp_file'          =>$_REQUEST['emp_file'],
+                            'emp_department'          =>$_REQUEST['emp_department'],
+                            'emp_current_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_current_contract'])),
+                            //'emp_designation'  =>$_REQUEST['emp_des'],
+                            //'emp_account_no'   =>$_REQUEST['emp_acc'],
+                            'emp_cellnum'      =>$_REQUEST['emp_cell'],
+                            'emp_landline'     =>$_REQUEST['emp_landline'],
+                            'emp_address'      =>$_REQUEST['emp_address'],
+                            'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
+                            'emp_email'        =>$_REQUEST['emp_email'],
+                            'emp_password'      =>$_REQUEST['emp_password'],
+                            'emp_type'      =>$_REQUEST['emp_type'],
+                            'emp_count'      =>$_REQUEST['years'],
+                            'emp_pic'       =>$pic
               ));
         if($submit)
 	{        
@@ -152,10 +155,9 @@ else
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
             </div>
             
-            
-            
-           <div class="box-content">
-     <br>
+<div class="box-content">
+             <br>    
+               
      
      <?php if($message_type){ ?>
      <div class="widget-body">
@@ -163,7 +165,8 @@ else
                 <button class="close" data-dismiss="alert">×</button>
                 <?php echo $message_text;?>
         </div>
-    </div>
+    </div>   
+        <script> window.parent.location.reload();</script>
      <?php }?>
 
 <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
@@ -186,7 +189,7 @@ else
         </div>
         <label class="control-label col-sm-2">Department</label>
         <div class="col-sm-4">
-            <select name="emp_department" class="span4">
+            <select name="emp_department" class="form-control">
                 <option value="">SELECT</option>
         <?php
                 $dep_array=array('Indubal','Soinb');                               
@@ -221,7 +224,39 @@ else
         </div>
     </div>
                 
-          
+    <div class="form-group">
+        <label class="control-label col-sm-2">Status</label>
+        <div class="col-sm-4">
+            <select name="emp_status" class="form-control">
+                <option value="">SELECT</option>
+        <?php
+                $status_array=array('0'=>'Active','1'=>'Inactive');                               
+                foreach ($status_array as $key=>$value)
+                {
+                    $sel=$employee_list[0]['emp_status']==$key ? 'selected' : '';
+                    echo "<option value=".$key." $sel>$value</option>";
+                }
+                ?>
+            </select>
+        </div>
+        
+        <label class="control-label col-sm-2">Type</label>
+        <div class="col-sm-4">
+            <select name="emp_type" class="form-control">
+                <option value="">SELECT</option>
+        <?php
+                $type_array=array('1'=>'Admin','0'=>'Employee');                               
+                foreach ($type_array as $key=>$value)
+                {
+                    $sel=$employee_list[0]['emp_type']==$key ? 'selected' : '';
+                    echo "<option value=".$key." $sel>$value</option>";
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+    
+    
 <?php if(isset($_REQUEST['view']))	{  ?>                   
 <?php } else if(isset($_REQUEST['update']))	{  ?>
        <div class="form-group">        
