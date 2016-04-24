@@ -16,7 +16,7 @@ $objTransaction =new Transaction();
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>  Empleados Lista </h2>
             </div>
            <div class="box-content">
             <?php 
@@ -64,8 +64,8 @@ $objTransaction =new Transaction();
                     <th>FECHA INGRESO</th>
                     <th style=" width: 10px;">Feriados Disponibles</th>
                     <th>Status/ Notes</th>
-                    <th>Type</th>
-                    <th width="20%">Actions</th>
+                    
+                    <th width="15%">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,36 +104,18 @@ $objTransaction =new Transaction();
            <?php } ?>&nbsp;<a title="Manage Notes" class=" add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span>
             </a>
         </td>
-        <td>
-            <div class="btn-group">
-                
-                    <?php if($employee['emp_type']==0) { ?>
-                <a href="javascript:;" onclick="return action('0','<?php  echo $employee['emp_id']; ?>');"><span  class="label label-success">Employee<span class="caret"></span><a>
-                       
-                      <?php }else{ ?>
-                <a href="javascript:;" onclick="return action('1','<?php  echo $employee['emp_id']; ?>');"><span class="label label-danger">Admin<span class="caret"></span><a>
-                    <?php } ?>
-              
-            </div>   
-        </td>
+        
         
         <td class="center">
-            
-             <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>">
-               
-                Leaves
-            </a>
-            
-            
-            <a class="btn btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
-                
-                Edit
-            </a>
-           
-            <a class="btn btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
-                
-                Delete
-            </a>
+         <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>">
+           Hojas
+         </a>
+        <a class="btn btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+           <i class="glyphicon glyphicon-edit icon-white"></i>
+         </a>
+         <a class="btn btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+             <i class="glyphicon glyphicon-trash icon-white"></i>
+         </a>
         </td>
     </tr>
         <?php 

@@ -34,14 +34,7 @@ else
 </script>
  <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
 
- <ul class="breadcrumb">
-        <li>
-            <a href="#">Home</a>
-        </li>
-        <li>
-            <a href="#">Dashboard</a>
-        </li>
-    </ul>
+ 
 
 
             <?php if($_SESSION['session_admin_role']=='admin')
@@ -49,35 +42,35 @@ else
         
              <div class=" row">
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="" class="well top-block" href="#" data-original-title="<?php echo $active_employee[0][0]; ?>">
+        <a data-toggle="tooltip" title="" class="well top-block" href="employee/active_emp_reports.php" data-original-title=" Empleados activos <?php echo $active_employee[0][0]; ?>">
             <i class="glyphicon glyphicon-user blue"></i>
 
-            <div>Active Members</div>
+            <div>Empleados activos</div>
             <div><?php echo $active_employee[0][0]; ?></div>
         </a>
     </div>
 
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="" class="well top-block" href="#" data-original-title="<?php echo $inactive_employee[0][0]; ?>">
+        <a data-toggle="tooltip" title="" class="well top-block" href="employee/inactive_emp_reports.php" data-original-title=" En Empleados Activos <?php echo $inactive_employee[0][0]; ?>">
             <i class="glyphicon glyphicon-user green"></i>
-            <div>InActive Members</div>
+            <div>En Empleados Activos</div>
             <div><?php echo $inactive_employee[0][0]; ?></div>
         </a>
     </div>
 
 
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="" class="well top-block" href="#" data-original-title="<?php echo $active_admin[0][0]; ?>">
+        <a data-toggle="tooltip" title="" class="well top-block" href="employee/admin_emp_reports.php" data-original-title=" Administradores <?php echo $active_admin[0][0]; ?>">
             <i class="glyphicon glyphicon-user Red"></i>
-            <div>Admin(s)</div>
+            <div>Administradores</div>
             <div><?php echo $active_admin[0][0]; ?></div>
         </a>
     </div>
 
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="" class="well top-block" href="#" data-original-title="<?php echo $pending_leaves[0][0]; ?>">
+        <a data-toggle="tooltip" title="" class="well top-block" href="leave/leave_list.php" data-original-title="Hojas <?php echo $pending_leaves[0][0]; ?>">
             <i class="glyphicon glyphicon-star yellow"></i>
-            <div>Pending Leaves</div>
+            <div>Hojas</div>
             <div><?php echo $pending_leaves[0][0]; ?></div>
         </a>
     </div>
@@ -88,14 +81,14 @@ else
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">      <div class="box-header well" data-original-title="">
-        <h2><i class="glyphicon glyphicon-star-empty"></i> Welcome <?php echo $_SESSION['session_admin_name'];?></h2>
+        <h2><i class="glyphicon glyphicon-star-empty"></i> Bienvenido ( <?php echo $_SESSION['session_admin_name'];?> )</h2>
     </div>
             <div class="box-content" style="text-align: center;">
                 <div class="row alert alert-info" style=" text-align: center;">
                 You can login using RUT or Email and Password.
                 </div>
                 <br>
-                <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Change Login Details</a>
+                <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Actualizar Inicio de Sesión detalles</a>
                 <br>
             </div>
     </div>

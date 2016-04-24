@@ -183,7 +183,7 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
     <div class="box col-md-6">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Leave</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Presentar una solicitud de licencia</h2>
             </div>
             
 <div class="box-content">
@@ -289,7 +289,7 @@ else if(isset($_REQUEST['update']))	{  ?>
 <?php } else {     ?>         
     <div class="form-group">        
         <div class="col-sm-offset-2 col-sm-4">
-            <button type="submit" name="submit" class="btn btn-block btn-info">Save</button>
+            <button type="submit" name="submit" class="btn btn-block btn-info">Submit Leave Application</button>
          </div>
     </div>  
 <?php }?>

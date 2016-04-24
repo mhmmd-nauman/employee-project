@@ -34,7 +34,7 @@ else
             </div>            
         </form> 
     <br><br><br>
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style="font-size: 12px;">
+    <table class="table table-striped table-bordered bootstrap-datatable  responsive" style="font-size: 12px;">
         <thead>
         <tr>
             <th>Ficha</th>

@@ -69,7 +69,7 @@ function action(action_status,id){
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Leave Applications</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Deja Aplicaciones</h2>
             </div>
             
 
@@ -82,9 +82,9 @@ function action(action_status,id){
         <th>Days</th>
         <th>Duration</th>
         <th>Reason</th>
-        <th>Type</th>
-        <th>Status</th>
-        <?php   if($_SESSION['session_admin_role']=='admin') { ?><th>Actions</th><?php } ?>
+        <th style=" width: 10%;">Type</th>
+        <th style=" width: 12%;">Status</th>
+        <?php   if($_SESSION['session_admin_role']=='admin') { ?><th style=" width: 13%;">Actions</th><?php } ?>
     </tr>
     </thead>
     <tbody>
@@ -118,35 +118,47 @@ function action(action_status,id){
                   else echo "";
             ?>
         </td>
-       
-        
-        			
+       <?php if($_SESSION['session_admin_role']=='admin') {?>
+        <td>
+        <div class="btn-group">
+            <?php switch ($leave['leave_approval']){
+                case 0:?>
+                    <button class="btn btn-danger btn-sm">Pending</button>
+                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+            <?php  break;
+                case 1:?>
+                    <button class="btn btn-danger btn-sm">Cancel</button>
+                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+            <?php break;
+                case 2:?>
+                    <button class="btn btn-success btn-sm">Approved</button>
+                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+            <?php break;
+            }?>
+            <ul class="dropdown-menu">
+                <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=2"><i class="icon-ok"></i> Approve</a></li>
+                <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=1"><i class="icon-minus"></i> Cancel</a></li>
+                <li><a href="javascript:;" onclick="return action('3','<?php  echo $leave['leave_id']; ?>');"><i class="icon-remove"></i>Delete</a></li>
+            </ul>
+        </div>
+        </td>
+       <?php }else{?>			
 <?php	if($leave['leave_approval']==0)       echo"<td class='hidden-phone '><span class='label label-danger'>Pending</span></td>";
 	else if($leave['leave_approval']==2)	echo"<td class='hidden-phone '><span class='label label-success'>Approved</span></td>";
 	else if($leave['leave_approval']==1)  echo"<td class='hidden-phone '><span class='label label-small label-danger'>Cancelled </span></td>";
 
-        
+       }
       
         if($_SESSION['session_admin_role']=='admin') { ?> 
         <td>
             
             
-                           <div class="btn-group">
-                                    <button class="btn btn-warning btn-sm">Status</button>
-                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=2"><i class="icon-ok"></i> Approve</a></li>
-                                        <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=1"><i class="icon-minus"></i> Cancel</a></li>
-                                        <li><a href="javascript:;" onclick="return action('3','<?php  echo $leave['leave_id']; ?>');"><i class="icon-remove"></i>Delete</a></li>
-                                    </ul>
-                                </div>
+                           
       
             
-            <!--            <a class="btn btn-success" href="<?php //echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php //echo $leave['leave_id']; ?>">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                View
+            <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/report_leave.php?view=<?php echo $leave['leave_id']; ?>&emp_id=<?php echo $leave['leave_emp_id']; ?>">
+                <i title="Report" class="glyphicon glyphicon-print icon-white"></i>
             </a>
--->
             <a class="btn btn-info add_leave btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                

@@ -152,7 +152,7 @@ else
     <div class="box col-md-9">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Añadir Empleado</h2>
             </div>
             
 <div class="box-content">
@@ -207,10 +207,13 @@ else
             <div class="col-sm-4">
             <input type="text" id="emp_current_contract" class="form-control" value="<?php echo $emp_current_contract; ?>" onchange="getyear(this.value,'<?php echo date('m/d/Y'); ?>')" placeholder="Contrato Actual" name="emp_current_contract">
             </div>
-         <label class="control-label col-sm-2">Years</label>                     
+         <!--
+         <label class="control-label col-sm-2">Years</label> 
+         -->
         <div class="col-sm-4">
-            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_count']; ?>" placeholder="years" name="years" id="years">
+            <input type="hidden" class="form-control" value="<?php echo $employee_list[0]['emp_count']; ?>" placeholder="years" name="years" id="years">
         </div>
+         
     </div>
 
     <div class="form-group">
@@ -240,12 +243,12 @@ else
             </select>
         </div>
         
-        <label class="control-label col-sm-2">Type</label>
+        <label class="control-label col-sm-2">Admin Privileges</label>
         <div class="col-sm-4">
             <select name="emp_type" class="form-control">
                 <option value="">SELECT</option>
         <?php
-                $type_array=array('1'=>'Admin','0'=>'Employee');                               
+                $type_array=array('1'=>'Yes','0'=>'No');                               
                 foreach ($type_array as $key=>$value)
                 {
                     $sel=$employee_list[0]['emp_type']==$key ? 'selected' : '';
