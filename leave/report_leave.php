@@ -1,6 +1,6 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
-include (dirname(__FILE__).'/../lib/header.php'); 
+include('../lib/modal_header.php'); 
 $obj=new Queries();
 $where='1';  
 if($_REQUEST['emp_id'] > 0 ){
@@ -41,6 +41,11 @@ function action(action_status,id){
             $(".status_leave").colorbox({iframe:true, width:"40%", height:"50%"});
     });
 </script>
+<script>
+function PrintWindow() {
+    window.print();
+}
+</script>
  <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
 <?php if($message_type){ ?>
      <div class="widget-body">
@@ -52,11 +57,16 @@ function action(action_status,id){
 <?php 
       header('REFRESH:2, url='.SITE_ADDRESS.'leave/leave_list.php');
 }?>
+ <div class="row">
+     <div class="box col-md-12 ">
+         <button type="button" onclick="PrintWindow()" name="search" class="btn btn-small btn-success pull-right"><i title="Report" class="glyphicon glyphicon-print icon-white"> Print</i></button>
+     </div>
+ </div>
 <div class="row">
     <div class="box col-md-12">
-        <div class="box-inner">
-            <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Solicitud De Permiso</h2>
+        
+        <div class="box-header well" data-original-title="" style=" text-align: center;">
+                <h2> Solicitud De Permiso</h2>
             </div>
             <div class="box-content">
                 <div class="row">&nbsp;</div>
@@ -214,13 +224,13 @@ function action(action_status,id){
                 </div>
             </div>  
         </div>
-    </div>
+   
     <!--/span-->
 
 </div><!--/row-->
 
 
-<?php include('../lib/footer.php'); ?>
+<?php //include('../lib/footer.php'); ?>
 <script>
     function confirmation() {
         var answer = confirm("Do you want to delete this record?");

@@ -7,7 +7,7 @@ $objTransaction =new Transaction();
     $(document).ready(function(){
         $(".add_employee").colorbox({iframe:true, width:"70%", height:"80%"});
         $(".add_monthly").colorbox({iframe:true, width:"70%", height:"80%"});
-        $(".add_employee_notes").colorbox({iframe:true, width:"70%", height:"80%"});
+        $(".add_employee_notes").colorbox({iframe:true, width:"80%", height:"90%"});
 
     });
 </script>
@@ -88,9 +88,13 @@ $objTransaction =new Transaction();
         
         ?></td>
         <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
-        <td><?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
-        echo number_format($balance, 2);
-        ?></td>
+        <td>
+            <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
+            <?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
+            echo number_format($balance, 2);
+            ?>
+            </a>
+            </td>
 <!--        <td>
             <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
             <?php //echo $balance; ?>
@@ -98,10 +102,11 @@ $objTransaction =new Transaction();
             </td>-->
         <td class="center" style="text-align: center;">
            <?php if($employee['emp_status']==0) { ?>
-            <span title="Status" class="glyphicon glyphicon-ok"></span>
+            <a class="btn btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i></a>
+            
            <?php } else{ ?>
-             <span title="Status" class="glyphicon glyphicon-remove"></span>
-           <?php } ?>&nbsp;<a title="Manage Notes" class=" add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span>
+              <a class="btn btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i></a>
+           <?php } ?>&nbsp;<a title="Manage Notes" class="btn btn-info btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span>
             </a>
         </td>
         

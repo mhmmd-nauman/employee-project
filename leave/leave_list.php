@@ -50,6 +50,8 @@ function action(action_status,id){
                               }        
     }
     $(document).ready(function(){
+        
+            $(".report_leave").colorbox({iframe:true, width:"90%", height:"95%"});
             $(".add_leave").colorbox({iframe:true, width:"40%", height:"90%"});
             $(".status_leave").colorbox({iframe:true, width:"40%", height:"50%"});
     });
@@ -124,15 +126,15 @@ function action(action_status,id){
             <?php switch ($leave['leave_approval']){
                 case 0:?>
                     <button class="btn btn-danger btn-sm">Pending</button>
-                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+                    <button data-toggle="dropdown" class="btn btn-danger dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
             <?php  break;
                 case 1:?>
                     <button class="btn btn-danger btn-sm">Cancel</button>
-                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+                    <button data-toggle="dropdown" class="btn btn-danger dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
             <?php break;
                 case 2:?>
                     <button class="btn btn-success btn-sm">Approved</button>
-                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+                    <button data-toggle="dropdown" class="btn btn-success dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
             <?php break;
             }?>
             <ul class="dropdown-menu">
@@ -156,7 +158,7 @@ function action(action_status,id){
                            
       
             
-            <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/report_leave.php?view=<?php echo $leave['leave_id']; ?>&emp_id=<?php echo $leave['leave_emp_id']; ?>">
+            <a class="btn btn-success report_leave btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/report_leave.php?view=<?php echo $leave['leave_id']; ?>&emp_id=<?php echo $leave['leave_emp_id']; ?>">
                 <i title="Report" class="glyphicon glyphicon-print icon-white"></i>
             </a>
             <a class="btn btn-info add_leave btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">

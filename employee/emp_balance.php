@@ -23,21 +23,7 @@ if(isset($_REQUEST['del']))
 }
 ?>
 
-<div>
-    <ul class="breadcrumb">
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
-        </li>
-<?php if($_SESSION['session_admin_role']=='admin') { ?>
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>">Add Balance</a>
-        </li>
-   <?php } ?>
-        <li>
-            Employee Balance Details
-        </li>
-    </ul>
-</div>
+
 <?php if($message_type){ ?>
      <div class="widget-body">
         <div class="alert <?php echo $message_type;?>">
@@ -50,14 +36,14 @@ if(isset($_REQUEST['del']))
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i><?php echo $emp_data[0]['emp_name'];?>  ( Employee Balance Details )</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i><?php echo $emp_data[0]['emp_name'];?>  - Equilibrar</h2>
             </div>
             
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <br>
                  <table class="table table-striped table-bordered" >
                         <tr>
-                            <th>Today Balance</th> <td style=" background-color: #FFFFFF"><?php echo $balance;?></td>
+                            <th>Hoy Equilibrio</th> <td style=" background-color: #FFFFFF"><?php echo $balance;?></td>
                             <th>FERIADO LEGAL</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
                             <th>DIAS PROGRESIVOS</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
                         </tr>
@@ -65,11 +51,11 @@ if(isset($_REQUEST['del']))
             </div>
         
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <br>
                 <p style="text-align: right;">
-                <a class="btn btn-success " href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Manual Balance</a>
-                <a class="btn btn-success " href="emp_list.php">Go Back</a>
+                <a class="btn add_balance btn-success btn-sm " href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Añadir Manual de Balanza</a>
+                <a class="btn btn-success btn-sm" href="emp_list.php">Empleados Lista</a>
                 </p><br>
             </div>
           <?php } ?>
@@ -81,7 +67,7 @@ if(isset($_REQUEST['del']))
     <thead>
     <tr>
 <!--        <th>ID</th>-->
-        <th>Date</th>
+        <th style=" width: 10%;">Date</th>
       
         
         <th>Reason</th>
@@ -90,7 +76,7 @@ if(isset($_REQUEST['del']))
         <th>Days</th>
         <th>Status</th>
 <?php if($_SESSION['session_admin_role']=='admin') { ?>
-        <th>Actions</th>
+        <th style=" width: 10%;">Actions</th>
 <?php } ?>   
     </tr>
     </thead>
@@ -138,7 +124,7 @@ if(isset($_REQUEST['del']))
         <?php if($_SESSION['session_admin_role']=='admin') { ?>    
         <td class="center">
             <?php if($trasanction['trans_type'] !="L"){?>
-            <a class="btn btn-info btn-sm" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
+            <a class="btn add_balance btn-info btn-sm" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
             </a>
             <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
@@ -169,4 +155,5 @@ if(isset($_REQUEST['del']))
             return false;
     }
 }
+$(".add_balance").colorbox({iframe:true, width:"50%", height:"90%"});
 </script>

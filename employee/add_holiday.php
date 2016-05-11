@@ -15,12 +15,12 @@ if(isset($_REQUEST['update_button']))  // update code
         if($submit )
 	{
             $message_type="alert-success"; 
-            $message_text = "<strong>Success!</strong> Employee Detail Updated.";
+            $message_text = "<strong>Success!</strong> Holiday Detail Updated.";
 	} 
         else
         {
             $message_type="alert-warning"; 
-            $message_text = "<strong>Error!</strong> Employee Detail not Updated.";
+            $message_text = "<strong>Error!</strong> Holiday Detail not Updated.";
         }
 }
 
@@ -46,8 +46,9 @@ if(isset($_REQUEST['update_button']))  // update code
 if(isset($_REQUEST['view']) || isset($_REQUEST['update']))	
 {	
     if($_REQUEST['view']) $id = $_REQUEST['view'];  else  $id = $_REQUEST['update'];
-    $holiday_list=$objHoliday->GetAllHoliday(" id=$id order by title",array("*"));
+    $holiday_list=$objHoliday->GetAllHoliday(" alpp_holidays.id = $id order by title",array("alpp_holidays.*"));
 }
+//print_r($holiday_list);
 ?>
 <div class="row">
     <div class="box col-md-9">

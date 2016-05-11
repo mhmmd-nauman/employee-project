@@ -17,12 +17,35 @@ if($_REQUEST['action'] =='remove')  // update code
  if(isset($_REQUEST['submit']))  /// insert code
 {
    //// insert query
-                
+     
+    if(isset($_FILES['notesfile']['name']))
+    {
+        $image=$_FILES['notesfile']['name'];
+        
+        if ($image) 
+        {
+            //ALTER TABLE `alpp_emp_notes` ADD `file` VARCHAR(30) NULL AFTER `notes`;
+            //ALTER TABLE `alpp_emp_notes` ADD `filetype` VARCHAR(10) NULL AFTER `file`;
+            $filename = stripslashes($_FILES['notesfile']['name']);
+            $extension = getExtension($filename);
+            $extension = strtolower($extension);
+            $size=filesize($_FILES['notesfile']['tmp_name']);
+
+            $image_name=time().'.'.$extension;
+            $pic="img/employee/".$image_name; // db path
+            //echo "ddd".$_FILES['notesfile']['type'];
+            $copied = copy($_FILES['notesfile']['tmp_name'], "../".$pic); // actual path
+
+        }
+    }  
     $submit=$obj->insert("alpp_emp_notes",array(
                             'emp_id'         =>$_REQUEST['emp_id'],
                             'notes'          =>$_REQUEST['notes'],
                             'creation_date' => date("Y-m-d h:i:s"),
                             'entered_by'  =>$_SESSION['session_admin_id'],
+                            'file'=>$pic,
+                            'filetype'=>$_FILES['notesfile']['type'],
+                            'filename'=>$_FILES['notesfile']['name'],
                                      
               ));
         if($submit)
@@ -38,16 +61,16 @@ if($_REQUEST['action'] =='remove')  // update code
         }
 }
 
-
+$employee_data=$obj->select("alpp_emp","emp_id = ".$_REQUEST['emp_id'],array("*"));
 ?>
 
 
 
 <div class="row">
-    <div class="box col-md-9">
+    <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Notes</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> <?php echo $employee_data[0]['emp_name'];?> - Notes</h2>
             </div>
             
             
@@ -64,7 +87,7 @@ if($_REQUEST['action'] =='remove')  // update code
     </div>
      <?php }?>
 
-     <form action="?emp_id=<?php echo $_REQUEST['emp_id'];?>" class="form-horizontal" role="form"  method="post" >
+     <form action="?emp_id=<?php echo $_REQUEST['emp_id'];?>" class="form-horizontal" role="form"  method="post" enctype="multipart/form-data" >
                
     <div class="form-group">
         <label class="control-label col-sm-4">Add Notes</label>
@@ -73,10 +96,14 @@ if($_REQUEST['action'] =='remove')  // update code
             
         </div>
        
-        
     </div>
   
-    
+         <div class="form-group">
+             <label class="control-label col-sm-4">Leave Report</label>
+             <div class="col-sm-8">
+                 <input type="file" name="notesfile">
+             </div>
+         </div>
 
     
                 
@@ -99,7 +126,8 @@ if($_REQUEST['action'] =='remove')  // update code
          <thead>
             <tr>
                 <th>Notes</th>
-                <th style="width: 22%">Date</th>
+                <th style="width: 15%">Document</th>
+                <th style="width: 15%">Date</th>
                 <th style="width: 10%">Action</th>
             </tr>
             <?php  
@@ -110,9 +138,10 @@ if($_REQUEST['action'] =='remove')  // update code
                 <td>
                     <?php echo $notes['notes'];?>
                 </td>
+                <td><?php echo $notes['filename'];?></td>
                 <td><?php echo date("M d, Y m:i:s A",  strtotime($notes['creation_date']));?></td>
                 <td>
-                    <a onclick="return confirmation();" title="Remove Notes" class=" add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $notes['emp_id']; ?>&id=<?php echo $notes['id'];?>&action=remove"><span class="glyphicon glyphicon-remove"></span></a>
+                    <a onclick="return confirmation();" title="Remove Notes" class=" btn btn-danger btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $notes['emp_id']; ?>&id=<?php echo $notes['id'];?>&action=remove"><i class="glyphicon glyphicon-trash icon-white"></i></a>
                 </td>
             </tr>
             <?php }?>
@@ -144,3 +173,13 @@ if($_REQUEST['action'] =='remove')  // update code
     }
 }
 </script>
+<?php
+function getExtension($str) 
+{
+ $i = strrpos($str,".");
+ if (!$i) { return ""; }
+ $l = strlen($str) - $i;
+ $ext = substr($str,$i+1,$l);
+ return $ext;
+}
+?>

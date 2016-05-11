@@ -1,6 +1,6 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
-include (dirname(__FILE__).'/../lib/header.php'); 
+include('../lib/modal_header.php'); 
 $obj=new Queries();
 $objTransaction =new Transaction();
 
@@ -37,39 +37,19 @@ if(isset($_REQUEST['submit']))  /// insert code
 ?>
 
 
-<div>
-    <ul class="breadcrumb">
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
-        </li>
-        <li>
-            Add Manual Balance
-        </li>
-        <li>
-            Balance Details
-        </li>
-    </ul>
-</div>
+
 
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Manual Balance</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Añadir Manual de Balanza</h2>
             </div>
             
             
             
            <div class="box-content">
-               <div class="col-md-10">
-                   &nbsp;
-               </div>
-                <div class="col-md-2">
-                    <a class="btn btn-success" href="emp_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>">Go Back</a>
-               </div>
-               <div class="col-md-12">
-                   &nbsp;
-               </div>
+               
                
      <br>
 <?php 
@@ -81,7 +61,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <strong>Success!</strong> Balance Detail Update.
             </div>
         </div>
-<?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$emp_id);
+<?php      //header('REFRESH:2, url=emp_balance.php?emp_id='.$emp_id);
     }
 	
 
@@ -95,7 +75,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                                 <strong>Success!</strong> Balance Detail Submitted.
                         </div>
                     </div>
-        <?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);
+        <?php      //header('REFRESH:2, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);
 		}
 	
       
@@ -183,7 +163,7 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
 
 </div><!--/row-->
 
-<?php include('../lib/footer.php'); ?>
+<?php include('../lib/modal_footer.php'); ?>
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>

@@ -2,7 +2,7 @@
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objHoliday =new Holiday();
-$holiday_list     =  $objHoliday->GetAllHoliday("1 order by title",array("*"));
+$holiday_list     =  $objHoliday->GetAllHoliday("1 order by title",array("alpp_holidays.id","title","date","alpp_holidays_type.type"));
 if(isset($_REQUEST['del']))	
 {	
    $del = $objHoliday->DeleteHoliday($_REQUEST['del']);
@@ -20,7 +20,7 @@ if(isset($_REQUEST['del']))
 ?>
 <script>
     $(document).ready(function(){
-            $(".add_holiday").colorbox({iframe:true, width:"40%", height:"60%"});
+            $(".add_holiday").colorbox({iframe:true, width:"50%", height:"80%"});
     });
 </script>
 
