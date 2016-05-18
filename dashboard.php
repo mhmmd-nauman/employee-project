@@ -51,9 +51,9 @@ else
     </div>
 
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="" class="well top-block" href="employee/inactive_emp_reports.php" data-original-title=" En Empleados Activos <?php echo $inactive_employee[0][0]; ?>">
+        <a data-toggle="tooltip" title="" class="well top-block" href="employee/inactive_emp_reports.php" data-original-title=" Empleados Inactivos <?php echo $inactive_employee[0][0]; ?>">
             <i class="glyphicon glyphicon-user green"></i>
-            <div>En Empleados Activos</div>
+            <div>Empleados Inactivos</div>
             <div><?php echo $inactive_employee[0][0]; ?></div>
         </a>
     </div>
@@ -68,30 +68,55 @@ else
     </div>
 
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="" class="well top-block" href="leave/leave_list.php" data-original-title="Hojas <?php echo $pending_leaves[0][0]; ?>">
+        <a data-toggle="tooltip" title="" class="well top-block" href="leave/leave_list.php" data-original-title="Solicitudes Pendientes <?php echo $pending_leaves[0][0]; ?>">
             <i class="glyphicon glyphicon-star yellow"></i>
-            <div>Hojas</div>
+            <div>Solicitudes Pendientes</div>
             <div><?php echo $pending_leaves[0][0]; ?></div>
         </a>
     </div>
 </div>
 
         <?php 
-        } else{?>
+        } else{
+            // emp balance
+            //print_r($_SESSION);
+            $balance_detail= $objTransaction->GetEmpBalanceDetail($_SESSION['session_admin_id']);
+            $bI = $balance_detail['I']-$balance_detail['leavesI'];
+            $bD = $balance_detail['D']-$balance_detail['leavesD'];
+            ?>
 <div class="row">
     <div class="box col-md-12">
-        <div class="box-inner">      <div class="box-header well" data-original-title="">
-        <h2><i class="glyphicon glyphicon-star-empty"></i> Bienvenido ( <?php echo $_SESSION['session_admin_name'];?> )</h2>
-    </div>
-            <div class="box-content" style="text-align: center;">
-                <div class="row alert alert-info" style=" text-align: center;">
-                You can login using RUT or Email and Password.
-                </div>
-                <br>
-                <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Actualizar Inicio de Sesión detalles</a>
-                <br>
+        <div class="box-inner">      
+            <div class="box-header well" data-original-title="">
+            <h2><i class="glyphicon glyphicon-star-empty"></i> Bienvenido ( <?php echo $_SESSION['session_admin_name'];?> )</h2>
             </div>
-    </div>
+            <div class="box-content" style="text-align: center;">
+                <div class="row">
+                    <div class=" col-md-12">
+                    <div class="row alert alert-info" style=" text-align: center;">
+                    You can login using RUT or Email and Password.
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-md-12">
+                        <table class="table table-striped table-bordered" >
+                            <tr>
+                                <th>Hoy Equilibrio</th> <td style=" background-color: #FFFFFF"><?php echo $bD+$bI;?></td>
+                                <th>Feriado  Legal</th><td style=" background-color: #FFFFFF"><?php echo $bI;?></td>
+                                <th>Dias Progresivos</th><td style=" background-color: #FFFFFF"><?php echo $bD;?></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-md-12">
+                    <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Actualizar Inicio de Sesión detalles</a>
+                    <br>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!--/span-->
 

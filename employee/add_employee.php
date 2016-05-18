@@ -152,7 +152,7 @@ else
     <div class="box col-md-9">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Añadir Empleado</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Ingresar</h2>
             </div>
             
 <div class="box-content">

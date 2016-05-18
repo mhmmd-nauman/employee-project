@@ -70,31 +70,23 @@ function action(status,leave_id,emp_id){
                               }        
     }
 </script>
-<div>
-    <ul class="breadcrumb">
-        <li><a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a></li>
-        <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php">Employee</a></li>
-        <li>Leave List</li>
-    </ul>
-</div>
-
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Leave List</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>Ingresar solicitud individual </h2>
             </div>
             
 
             <div class="box-content">
             
-                <h5>Person: <?php echo $emp_data[0]['emp_name'];?></h5> 
+                <h5>Empleado: <?php echo $emp_data[0]['emp_name'];?></h5> 
                 
                 <p style="text-align: right;">
-                    <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Add New Leave</button></a> 
+                    <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Ingresar solicitud individual</button></a> 
                     <a class="btn btn-success" href="emp_list.php">Go Back</a>
                 </p>                
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
+    <table class="table table-striped table-bordered bootstrap-datatable  responsive" id="">
     <thead>
     <tr>
        <th>No of Days</th>

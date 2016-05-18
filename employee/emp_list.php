@@ -16,12 +16,12 @@ $objTransaction =new Transaction();
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>  Empleados Lista </h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>  Ver empleados </h2>
             </div>
            <div class="box-content">
             <?php 
             $obj=new Queries();
-            $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
+            $employee_list=$obj->select("alpp_emp","emp_status = 0 order by emp_name",array("*"));
             if(isset($_REQUEST['emp_id']) && isset($_REQUEST['type']))	
             {	
                     $id = $_REQUEST['emp_id'];
@@ -87,7 +87,7 @@ $objTransaction =new Transaction();
                      */
         
         ?></td>
-        <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo date("d/m/Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td>
             <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
             <?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
@@ -112,8 +112,8 @@ $objTransaction =new Transaction();
         
         
         <td class="center">
-         <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>">
-           Hojas
+            <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">
+           Solicitud
          </a>
         <a class="btn btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
            <i class="glyphicon glyphicon-edit icon-white"></i>

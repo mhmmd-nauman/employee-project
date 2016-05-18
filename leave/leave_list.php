@@ -1,6 +1,7 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
+//ALTER TABLE `alpp_leave` ADD `date` DATE NULL AFTER `leave_emp_id`;
 $obj=new Queries();
 $where='1';  
 if($_SESSION['session_admin_role']=='employee')    $where='leave_emp_id='.$_SESSION['session_admin_id'];
@@ -54,6 +55,7 @@ function action(action_status,id){
             $(".report_leave").colorbox({iframe:true, width:"90%", height:"95%"});
             $(".add_leave").colorbox({iframe:true, width:"40%", height:"90%"});
             $(".status_leave").colorbox({iframe:true, width:"40%", height:"50%"});
+            
     });
 </script>
  <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
@@ -76,10 +78,10 @@ function action(action_status,id){
             
 
 <div class="box-content">
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style=" font-size: 12px">
+    <table class="table table-striped table-bordered   responsive" id="leave_list" style=" font-size: 12px; padding-bottom: 0px;">
     <thead>
     <tr>
-        <th>Ficha</th>
+        <th>#</th>
         <th>Nombre</th>
         <th>Days</th>
         <th>Duration</th>
@@ -90,11 +92,14 @@ function action(action_status,id){
     </tr>
     </thead>
     <tbody>
-        <?php foreach($leave_list as $leave) {      ?>
+        <?php 
+        $i=0;
+        foreach($leave_list as $leave) { $i++;      ?>
         
     <tr>
-             <td><?php echo $leave['emp_file']; ?></td>
-             <td><?php echo $leave['emp_name']; ?></td>
+             <td><?php echo $i; ?></td>
+             <td><?php echo $leave['emp_file']; ?><br>
+                 <?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
         <td>
         <?php   $from=$to='';
@@ -157,10 +162,11 @@ function action(action_status,id){
             
                            
       
-            
+            <?php if($leave['leave_approval']==2){ ?>
             <a class="btn btn-success report_leave btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/report_leave.php?view=<?php echo $leave['leave_id']; ?>&emp_id=<?php echo $leave['leave_emp_id']; ?>">
                 <i title="Report" class="glyphicon glyphicon-print icon-white"></i>
             </a>
+            <?php } ?>
             <a class="btn btn-info add_leave btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
                

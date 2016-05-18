@@ -8,7 +8,7 @@ $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
 $balance_detail= $objTransaction->GetEmpBalanceDetail($_REQUEST['emp_id']);
 $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
-//var_dump($balance_detail);
+//print_r($balance_detail);
 if(isset($_REQUEST['del']))	
 {	
         $id = $_REQUEST['del'];

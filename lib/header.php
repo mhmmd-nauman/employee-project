@@ -35,7 +35,15 @@
             $(".status_leave").colorbox({iframe:true, width:"40%", height:"50%"});
     
     });
-    
+    /*
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            "paging":   false,
+            "ordering": false,
+            "info":     false
+        } );
+    } );
+    */
 </script>     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -120,16 +128,16 @@
                         <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Empleados</span></a>
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon glyphicon-list-alt"></i><span> Añadir Empleado</span></a></li>
-                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-icon-user"></i><span> Empleados Lista </span></a></li>
+                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-icon-user"></i><span> Ver empleados </span></a></li>
+                                <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon glyphicon-list-alt"></i><span> Ingresar</span></a></li>
                             </ul>
                         </li>
                         <?php } if($_SESSION['session_admin_role']=='admin' ) { ?>                       
                             
                         <li class="accordion">
-                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Hojas</span></a>
+                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ingresar movimientos</span></a>
                             <ul class="nav nav-pills nav-stacked">
-                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-list"></i><span> Manejo de las hojas</span></a></li>
+                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-list"></i><span> Ingresar solicitud masiva</span></a></li>
                                 <!--<li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>manage_requests.php"><i class="glyphicon glyphicon-file"></i><span> Manage Requests</span></a></li>-->
                                 <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Historial</span></a></li>
                             </ul>

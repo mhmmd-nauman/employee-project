@@ -3,24 +3,34 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $obj=new Queries();
 $objHoliday=new Holiday();
-
+$objTransaction =new Transaction();
 $employee_list=$obj->select("alpp_emp","1 order by emp_name ASC ",array("*"));
 $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled"); 
- if(isset($_REQUEST['submit']))  /// insert code
+if(isset($_REQUEST['submit']))  /// insert code
 {
    $employees=$_REQUEST['emp_ids'];
     
    $total_days=$local_holiday=$final_days=0;
     if($_REQUEST['leave_duration_to'])
-        {
-        $date1 = new DateTime($_REQUEST['leave_duration_from']);
-        $date2 = new DateTime($_REQUEST['leave_duration_to']);
+    {
+    $date1 = new DateTime($_REQUEST['leave_duration_from']);
+    $date2 = new DateTime($_REQUEST['leave_duration_to']);
+    if((strtotime($date1) < strtotime($date2)) ||  (date("d",strtotime($date1)) === date("d",strtotime($date2)))){
+         //|| (date("d",strtotime($date1)) == ate("d",strtotime($date2)))   
+        
+        $date2 = $date2->modify( '+1 day' ); 
         //echo  $total_days = $date2->diff($date1)->format("%a");
 
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($date1, $interval, $date2);
+        //echo "<pre>";
+        //print_r($period);
+        //echo "</pre>";
         foreach ( $period as $dt )
         {
+            //echo "<pre>";
+            //print_r($dt);
+            //echo "</pre>";
             $day=$dt->format( "l" );
             $date=$dt->format( "m/d/Y" );
             
@@ -40,7 +50,7 @@ $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled");
                 $local_holiday++;
             }
         
-        }
+       
             //echo "Total :".$total_days."<br>";
             //echo "Local :".$local_holiday."<br>";        
 
@@ -48,12 +58,39 @@ $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled");
     }
     
 //////////////////////////////////////////////////////////////
-   
+    $insert_ok = 0;
+    $insert_count_ok = 0;
+    $error_I_count= 0;
+    $error_D_count= 0;
+    //print_r($employees);
    foreach($employees as $emp)
     {    
+       // check weather employee have enough balance 
+       $balance_detail= $objTransaction->GetEmpBalanceDetail($emp);
+       //print_r($balance_detail);
+       $bI = $balance_detail['I']-$balance_detail['leavesI'];
+       //echo "<br>";
+       $bD = $balance_detail['D']-$balance_detail['leavesD'];
        
-       $inserted=$obj->insert("alpp_leave",array(
+       if($_REQUEST['trans_type'] == 'I'){
+            if($bI >= $final_days){
+                $insert_ok =1;
+            }else{
+                $error_I_count++;
+            }
+       }
+       if($_REQUEST['trans_type'] == 'D' ){
+            if($bD >= $final_days){
+                $insert_ok =1;
+            }else{
+                $error_D_count++;
+            }
+       }
+       if($insert_ok){
+            $insert_count_ok++;
+            $inserted=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$emp,
+                                                 'date'   =>   date("Y-m-d"),
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$final_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
@@ -63,19 +100,43 @@ $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled");
                                                  'leave_datetime'   =>date('Y-m-d h:i:s'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
                                                  ));
+       } 
+       $insert_ok = 0;
     }    
-    if($inserted)
-		{     $message_success="
-                    <div class='widget-body'>
-                        <div class='alert alert-success'>
-                                <button class='close' data-dismiss='alert'>×</button>
-                                <strong>Success!</strong> Leave Added.
-                        </div>
-                    </div>"; 
-                 } 
+    if($insert_count_ok)
+    {     $message_success="
+        <div class='widget-body'>
+            <div class='alert alert-success'>
+                    <button class='close' data-dismiss='alert'>×</button>
+                    <strong>Success!</strong> $insert_count_ok Leave(s) Application Added Successfully.
+            </div>
+        </div>"; 
+     } 
 
-        else    {	$message_error= "<script> alert('RECORD NOT INSERTED'); </script> ";        }
+        if($error_I_count > 0 || $error_D_count > 0)
+        {	
+            $total_issue = $error_I_count + $error_D_count;
+            $message_success="
+            <div class='widget-body'>
+                <div class='alert alert-danger'>
+                        <button class='close' data-dismiss='alert'>×</button>
+                        <strong>Error!</strong> $total_issue Leave(s) Application have Less Balance Issue.
+                </div>
+            </div>";
+           // $message_error= "<script> alert('RECORD NOT INSERTED'); </script> ";        
+        
+        }
+        }else{
+            $message_success="
+            <div class='widget-body'>
+                <div class='alert alert-danger'>
+                        <button class='close' data-dismiss='alert'>×</button>
+                        <strong>Error!</strong>  Start date can not be greater then end date.
+                </div>
+            </div>";
+        }
 
+    }
 }
 
         ?>
@@ -122,13 +183,14 @@ $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled");
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Mass Leave Applications</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Ingresar solicitud masiva</h2>
             </div>
 <div class="box-content">
      <br>
 <?php
-if($inserted)		{   echo  $message_success; header('REFRESH:2, url=leave_list.php'); }
-else                    {   echo  $message_error; }
+if($message_success){
+    echo  $message_success;
+}
     ?>
      <form class="form-horizontal" role="form"  method="post">
                
@@ -136,37 +198,41 @@ else                    {   echo  $message_error; }
          
 <div class="form-group">
     <label class="control-label col-sm-2">Name</label>
-    <div class="col-sm-4">                                    
+    <div class="col-sm-8">                                    
         <fieldset class="multiselectcheck form-control">
         <label> <input type="checkbox" id="togglecheck" value="select" onClick="do_this()" />&nbsp;&nbsp;&nbsp;Select All</label>
         <?php
-                 foreach($employee_list as $employee)
-                                        {  
-        echo"<label><input type=checkbox class=selectedId name=emp_ids[] value=".$employee['emp_id']."/>&nbsp;&nbsp;&nbsp;".$employee['emp_file']."  -  ".$employee['emp_name']."  -  ".$employee['emp_department']."</label>";
-                                        }
+          foreach($employee_list as $employee)
+          {  
+            $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']);
+            $bI=$balance_detail['I'] - $balance_detail['leavesI'];
+            if($bI < 0)$bI="($bI)";
+            $bD=$balance_detail['D']-$balance_detail['leavesD'];
+            if($bD < 0)$bD="($bD)";
+            echo"<label><input type=checkbox class=selectedId name=emp_ids[] value=".$employee['emp_id'].">&nbsp;&nbsp;&nbsp;".$employee['emp_file']."  -  ".$employee['emp_name']."  -  ".$employee['emp_department']." - ".$bD." - ".$bI."</label>";
+          }
         ?>
         </fieldset>
+        &nbsp;(Ficha - Employee Name - Department - DIAS PROGRESIVOS - FERIADO LEGAL)
     </div>
 </div>
-               
+      
          
             <div class="form-group">                    
              <label class="control-label col-sm-2">Duration from *</label>                     
-             <div class="col-sm-4">
-                 <input type="date" required="" class="form-control col-sm-4"  style="width:180px;"  id="leave_duration_from" name="leave_duration_from">
+             <div class="col-sm-2">
+                 <input type="date" required="" class="form-control col-sm-4"  style="width:180px;"  id="leave_duration_from" name="leave_duration_from" value="<?php echo date('Y-m-d'); ?>">
              </div>
-         </div>
-
-         <div class="form-group">                    
+                            
              <label class="control-label col-sm-2">Duration to *</label>                     
-             <div class="col-sm-4">
-                 <input type="date" required="" class="form-control col-sm-4" style="width:180px;"  id="leave_duration_to" name="leave_duration_to">
+             <div class="col-sm-2">
+                 <input type="date" required="" class="form-control col-sm-4" style="width:180px;"  id="leave_duration_to" name="leave_duration_to" value="<?php echo date('Y-m-d'); ?>">
              </div>
          </div>
          
          <div class="form-group">
               <label class="control-label col-sm-2">Type</label>
-              <div class="col-sm-4">
+              <div class="col-sm-2">
                   <select name="trans_type" class="form-control" >
 <!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
                       <option value="C" <?php //if($transaction[0]['trans_type']=='C')echo"selected";?>>Auto System Added</option>-->
@@ -175,17 +241,17 @@ else                    {   echo  $message_error; }
                       
                   </select>
               </div>
-         </div>             
-
-         <div class="form-group">
+         
                         <label class="control-label col-sm-2">Approval</label>
-                        <div class="col-sm-4">          
-                            <select name="approval" class="form-control" required="">
+                        <div class="col-sm-2">          
+                         <select name="approval" class="form-control" required="">
                           <option value="">SELECT</option>
                            <?php 
                                 foreach($leave_array as $status=>$value)
                                 {   
+                                    if($status == 0)$sel="selected";
                                     echo "<option value=".$status." $sel>".$value."</option>";
+                                    $sel="";
                                 }
                                 ?>
                         </select>
@@ -197,7 +263,7 @@ else                    {   echo  $message_error; }
                 
           <div class="form-group">
                          <label class="control-label col-sm-2">Reason</label>                     
-                        <div class="col-sm-4">
+                        <div class="col-sm-8">
                             <textarea  class="form-control" name="reason"  placeholder="Enter Detail here..."></textarea>
                         </div>
                                

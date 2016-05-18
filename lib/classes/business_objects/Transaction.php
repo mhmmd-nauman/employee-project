@@ -74,7 +74,7 @@
             $row_leaved=mysqli_fetch_array($result_leaved);
             $arr['leavesD'] = $row_leaved['leavesD'];
             
-           $sql_leavei="SELECT sum(leave_duration) as leavesI  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='I' and leave_approval = 2 " ;
+            $sql_leavei="SELECT sum(leave_duration) as leavesI  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='I' and leave_approval = 2 " ;
             $result_leavei=mysqli_query($link,$sql_leavei) ;
             $row_leavei=mysqli_fetch_array($result_leavei);
             $arr['leavesI'] = $row_leavei['leavesI'];

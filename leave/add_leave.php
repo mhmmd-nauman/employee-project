@@ -11,6 +11,7 @@ if(isset($_REQUEST['update_button']))  // update code
         {
         $date1 = new DateTime($_REQUEST['leave_duration_from']);
         $date2 = new DateTime($_REQUEST['leave_duration_to']);
+        $date2 = $date2->modify( '+1 day' );
         //echo  $total_days = $date2->diff($date1)->format("%a");
 
         $interval = DateInterval::createFromDateString('1 day');
@@ -46,16 +47,17 @@ if(isset($_REQUEST['update_button']))  // update code
           
 //////////////////////////////////////////////////////////////
            $submit=$obj->update("alpp_leave","leave_id=".$_REQUEST['leave_id'] ,array(
-                                                'leave_emp_id'     =>$_REQUEST['emp_id'],
+                                                 'leave_emp_id'     =>$_REQUEST['emp_id'],
+                                                 //'date'   =>   date("Y-m-d"),
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$final_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
                                                  'leave_duration_to'   =>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_to'])),
-                                                  'leave_balance_type'   =>$_REQUEST['trans_type'],
+                                                 'leave_balance_type'   =>$_REQUEST['trans_type'],
                                                  'leave_approval'   =>$_REQUEST['approval'],
                                                  'leave_datetime'   =>date('Y-m-d h:i:s'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
-                                                                ));
+                                                  ));
         
         if($submit){        
             $message_type="alert-success"; 
@@ -123,11 +125,12 @@ if(isset($_REQUEST['update_button']))  // update code
 
 $submit=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$employee,
+                                                 'date'   =>   date("Y-m-d"),
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$final_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
                                                  'leave_duration_to'   =>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_to'])),
-                                                  'leave_balance_type'   =>$_REQUEST['trans_type'],
+                                                 'leave_balance_type'   =>$_REQUEST['trans_type'],
                                                  'leave_approval'   =>$approval,
                                                  'leave_datetime'   =>date('Y-m-d h:i:s'),
                                                  'leave_user'       =>$_SESSION['session_admin_email']
@@ -176,6 +179,9 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
         if(empty($leave_duration_from) || $leave_duration_from == "01/01/1970" ){
             $leave_duration_from = "";
         }
+}else{
+    $leave_duration_to = date("m/d/Y");
+    $leave_duration_from = date("m/d/Y");
 }
 ?>
 
@@ -183,7 +189,7 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
     <div class="box col-md-6">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Presentar una solicitud de licencia</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Ingresar solicitud individual</h2>
             </div>
             
 <div class="box-content">
