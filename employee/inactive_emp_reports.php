@@ -76,8 +76,8 @@ $employee_list=$obj->select("alpp_emp","emp_status = 1 order by emp_name",array(
         
         
         <td class="center">
-         <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>">
-           Hojas
+            <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">
+           Solicitud
          </a>
         <a class="btn btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
            <i class="glyphicon glyphicon-edit icon-white"></i>

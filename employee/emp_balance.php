@@ -44,8 +44,8 @@ if(isset($_REQUEST['del']))
                  <table class="table table-striped table-bordered" >
                         <tr>
                             <th>Hoy Equilibrio</th> <td style=" background-color: #FFFFFF"><?php echo $balance;?></td>
-                            <th>FERIADO LEGAL</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
-                            <th>DIAS PROGRESIVOS</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
+                            <th>Feriado Legal</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
+                            <th>Dias Progresivos</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
                         </tr>
                 </table>   
             </div>
@@ -55,7 +55,7 @@ if(isset($_REQUEST['del']))
                 <br>
                 <p style="text-align: right;">
                 <a class="btn add_balance btn-success btn-sm " href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Añadir Manual de Balanza</a>
-                <a class="btn btn-success btn-sm" href="emp_list.php">Empleados Lista</a>
+                <a class="btn btn-success btn-sm" href="emp_list.php">Ver empleados</a>
                 </p><br>
             </div>
           <?php } ?>
