@@ -89,7 +89,7 @@ if(isset($_REQUEST['submit']))  /// insert code
         <td><input type=checkbox class=selectedId name=emp_ids[] value="<?php echo $employee['emp_id']; ?>"/></td>
         <td><?php echo $employee['emp_file']; ?></td>
         <td><?php echo $employee['emp_name']; ?></td>
-        <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo date("d/m/Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php echo $employee['emp_count']; ?></td>
         
         <td class="center">

@@ -3,6 +3,7 @@ include ('../lib/include.php');
 include('../lib/modal_header.php');
 $obj=new Queries();
 $objHoliday =new Holiday();
+$objTransaction =new Transaction();
 $total_days=$local_holiday=$final_days=0;
 
 if(isset($_REQUEST['update_button']))  // update code
@@ -27,7 +28,11 @@ if(isset($_REQUEST['update_button']))  // update code
             }
             else
             {
-                $total_days++;
+                if($_REQUEST['half_day'] == 0){
+                    $total_days++;
+                }else{
+                    $total_days = $total_days + 0.5;
+                }
             }   
             
             $holiday_list=array();
@@ -48,7 +53,7 @@ if(isset($_REQUEST['update_button']))  // update code
 //////////////////////////////////////////////////////////////
            $submit=$obj->update("alpp_leave","leave_id=".$_REQUEST['leave_id'] ,array(
                                                  'leave_emp_id'     =>$_REQUEST['emp_id'],
-                                                 //'date'   =>   date("Y-m-d"),
+                                                 'half_day'   =>   $_REQUEST['half_day'],
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$final_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
@@ -89,6 +94,7 @@ if(isset($_REQUEST['update_button']))  // update code
     {
         $date1 = new DateTime($_REQUEST['leave_duration_from']);
         $date2 = new DateTime($_REQUEST['leave_duration_to']);
+        $date2 = $date2->modify( '+1 day' );
         //echo  $total_days = $date2->diff($date1)->format("%a");
 
         $interval = DateInterval::createFromDateString('1 day');
@@ -104,7 +110,11 @@ if(isset($_REQUEST['update_button']))  // update code
             }
             else
             {
-                $total_days++;
+                if($_REQUEST['half_day'] == 0){
+                    $total_days++;
+                }else{
+                    $total_days = $total_days + 0.5;
+                }
             }   
             
             $holiday_list=array();
@@ -120,12 +130,38 @@ if(isset($_REQUEST['update_button']))  // update code
 
             $final_days=$total_days-$local_holiday;
     }
+    // check if the employee has enough balance
     
-//////////////////////////////////////////////////////////////
+    $insert_ok = 0;
+    $insert_count_ok = 0;
+    $max_day_count= 0;
+   
+    $balance_detail= $objTransaction->GetEmpBalanceDetail($employee);
+    //print_r($balance_detail);
+    $bI = $balance_detail['I']-$balance_detail['leavesI'];
+    //echo "<br>";
+    $bD = $balance_detail['D']-$balance_detail['leavesD'];
 
-$submit=$obj->insert("alpp_leave",array(
+    if($_REQUEST['trans_type'] == 'I'){
+         if($bI >= $final_days){
+             $insert_ok =1;
+         }else{
+             $max_day_count = $bI;
+         }
+    }
+    if($_REQUEST['trans_type'] == 'D' ){
+         if($bD >= $final_days){
+             $insert_ok =1;
+         }else{
+             $max_day_count = $bD;
+         }
+    }
+//////////////////////////////////////////////////////////////
+    if($insert_ok){
+        $submit=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$employee,
                                                  'date'   =>   date("Y-m-d"),
+                                                 'half_day'   =>   $_REQUEST['half_day'],
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$final_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
@@ -136,32 +172,41 @@ $submit=$obj->insert("alpp_leave",array(
                                                  'leave_user'       =>$_SESSION['session_admin_email']
                                                   
               ));
-    if($submit)
-    {       
-        $message_type="alert-success"; 
-        $message_text = "<strong>Success!</strong> Leave Detail Submitted.";
-            
-        if($_SESSION['session_admin_role']=='admin')
-        { 
-            if(isset($_REQUEST['emp_id']))  
-            { 
-             //   header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_leave.php?emp_id='.$_REQUEST['emp_id']);
-            }
-            else 
-            { 
-             //   header('REFRESH:2, url='.SITE_ADDRESS.'leave/leave_list.php');
-            }
+        
+        // send the alert email to admin
+        $objEmployee =new Employee();
+        $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$employee,array("*"));
+        
+        $objEmail = new Email();
+        //$objEmail->To = 'mhmmd.nauman@gmail.com';
+        $objEmail->To = 'fsf@indubal.com';
+        
+        $objEmail->From = "Admin <nauman@indubalfriction.com>";
+        $objEmail->TextOnly = false;
+        $objEmail->Subject="New Leave Request From ".$emp_data[0]['emp_name'];
+        $Content .= "Hi,<br><br>You have new leave request from ".$emp_data[0]['emp_name'];
+        $Content .="<br>Ficha: ".$emp_data[0]['emp_file'];
+        $Content .="<br>From: ".date("d/m/Y",  strtotime($_REQUEST['leave_duration_from']));
+        $Content .="<br>To: ".date("d/m/Y",  strtotime($_REQUEST['leave_duration_to']));
+        $Content .="<br>Total Days: ".$final_days;
+        $Content .="<br><br><br>Regards<br><br> Admin Team";
+        $objEmail->Content = $Content;
+        $objEmail->Send();    
+        if($submit)
+        {       
+            $message_type="alert-success"; 
+            $message_text = "<strong>Success!</strong> Leave Application Submitted.";
         }
-        if($_SESSION['session_admin_role']=='employee')
-        { 
-             //   header('REFRESH:2, url=leave_list.php');
-        }  
-    }
-    else
-    { 
-            $message_type="alert-error"; 
-            $message_text = "<strong>Error!</strong> Leave Detail not Submitted ,Please try again.";
-    }
+    }else{
+        $message_type="alert-danger";
+        if($max_day_count > 0){
+            $message_text = "<strong>Error!</strong> Leave Application not Submitted ,You can only request $max_day_count day(s).";
+        }else{
+            $message_text = "<strong>Error!</strong> You are out of balance.";
+        }
+        
+        }
+    
 }
       
  	 
@@ -200,11 +245,12 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
                 <?php echo $message_text;?>
         </div>
     </div>
-    
- <script> window.parent.location.reload();</script>
-     <?php }?>
+    <?php if($message_type == "alert-success"){ ?>
+        <script> window.parent.location.reload();</script>
+    <?php }
+    }?>
 
-<form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
+<form class="form-horizontal" role="form"  method="post" >
      
 <?php   $employee_list=$obj->select("alpp_emp","1 order by emp_name ASC ",array("*"));    
 
@@ -233,16 +279,25 @@ if($_SESSION['session_admin_role']=='admin')
                    </div>
     </div>
 <?php } ?>                 
-         
+       
     <div class="form-group">                    
-        <label class="control-label col-sm-2">Duration from</label>                     
+        <label class="control-label col-sm-2">1/2 Day Leave</label>                     
+        <div class="col-sm-2">
+            <select name="half_day" class="form-control" >
+                <option value="0" <?php if($leave_list[0]['half_day']==0)echo"selected";?>>No</option>
+                <option value="1" <?php if($leave_list[0]['half_day']==1)echo"selected";?>>Yes</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">                    
+        <label class="control-label col-sm-2">From</label>                     
         <div class="col-sm-2">
             <input type="text" id="leave_duration_from" required="" class="form-control col-sm-2"  <?php echo $readonly; ?> value="<?php echo $leave_duration_from; ?>"  name="leave_duration_from">
         </div>
     </div>
 
     <div class="form-group">                    
-        <label class="control-label col-sm-2">Duration to  </label>                     
+        <label class="control-label col-sm-2">To</label>                     
         <div class="col-sm-2">
             <input type="text" id="leave_duration_to"  required="" class="form-control col-sm-2" <?php echo $readonly; ?> value="<?php echo $leave_duration_to; ?>"  name="leave_duration_to">
         </div>
@@ -317,4 +372,8 @@ $(function() {
   $( "#leave_duration_from" ).datepicker();
   $( "#leave_duration_to" ).datepicker();
 });
+
 </script>
+<!--
+ALTER TABLE `alpp_leave` ADD `half_day` TINYINT(1) NOT NULL DEFAULT '0' ;
+-->

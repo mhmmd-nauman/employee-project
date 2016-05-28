@@ -18,6 +18,7 @@ session_start();
 require_once dirname(__FILE__)."/../lib/connect.php";
 require_once dirname(__FILE__)."/../lib/header_session.php";
 require_once dirname(__FILE__)."/../lib/classes/util_objects/util.php";
+require_once dirname(__FILE__)."/../lib/classes/util_objects/class.Email.php";
 require_once dirname(__FILE__)."/../lib/classes/business_objects/Queries.php";
 require_once dirname(__FILE__)."/../lib/classes/business_objects/Transaction.php";
 require_once dirname(__FILE__)."/../lib/classes/business_objects/Employee.php";

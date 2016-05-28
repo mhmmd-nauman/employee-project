@@ -17,7 +17,7 @@
                         Supervisor: <?php echo $_SESSION['session_admin_name'];?>
                     </div>
                     <div class="col-md-3">
-                        Fecha Del Registro: <?php echo date("m/d/Y"); ?>
+                        Fecha Del Registro: <?php echo date("d/m/Y"); ?>
                     </div>
                     <div class="col-md-1">
                         Hora: <?php echo date("h:i"); ?>
@@ -53,10 +53,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4 cel_data">
-                                <?php echo date("m/d/Y", strtotime($leave_data[0]['leave_duration_from'])); ?> 
+                                <?php echo date("d/m/Y", strtotime($leave_data[0]['leave_duration_from'])); ?> 
                             </div>
                             <div class="col-md-4 cel_data">
-                                <?php echo date("m/d/Y", strtotime($leave_data[0]['leave_duration_to'])); ?> 
+                                <?php echo date("d/m/Y", strtotime($leave_data[0]['leave_duration_to'])); ?> 
                             </div>
                         </div>
                     </div>

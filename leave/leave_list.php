@@ -5,7 +5,7 @@ include (dirname(__FILE__).'/../lib/header.php');
 $obj=new Queries();
 $where='1';  
 if($_SESSION['session_admin_role']=='employee')    $where='leave_emp_id='.$_SESSION['session_admin_id'];
-$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," $where order by leave_id desc",array("*")); ?>
+$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," $where order by date desc",array("*")); ?>
 
 <?php
 if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	// code to edit status only 
@@ -81,10 +81,10 @@ function action(action_status,id){
     <table class="table table-striped table-bordered   responsive" id="leave_list" style=" font-size: 12px; padding-bottom: 0px;">
     <thead>
     <tr>
-        <th>#</th>
+        <th style=" width: 8%;">Req. Date</th>
         <th>Nombre</th>
         <th>Days</th>
-        <th>Duration</th>
+        <th>From-To Date</th>
         <th>Reason</th>
         <th style=" width: 10%;">Type</th>
         <th style=" width: 12%;">Status</th>
@@ -97,7 +97,7 @@ function action(action_status,id){
         foreach($leave_list as $leave) { $i++;      ?>
         
     <tr>
-             <td><?php echo $i; ?></td>
+        <td><?php echo date("d/m/Y",strtotime($leave['date'])); ?></td>
              <td><?php echo $leave['emp_file']; ?><br>
                  <?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
@@ -106,13 +106,13 @@ function action(action_status,id){
                     if($leave['leave_duration_from'])
                     {
                                $from = new DateTime($leave['leave_duration_from']);
-                               echo  $from = $from->format("m/d/Y");
+                               echo  $from = $from->format("d/m/Y");
 
                             if($leave['leave_duration_to'])
                             {
-                                        echo "  <b>To</b>  "; 
+                                        echo "  <b>-</b>  "; 
                                         $to = new DateTime($leave['leave_duration_to']);
-                                       echo $to = $to->format("m/d/Y");
+                                       echo $to = $to->format("d/m/Y");
                             }
                     }
         ?>

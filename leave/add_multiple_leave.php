@@ -40,7 +40,11 @@ if(isset($_REQUEST['submit']))  /// insert code
             }
             else
             {
-                $total_days++;
+                if($_REQUEST['half_day'] == 0){
+                    $total_days++;
+                }else{
+                    $total_days = $total_days + 0.5;
+                }
             }   
             
             $holiday_list=array();
@@ -91,6 +95,7 @@ if(isset($_REQUEST['submit']))  /// insert code
             $inserted=$obj->insert("alpp_leave",array(
                                                  'leave_emp_id'     =>$emp,
                                                  'date'   =>   date("Y-m-d"),
+                                                 'half_day'   =>   $_REQUEST['half_day'],
                                                  'leave_reason'     =>$_REQUEST['reason'],
                                                  'leave_duration'   =>$final_days,
                                                  'leave_duration_from'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_from'])),
@@ -195,7 +200,15 @@ if($message_success){
      <form class="form-horizontal" role="form"  method="post">
                
                         
-         
+    <div class="form-group">                    
+        <label class="control-label col-sm-2">1/2 Day Leave</label>                     
+        <div class="col-sm-2">
+            <select name="half_day" class="form-control" >
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
+    </div>
 <div class="form-group">
     <label class="control-label col-sm-2">Name</label>
     <div class="col-sm-8">                                    
@@ -219,12 +232,12 @@ if($message_success){
       
          
             <div class="form-group">                    
-             <label class="control-label col-sm-2">Duration from *</label>                     
+             <label class="control-label col-sm-2">From Date *</label>                     
              <div class="col-sm-2">
                  <input type="date" required="" class="form-control col-sm-4"  style="width:180px;"  id="leave_duration_from" name="leave_duration_from" value="<?php echo date('Y-m-d'); ?>">
              </div>
                             
-             <label class="control-label col-sm-2">Duration to *</label>                     
+             <label class="control-label col-sm-2">To Date *</label>                     
              <div class="col-sm-2">
                  <input type="date" required="" class="form-control col-sm-4" style="width:180px;"  id="leave_duration_to" name="leave_duration_to" value="<?php echo date('Y-m-d'); ?>">
              </div>

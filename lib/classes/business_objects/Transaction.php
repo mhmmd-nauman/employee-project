@@ -3,7 +3,7 @@
 	
         function GetBalanceDetail($strWhere){
             global $link;
-             $sql="SELECT distinct(alpp_transactions.id) as id,
+               $sql="SELECT distinct(alpp_transactions.id) as id,
                    end_month_data as entered_on_date,
                    trans_type,
                    alpp_transactions.emp_id as emp_id, 

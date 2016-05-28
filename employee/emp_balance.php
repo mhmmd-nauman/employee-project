@@ -43,9 +43,8 @@ if(isset($_REQUEST['del']))
                 <br>
                  <table class="table table-striped table-bordered" >
                         <tr>
-                            <th>Hoy Equilibrio</th> <td style=" background-color: #FFFFFF"><?php echo $balance;?></td>
-                            <th>Feriado Legal</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
-                            <th>Dias Progresivos</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
+                            <th>Feriado Legal</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></th>
+                            <th>Dias Progresivos</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></th>
                         </tr>
                 </table>   
             </div>
@@ -63,7 +62,7 @@ if(isset($_REQUEST['del']))
  <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">            
 <div class="box-content">
    <br>
-   <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style=" font-size: 12px;" >
+   <table class="table table-striped table-bordered   responsive" style=" font-size: 12px;" >
     <thead>
     <tr>
 <!--        <th>ID</th>-->
@@ -85,7 +84,7 @@ if(isset($_REQUEST['del']))
         
     <tr>
 <!--        <td><?php //echo $trasanction['id']; ?></td>-->
-        <td><?php echo date("m/d/Y",strtotime($trasanction['entered_on_date'])); ?></td>
+        <td><?php echo date("d/m/Y",strtotime($trasanction['entered_on_date'])); ?></td>
         
             <?php
             switch($trasanction['trans_type']) {
