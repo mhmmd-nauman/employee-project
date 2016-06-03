@@ -27,7 +27,7 @@
     <script src="<?php echo SITE_ADDRESS; ?>bower_components/jquery/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
-        $(".add_employee").colorbox({iframe:true, width:"70%", height:"80%"});
+        $(".add_employee").colorbox({iframe:true, width:"80%", height:"90%"});
         $(".add_monthly").colorbox({iframe:true, width:"70%", height:"80%"});
         $(".add_employee_notes").colorbox({iframe:true, width:"70%", height:"80%"});
              $(".add_holiday").colorbox({iframe:true, width:"40%", height:"60%"});
@@ -130,6 +130,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-icon-user"></i><span> Ver empleados </span></a></li>
                                 <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon glyphicon-list-alt"></i><span> Ingresar</span></a></li>
+                                <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_single.php"><i class="glyphicon glyphicon-list-alt"></i><span> Modificar saldos</span></a></li>
                             </ul>
                         </li>
                         <?php } if($_SESSION['session_admin_role']=='admin' ) { ?>                       
@@ -173,7 +174,7 @@
                                 
                             </ul>
                         </li>
-        
+                        <li><a href="<?php echo SITE_ADDRESS; ?>settings/permissions.php"><i class="glyphicon glyphicon-globe"></i><span> PREMISOLOGÍA</span></a></li>
 
            <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
                         <li class="ajax-link"><a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><i class="glyphicon glyphicon-list"></i><span> Presentar una solicitud de licencia</span></a></li>

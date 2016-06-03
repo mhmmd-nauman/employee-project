@@ -2,25 +2,25 @@
                 <div class="row">&nbsp;</div>
                 <div class="row rep_background">
                     <div class="col-md-3">
-                        <b>De Ficha</b>: <?php echo $employee_data[0]['emp_file'];?>
+                        <b>N° DE FICHA</b>: <?php echo $employee_data[0]['emp_file'];?>
                     </div>
                     <div class="col-md-5">
-                        <b>Nombre Del Trabajador</b>: <?php echo $employee_data[0]['emp_name'];?>
+                        <b>NOMBRE DEL TRABAJADOR</b>: <?php echo $employee_data[0]['emp_name'];?>
                     </div>
                     <div class="col-md-3">
-                        <b>Seccion</b>: <?php echo $employee_data[0]['emp_department'];?>
+                        <b>SECCIÓN</b>: <?php echo $employee_data[0]['emp_department'];?>
                     </div>
                 </div>
                 
                 <div class="row rep_background">
                     <div class="col-md-5">
-                        Supervisor: <?php echo $_SESSION['session_admin_name'];?>
+                        SUPERVISOR / APROBADOR: <?php echo $_SESSION['session_admin_name'];?>
                     </div>
                     <div class="col-md-3">
-                        Fecha Del Registro: <?php echo date("d/m/Y"); ?>
+                        FECHA DEL REGISTRO: <?php echo date("d/m/Y"); ?>
                     </div>
                     <div class="col-md-1">
-                        Hora: <?php echo date("h:i"); ?>
+                        HORA: <?php echo date("h:i"); ?>
                     </div>
                 </div>
                 
@@ -28,19 +28,21 @@
                     <div class="col-md-3 ">
                         <div class="row">
                             <div class="col-md-12 ">
-                                Motivo Del Permiso
+                                TIPO DE VACACIONES
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 cel_data big_cel_data">
-                                &nbsp;
+                            <div class="col-md-12 "><br>
+                                <?php if($leave_data[0]['leave_balance_type']=='I'){?>
+                                FERIADO LEGAL <?php }else{ ?> DIAS PROGRESIVOS
+                                <?php }?>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 ">
                         <div class="row">
                             <div class="col-md-12">
-                                Periodo Del Permiso
+                                PERIODO DEL PERMISO
                             </div>
                         </div>
                         <div class="row">
@@ -52,10 +54,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4 cel_data">
+                            <div class="col-md-4 ">
                                 <?php echo date("d/m/Y", strtotime($leave_data[0]['leave_duration_from'])); ?> 
                             </div>
-                            <div class="col-md-4 cel_data">
+                            <div class="col-md-4 ">
                                 <?php echo date("d/m/Y", strtotime($leave_data[0]['leave_duration_to'])); ?> 
                             </div>
                         </div>
@@ -63,88 +65,80 @@
                     
                     <div class="col-md-4">
                         <div class="row">
-                            <div class="col-md-5 rep_background">
-                                Horas
+                            <div class="col-md-11 ">
+                                CANTIDAD DE DÍAS
                             </div>
-                            <div class="col-md-5 rep_background">
-                               USO RRHH
-                            </div>
+                            
                         </div>
                         <div class="row" >
-                            <div class="col-md-6" >
-                                <div class="row">
-                                    <div class="col-md-4 rep_background">
-                                        DSDE
-                                    </div>
-                                    <div class="col-md-4 rep_background">
-                                        HASTA
-                                    </div>
-                                </div>
-                                
+                            <div class="col-md-11" >
+                                CONTEMPLAR MEDIOS DÍAS
                             </div>
-                            <div class="col-md-4 rep_background" style="margin-left:15px;">
-                                &nbsp;
-                            </div>
+                            
                         </div>
-                        <div class="row" >
-                            <div class="col-md-6" >
-                                <div class="row">
-                                    <div class="col-md-4 cel_data">
-                                        &nbsp;
-                                    </div>
-                                    <div class="col-md-4 cel_data">
-                                        &nbsp;
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div class="col-md-4 " style="margin-left:15px;">
-                                &nbsp;
-                            </div>
-                        </div>
+                        
                 </div>
                </div>
                 <!-- leave balance information -->
-                <div class="row">
-                    <div class="col-md-3">
-                        Days available: <?php echo $balance_before_leave ?>
-                    </div>
-                    <div class="col-md-5">
-                    Days taken: <?php echo $leave_data[0]['leave_duration'];?>
-                    </div>
-                    <div class="col-md-3">
-                    Final balance: <?php echo $balance_before_leave - $leave_data[0]['leave_duration'];?>
+                <div class="row rep_background">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-10" style="text-align: center;">
+                                <b>SALDO FINAL DISPONIBLE</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5" style="text-align: center;">
+                                FERIADOS LEGALES
+                            </div>
+                            <div class="col-md-5" style="text-align: center;">
+                                DIAS PROGRESIVOS		
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5" style="text-align: center;">
+                                <?php echo $balance_detail['I']-$balance_detail['leavesI'];?>
+                            </div>
+                            <div class="col-md-5" style="text-align: center;">
+                                <?php echo $balance_detail['D']-$balance_detail['leavesD'];?>		
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
                 
                 <!-- end of balance section -->
-            <div class="row rep_background">
-                <div class="col-md-11 ">
-                    Observaciones
+                <div class="row rep_background" style="text-align: center;">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            Observaciones
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><br>
+                           <?php echo $leave_data[0]['leave_reason'];?>
+                        </div>
+                        
+                    </div>
                 </div>
                 
             </div>
-            <div class="row ">
-                <div class="col-md-11 cel_data big_cel_data">
-                    <?php echo $leave_data[0]['leave_reason'];?>
-                </div>
-                
-            </div>
-            <div class="row">
-                &nbsp;
-            </div>
-              <div class="row">
-                <div class="col-md-5 cel_data big_cel_data">
+            
+            
+                <div class="row" >
+                <div class="col-md-5 cel_data big_cel_data" style="min-height: 60px;">
                     <b><?php echo $employee_data[0]['emp_name'];?></b><br>
-                    Trabajador
+                    TRABAJADOR
                 </div>
-                <div class="col-md-3 cel_data big_cel_data">
+                <div class="col-md-3 cel_data big_cel_data" style="min-height: 60px;">
                     <b><?php echo $_SESSION['session_admin_name'];?></b><br>
-                    Supervisor/Jefe Directo
+                    SUPERVISOR / APROBADOR
                 </div>
-                <div class="col-md-3 cel_data big_cel_data">
+                <div class="col-md-3 cel_data big_cel_data" style="min-height: 60px;">
                     <br>
-                    Recursos Humanos
+                    CONTROL DE GESTIÓN
                 </div>
             </div>  
         

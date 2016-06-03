@@ -60,15 +60,17 @@ function PrintWindow() {
 }
 </script>
 <!-- start of first copy -->
- <div class="row">
-     <div class="box col-md-12 ">
+
+<div class="row">
+    <div class="col-md-2 ">
+         <img alt="Indubal" src="<?php echo SITE_ADDRESS; ?>img/logo20.png" class="hidden-xs">
+     </div>
+    <div class=" col-md-7" data-original-title="" style=" text-align: center;">
+        <h4> SOLICITUD DE VACACIONES</h4>
+    </div>
+    <div class="col-md-2 pull-right">
          <button type="button" onclick="PrintWindow()" name="search" class="btn btn-small btn-success pull-right"><i title="Report" class="glyphicon glyphicon-print icon-white"> Print</i></button>
      </div>
- </div>
-<div class="row">
-    <div class="box-header col-md-12" data-original-title="" style=" text-align: center;">
-        <h2> Solicitud De Permiso</h2>
-    </div>
 </div>
 <?php
    include('report_leave_inner.php'); ?>

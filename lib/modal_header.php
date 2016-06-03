@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <title>Employee</title>
+    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The styles -->
     <link href="<?php echo SITE_ADDRESS; ?>css/bootstrap-cerulean.min.css" rel="stylesheet">
