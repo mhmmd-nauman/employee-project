@@ -62,13 +62,13 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <label class="control-label col-sm-2">Month</label>
              
                     <div class="col-sm-4">
-                        <input type="text" id="datepicker" class="form-control" name="end_month_data" value="<?php echo date('m/d/Y'); ?>">
+                        <input type="text" id="datepicker" class="form-control" name="end_month_data" value="<?php echo date('d-m-Y'); ?>">
                     </div>
                         
                     
                     </div>
           
-         
+         <p><b>Check from the list to include in updated queue</b></p>
             <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
   
          <thead>
@@ -89,7 +89,7 @@ if(isset($_REQUEST['submit']))  /// insert code
         <td><input type=checkbox class=selectedId name=emp_ids[] value="<?php echo $employee['emp_id']; ?>"/></td>
         <td><?php echo $employee['emp_file']; ?></td>
         <td><?php echo $employee['emp_name']; ?></td>
-        <td><?php echo date("d/m/Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php echo $employee['emp_count']; ?></td>
         
         <td class="center">
@@ -132,7 +132,9 @@ if(isset($_REQUEST['submit']))  /// insert code
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script>
   $(function() {
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({
+        dateFormat: "dd-mm-yy"
+    });
   });
   </script>
   <?php

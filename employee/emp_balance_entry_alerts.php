@@ -6,6 +6,14 @@ $objEmployee = new Employee();
 $obj=new Queries();
 $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
 ?> 
+<script>
+    $(document).ready(function(){
+        $(".add_balance").colorbox({iframe:true, width:"70%", height:"80%"});
+       // $(".add_monthly").colorbox({iframe:true, width:"70%", height:"80%"});
+       // $(".add_employee_notes").colorbox({iframe:true, width:"80%", height:"90%"});
+
+    });
+</script>
 <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
 <div class="row">
     <div class="box col-md-12">
@@ -81,7 +89,7 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
            ?>
         </td>
         <td>
-             <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>/employee/add_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">Add Manually</a>
+             <a class="btn btn-success btn-sm add_balance" href="<?php echo SITE_ADDRESS; ?>/employee/add_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">Add Manually</a>
         </td>
     </tr>
         <?php 
@@ -103,7 +111,7 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
                 You can login using RUT or Email and Password.
                 </div>
                 <br>
-                <a class="btn btn-success add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Change Login Details</a>
+                <a class="btn btn-success add_employee cboxElement" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Change Login Details</a>
                 <br>
             </div>
      <?php }?>

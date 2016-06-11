@@ -51,7 +51,7 @@ $employee_list=$obj->select("alpp_emp","emp_status = 1 order by emp_name",array(
                      */
         
         ?></td>
-        <td><?php echo date("d/m/Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td>
             <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
             <?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 

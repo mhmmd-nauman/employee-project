@@ -84,7 +84,7 @@ if(isset($_REQUEST['del']))
         
     <tr>
 <!--        <td><?php //echo $trasanction['id']; ?></td>-->
-        <td><?php echo date("d/m/Y",strtotime($trasanction['entered_on_date'])); ?></td>
+        <td><?php echo date("d-m-Y",strtotime($trasanction['entered_on_date'])); ?></td>
         
             <?php
             switch($trasanction['trans_type']) {

@@ -49,7 +49,7 @@ if(isset($_REQUEST['del']))
     <tr>
         <td><?php echo $holiday['title']; ?></td>
         <td><?php echo $holiday['type']; ?></td>
-        <td><?php echo $holiday['date']; ?></td>
+        <td><?php echo date("d-m-Y",strtotime($holiday['date'])); ?></td>
         <td class="center">            
             <a class="btn btn-info btn-sm add_holiday" href="add_holiday.php?update=<?php echo $holiday['id']; ?>">
                <i class="glyphicon glyphicon-edit icon-white"></i>

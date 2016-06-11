@@ -53,7 +53,7 @@ $employee_list=$obj->select("alpp_emp","emp_type = 1 order by emp_name",array("*
                      */
         
         ?></td>
-        <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
         echo number_format($balance, 2);
         ?></td>

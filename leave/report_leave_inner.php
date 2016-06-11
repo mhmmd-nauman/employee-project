@@ -17,7 +17,7 @@
                         SUPERVISOR / APROBADOR: <?php echo $_SESSION['session_admin_name'];?>
                     </div>
                     <div class="col-md-3">
-                        FECHA DEL REGISTRO: <?php echo date("d/m/Y"); ?>
+                        FECHA DEL REGISTRO: <?php echo date("d-m-Y"); ?>
                     </div>
                     <div class="col-md-1">
                         HORA: <?php echo date("h:i"); ?>
@@ -55,10 +55,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4 ">
-                                <?php echo date("d/m/Y", strtotime($leave_data[0]['leave_duration_from'])); ?> 
+                                <?php echo date("d-m-Y", strtotime($leave_data[0]['leave_duration_from'])); ?> 
                             </div>
                             <div class="col-md-4 ">
-                                <?php echo date("d/m/Y", strtotime($leave_data[0]['leave_duration_to'])); ?> 
+                                <?php echo date("d-m-Y", strtotime($leave_data[0]['leave_duration_to'])); ?> 
                             </div>
                         </div>
                     </div>

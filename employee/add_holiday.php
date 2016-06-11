@@ -96,7 +96,10 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
     <div class="form-group">
         <label class="control-label col-sm-2">Date</label>                     
             <div class="col-sm-4">
-               <input type="text" id="date" class="form-control" value="<?php echo $holiday_list[0]['date']; ?>" name="date">
+                <?php if($holiday_list[0]['date']){
+                    $date=date("d-m-Y",strtotime($holiday_list[0]['date']));
+                }?>
+               <input type="text" id="date" class="form-control" value="<?php echo $date;?>" name="date">
             </div>
     </div>
 
@@ -133,6 +136,9 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script>
 $(function() {
-  $( "#date" ).datepicker();
+  $( "#date" ).datepicker({
+        dateFormat: "dd-mm-yy",
+        beforeShowDay: $.datepicker.noWeekends
+    });
 });
 </script>

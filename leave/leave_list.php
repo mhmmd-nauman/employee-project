@@ -84,7 +84,7 @@ function action(action_status,id){
         <th style=" width: 8%;">Req. Date</th>
         <th>Nombre</th>
         <th>Days</th>
-        <th>From-To Date</th>
+        <th style=" width: 8%;">From<br>To</th>
         <th>Reason</th>
         <th style=" width: 10%;">Type</th>
         <th style=" width: 12%;">Status</th>
@@ -97,7 +97,7 @@ function action(action_status,id){
         foreach($leave_list as $leave) { $i++;      ?>
         
     <tr>
-        <td><?php echo date("d/m/Y",strtotime($leave['date'])); ?></td>
+        <td><?php echo date("d-m-Y",strtotime($leave['date'])); ?></td>
              <td><?php echo $leave['emp_file']; ?><br>
                  <?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
@@ -106,13 +106,13 @@ function action(action_status,id){
                     if($leave['leave_duration_from'])
                     {
                                $from = new DateTime($leave['leave_duration_from']);
-                               echo  $from = $from->format("d/m/Y");
+                               echo  $from = $from->format("d-m-Y");
 
                             if($leave['leave_duration_to'])
                             {
-                                        echo "  <b>-</b>  "; 
+                                        echo "<br>"; 
                                         $to = new DateTime($leave['leave_duration_to']);
-                                       echo $to = $to->format("d/m/Y");
+                                       echo $to = $to->format("d-m-Y");
                             }
                     }
         ?>

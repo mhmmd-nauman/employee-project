@@ -102,7 +102,7 @@ else
                     <div class=" col-md-12">
                         <table class="table table-striped table-bordered" >
                             <tr>
-                                <th>Hoy Equilibrio</th> <td style=" background-color: #FFFFFF"><?php echo $bD+$bI;?></td>
+                                
                                 <th>Feriado  Legal</th><td style=" background-color: #FFFFFF"><?php echo $bI;?></td>
                                 <th>Dias Progresivos</th><td style=" background-color: #FFFFFF"><?php echo $bD;?></td>
                             </tr>

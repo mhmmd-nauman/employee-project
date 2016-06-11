@@ -90,11 +90,11 @@ function action(status,leave_id,emp_id){
     <thead>
     <tr>
        <th>No of Days</th>
-        <th>Duration</th>
-        <th>Reason</th>
+        <th width="10%">From:<br>To:</th>
+        <th >Reason</th>
         <th>Type</th>
         <th>Status</th>
-        <th>Actions</th>
+        <th width="18%">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -107,13 +107,13 @@ function action(status,leave_id,emp_id){
                     if($leave['leave_duration_from'])
                     {
                                $from = new DateTime($leave['leave_duration_from']);
-                               echo  $from = $from->format("m/d/Y");
+                               echo  $from = $from->format("d-m-Y");
 
                             if($leave['leave_duration_to'])
                             {
-                                        echo "  <b>To</b>  "; 
+                                        echo "  <br>  "; 
                                         $to = new DateTime($leave['leave_duration_to']);
-                                       echo $to = $to->format("m/d/Y");
+                                       echo $to = $to->format("d-m-Y");
                             }
                     }
         ?>

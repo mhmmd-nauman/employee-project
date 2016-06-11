@@ -56,7 +56,7 @@ else
             <td><?php echo $employee['emp_name']; ?></td>
             <td><?php echo $employee['emp_department']; ?></td>
             <td><?php echo $employee['emp_cellnum'];?></td>
-            <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
+            <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
             <td><?php   echo number_format($balance, 2);?></td>
             <td><?php   echo number_format(($balance_detail['I']-$balance_detail['leavesI']), 2);?></td>
             <td><?php   echo number_format(($balance_detail['D']-$balance_detail['leavesD']), 2);?></td>

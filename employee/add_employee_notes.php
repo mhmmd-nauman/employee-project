@@ -139,7 +139,7 @@ $employee_data=$obj->select("alpp_emp","emp_id = ".$_REQUEST['emp_id'],array("*"
                     <?php echo $notes['notes'];?>
                 </td>
                 <td><?php echo $notes['filename'];?></td>
-                <td><?php echo date("M d, Y m:i:s A",  strtotime($notes['creation_date']));?></td>
+                <td><?php echo date("d-m-Y",  strtotime($notes['creation_date']));?></td>
                 <td>
                     <a onclick="return confirmation();" title="Remove Notes" class=" btn btn-danger btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $notes['emp_id']; ?>&id=<?php echo $notes['id'];?>&action=remove"><i class="glyphicon glyphicon-trash icon-white"></i></a>
                 </td>

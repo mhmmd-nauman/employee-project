@@ -10,17 +10,21 @@ if(isset($_REQUEST['update_button']))  // update code
 {
     if($_REQUEST['leave_duration_to'])
         {
+        
+        //print_r($_REQUEST);
+        
+        //exit;
         $date1 = new DateTime($_REQUEST['leave_duration_from']);
         $date2 = new DateTime($_REQUEST['leave_duration_to']);
         $date2 = $date2->modify( '+1 day' );
-        //echo  $total_days = $date2->diff($date1)->format("%a");
-
+        //  $total_days = $date2->diff($date1)->format("%a");
+        //exit;
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($date1, $interval, $date2);
         foreach ( $period as $dt )
         {
             $day=$dt->format( "l" );
-            $date=$dt->format( "m/d/Y" );
+            $date=$dt->format( "d-m-Y" );
             
             if($day=='Saturday' || $day=='Sunday')
             {
@@ -216,17 +220,17 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
         else  $id = $_REQUEST['update'];
     
         $leave_list=$obj->select("alpp_leave","leave_id=$id ",array("*")); 
-        $leave_duration_to=date("m/d/Y",strtotime($leave_list[0]['leave_duration_to']));
-        if(empty($leave_duration_to) || $leave_duration_to == "01/01/1970" ){
+        $leave_duration_to=date("d-m-Y",strtotime($leave_list[0]['leave_duration_to']));
+        if(empty($leave_duration_to) || $leave_duration_to == "01-01-1970" ){
             $leave_duration_to = "";
         }
-        $leave_duration_from=date("m/d/Y",strtotime($leave_list[0]['leave_duration_from']));
-        if(empty($leave_duration_from) || $leave_duration_from == "01/01/1970" ){
+        $leave_duration_from=date("d-m-Y",strtotime($leave_list[0]['leave_duration_from']));
+        if(empty($leave_duration_from) || $leave_duration_from == "01-01-1970" ){
             $leave_duration_from = "";
         }
 }else{
-    $leave_duration_to = date("m/d/Y");
-    $leave_duration_from = date("m/d/Y");
+    $leave_duration_to = date("d-m-Y");
+    $leave_duration_from = date("d-m-Y");
 }
 ?>
 
@@ -292,7 +296,7 @@ if($_SESSION['session_admin_role']=='admin')
     <div class="form-group">                    
         <label class="control-label col-sm-2">From</label>                     
         <div class="col-sm-2">
-            <input type="text" id="leave_duration_from" required="" class="form-control col-sm-2"  <?php echo $readonly; ?> value="<?php echo $leave_duration_from; ?>"  name="leave_duration_from">
+            <input type="text" id="leave_duration_from" required="" class="form-control col-sm-2"  <?php //echo $readonly; ?> value="<?php echo $leave_duration_from; ?>"  name="leave_duration_from">
         </div>
     </div>
 
@@ -369,8 +373,17 @@ else if(isset($_REQUEST['update']))	{  ?>
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script>
 $(function() {
-  $( "#leave_duration_from" ).datepicker();
-  $( "#leave_duration_to" ).datepicker();
+  //$( "#leave_duration_from" ).datepicker();
+  $( "#leave_duration_from" ).datepicker({
+        dateFormat: "dd-mm-yy",
+        beforeShowDay: $.datepicker.noWeekends
+    });
+    //var dateFormat = $( "#leave_duration_from" ).datepicker( "option", "dateFormat" );
+    //alert(dateFormat);
+  $( "#leave_duration_to" ).datepicker({
+        dateFormat: "dd-mm-yy",
+        beforeShowDay: $.datepicker.noWeekends
+    });
 });
 
 </script>

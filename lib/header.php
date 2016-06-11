@@ -29,6 +29,8 @@
     $(document).ready(function(){
         $(".add_employee").colorbox({iframe:true, width:"80%", height:"90%"});
         $(".add_monthly").colorbox({iframe:true, width:"70%", height:"80%"});
+        $(".add_leave_multi").colorbox({iframe:true, width:"80%", height:"90%"});
+        
         $(".add_employee_notes").colorbox({iframe:true, width:"70%", height:"80%"});
              $(".add_holiday").colorbox({iframe:true, width:"40%", height:"60%"});
         $(".add_leave").colorbox({iframe:true, width:"40%", height:"90%"});
@@ -138,7 +140,7 @@
                         <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ingresar movimientos</span></a>
                             <ul class="nav nav-pills nav-stacked">
-                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-list"></i><span> Ingresar solicitud masiva</span></a></li>
+                                <li class="ajax-link"><a  class="add_leave_multi" href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-list"></i><span> Ingresar solicitud masiva</span></a></li>
                                 <!--<li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>manage_requests.php"><i class="glyphicon glyphicon-file"></i><span> Manage Requests</span></a></li>-->
                                 <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Historial</span></a></li>
                             </ul>

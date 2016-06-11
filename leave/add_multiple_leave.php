@@ -1,6 +1,6 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
-include (dirname(__FILE__).'/../lib/header.php'); 
+include (dirname(__FILE__).'/../lib/modal_header.php'); 
 $obj=new Queries();
 $objHoliday=new Holiday();
 $objTransaction =new Transaction();
@@ -32,7 +32,7 @@ if(isset($_REQUEST['submit']))  /// insert code
             //print_r($dt);
             //echo "</pre>";
             $day=$dt->format( "l" );
-            $date=$dt->format( "m/d/Y" );
+            $date=$dt->format( "d-m-Y" );
             
             if($day=='Saturday' || $day=='Sunday')
             {
@@ -234,12 +234,12 @@ if($message_success){
             <div class="form-group">                    
              <label class="control-label col-sm-2">From Date *</label>                     
              <div class="col-sm-2">
-                 <input type="date" required="" class="form-control col-sm-4"  style="width:180px;"  id="leave_duration_from" name="leave_duration_from" value="<?php echo date('Y-m-d'); ?>">
+                 <input type="text" required="" class="form-control col-sm-4"  style="width:180px;"  id="leave_duration_from" name="leave_duration_from" value="<?php echo date('d-m-Y'); ?>">
              </div>
                             
              <label class="control-label col-sm-2">To Date *</label>                     
              <div class="col-sm-2">
-                 <input type="date" required="" class="form-control col-sm-4" style="width:180px;"  id="leave_duration_to" name="leave_duration_to" value="<?php echo date('Y-m-d'); ?>">
+                 <input type="text" required="" class="form-control col-sm-4" style="width:180px;"  id="leave_duration_to" name="leave_duration_to" value="<?php echo date('d-m-Y'); ?>">
              </div>
          </div>
          
@@ -301,11 +301,20 @@ if($message_success){
 </div><!--/row-->
 
 
-<?php include('../lib/footer.php'); ?>
-
+<?php include('../lib/modal_footer.php'); ?>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
 <script>
 $(function() {
-  $( "#leave_duration_from" ).datepicker();
-  $( "#leave_duration_to" ).datepicker();
+  $( "#leave_duration_from" ).datepicker({
+        dateFormat: "dd-mm-yy",
+        beforeShowDay: $.datepicker.noWeekends
+    });
+  $( "#leave_duration_to" ).datepicker({
+        dateFormat: "dd-mm-yy",
+        beforeShowDay: $.datepicker.noWeekends
+    });
 });
 </script>

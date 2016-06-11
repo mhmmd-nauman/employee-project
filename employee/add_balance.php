@@ -61,7 +61,8 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <strong>Success!</strong> Balance Detail Update.
             </div>
         </div>
-<?php      //header('REFRESH:2, url=emp_balance.php?emp_id='.$emp_id);
+        <script> window.parent.location.reload();</script>
+<?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$emp_id);
     }
 	
 
@@ -101,10 +102,10 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                     <label class="control-label col-sm-2">Date</label>
                     <div class="col-sm-4">
                         <?php
-                         $end_month_data=date("m/d/Y",strtotime($transaction[0]['end_month_data']));
-                        if(empty($end_month_data) || $end_month_data == "01/01/1970" ){
+                         $end_month_data=date("d-m-Y",strtotime($transaction[0]['end_month_data']));
+                        if(empty($end_month_data) || $end_month_data == "01-01-1970" ){
                             //$end_month_data = lastOfMonth();
-                            $end_month_data = date("m/d/Y");
+                            $end_month_data = date("d-m-Y");
                         }
                         ?>
                         <input type="text" id="datepicker" class="form-control" value="<?php echo $end_month_data;?>" placeholder="" name="end_month_data">
@@ -171,7 +172,9 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script>
   $(function() {
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({
+        dateFormat: "dd-mm-yy"
+    });
   });
   </script>
   <?php
