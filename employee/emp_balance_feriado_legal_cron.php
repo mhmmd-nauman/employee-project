@@ -8,7 +8,7 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
 ?>
 <script>
     $(document).ready(function(){
-            $(".add_employee").colorbox({iframe:true, width:"70%", height:"80%"});
+        $(".add_balance").colorbox({iframe:true, width:"70%", height:"80%"});
     });
 </script>
  <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
@@ -18,7 +18,7 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Expected Balance</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Expected Feriado Legal Balance on <?php echo date("t-m-Y");?></h2>
             </div>
             
             
@@ -28,55 +28,50 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
  <thead>
     <tr>
         <th>Ficha</th>
-        <th>Nombre</th>
+         <th style="width: 25%;">Nombre</th>
         <th>Department</th>
-        <th>FECHA INGRESO</th>
-<!--        <th>Year</th>-->
-        <th>Current Balance</th>
+        
+        <th>Feriado Legal</th>
         <th>Increment</th>
         
-        <th>New Balance</th>
-       
+        <th>Feriado Legal <br>on <?php echo date("t-m-Y");?></th>
+        <th style="width: 13%;">Action</th>
     </tr>
     </thead>
     <tbody>
         <?php foreach($employee_list as $employee) {  
-            
+            $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']);
             ?>
         
     <tr>
-        <td><a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
+        <td>
+            <?php echo $employee['emp_file']; ?>
+        </td>
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
-        <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
-<!--        <td><?php //echo $employee['emp_count']; ?></td>-->
-        <td><?php echo $balance = $objTransaction->GetEmpBalance($employee['emp_id']); ?></td>
+        <td><?php echo $balance = $balance_detail['I']-$balance_detail['leavesI'];?></td>
         <td><?php
         $d1 = new DateTime(date("Y-m-d"));
         $d2 = new DateTime(date("Y-m-d",strtotime($employee['emp_current_contract'])));
 
          $diff = $d2->diff($d1);
          $effective_year = $diff->y ;
-         //$objEmployee->UpdateEmployee("emp_id = ".$employee['emp_id'], array("emp_count"=>$effective_year));
-//         //echo "=";
-//         if($effective_year > 0){
-//             echo number_format((double)(($effective_year+15)/12),2);
-//         }
+         
         
         echo "1.25";
           ?></td>
-       
-       
-        
         <td class="center">
            <?php
-        echo $balance+1.25;
-           
-//           echo number_format((double)(($effective_year+15)/12)+$balance,2);
+        $balance = $balance+1.25;
+         echo number_format($balance,2);
            ?>
         </td>
-        
+        <td>
+       
+        <a class=" btn-success btn-sm add_balance" href="<?php echo SITE_ADDRESS; ?>/employee/add_balance.php?emp_id=<?php echo $employee['emp_id']; ?>&inc=<?php echo 1.25;?>&day=<?php echo date("t");?>&trans_type=I">Add Manually</a>
+            
+        </td>
     </tr>
         <?php 
         $balance = 0;

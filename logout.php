@@ -1,6 +1,9 @@
 <?php
-
 require_once dirname(__FILE__)."/lib/header_session.php";
 SESSION_DESTROY();
-	header("Location: index.php");
-	?>
+if( $_SESSION['session_admin_role'] == 'admin'){
+    header("Location: admin_login.php");
+}else{
+    header("Location: index.php");
+}
+?>

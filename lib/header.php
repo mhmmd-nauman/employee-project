@@ -28,6 +28,8 @@
 <script>
     $(document).ready(function(){
         $(".add_employee").colorbox({iframe:true, width:"80%", height:"90%"});
+        $(".add_employee_balance").colorbox({iframe:true, width:"90%", height:"95%"});
+        
         $(".add_monthly").colorbox({iframe:true, width:"70%", height:"80%"});
         $(".add_leave_multi").colorbox({iframe:true, width:"80%", height:"90%"});
         
@@ -132,7 +134,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-icon-user"></i><span> Ver empleados </span></a></li>
                                 <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/add_employee.php"><i class="glyphicon glyphicon-list-alt"></i><span> Ingresar</span></a></li>
-                                <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_single.php"><i class="glyphicon glyphicon-list-alt"></i><span> Modificar saldos</span></a></li>
+                                <li><a class="add_employee_balance" href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_single.php"><i class="glyphicon glyphicon-list-alt"></i><span> Modificar saldos</span></a></li>
                             </ul>
                         </li>
                         <?php } if($_SESSION['session_admin_role']=='admin' ) { ?>                       
@@ -150,8 +152,11 @@
                             <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Balance(Equilibrar)</span></a>
                             <ul class="nav nav-pills nav-stacked">
                                 <li><a class="add_monthly" href="<?php echo SITE_ADDRESS; ?>employee/add_monthly.php"><i class="glyphicon glyphicon-icon-user"></i><span> Add Manual Balance </span></a></li>
-                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_cron.php"><i class="glyphicon glyphicon-random"></i><span> Next Balance Test</span></a></li>
+                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_feriado_legal_cron.php"><i class="glyphicon glyphicon-random"></i><span> Feriado Legal</span></a></li>
+                                <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_dias_progresivos_cron.php"><i class="glyphicon glyphicon-random"></i><span> Dias Progresivos</span></a></li>
+                             <!--   
                                 <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_entry_alerts.php"><i class="glyphicon glyphicon-random"></i><span> Balance Alerts</span></a></li>
+                             -->
                             </ul>
                         </li>
                         
@@ -177,6 +182,7 @@
                             </ul>
                         </li>
                         <li><a href="<?php echo SITE_ADDRESS; ?>settings/permissions.php"><i class="glyphicon glyphicon-globe"></i><span> PREMISOLOGÍA</span></a></li>
+                        <li><a href="<?php echo SITE_ADDRESS; ?>settings/alerts.php"><i class="glyphicon glyphicon-globe"></i><span> System Alerts</span></a></li>
 
            <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
                         <li class="ajax-link"><a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><i class="glyphicon glyphicon-list"></i><span> Presentar una solicitud de licencia</span></a></li>

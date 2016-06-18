@@ -3,8 +3,13 @@ include (dirname(__FILE__).'/../lib/include.php');
 include('../lib/modal_header.php'); 
 $obj=new Queries();
 $objTransaction =new Transaction();
-
-
+if(isset($_REQUEST['emp_id'])){
+    $objEmployee =new Employee();
+    $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
+    $title= $emp_data[0]['emp_file']." - ".$emp_data[0]['emp_name']." - Añadir Manual de Balanza";
+}else{
+    $title="Añadir Manual de Balanza";
+}
 if(isset($_REQUEST['update_button']))  // update code
 {
    $emp_id=$_REQUEST['emp_id_update'];
@@ -43,7 +48,7 @@ if(isset($_REQUEST['submit']))  /// insert code
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Añadir Manual de Balanza</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> <?php echo $title;?></h2>
             </div>
             
             
@@ -85,9 +90,13 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
 {	
         if($_REQUEST['emp_id']) $id = $_REQUEST['view'];
         else  $id = $_REQUEST['update'];
-    
-        $transaction=$obj->select("alpp_transactions","id=$id ",array("*")); 
-       // var_dump($transaction);
+        if($id){
+            $transaction=$obj->select("alpp_transactions","id=$id ",array("*")); 
+        }else{
+            $transaction[0]['amount'] = $_REQUEST['inc'];
+            $transaction[0]['end_month_data'] = date("d-m-Y",strtotime($_REQUEST['day']."-".date("m-Y")));
+            $transaction[0]['trans_type'] = $_REQUEST['trans_type'];
+        }
 }
         ?>
      <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">

@@ -24,6 +24,7 @@ require_once dirname(__FILE__)."/../lib/classes/business_objects/Transaction.php
 require_once dirname(__FILE__)."/../lib/classes/business_objects/Employee.php";
 require_once dirname(__FILE__)."/../lib/classes/business_objects/Holiday.php";
 require_once dirname(__FILE__)."/../lib/classes/business_objects/Permission.php";
+require_once dirname(__FILE__)."/../lib/classes/business_objects/AlertSystem.php";
 
 $permissions_array = array();
 //$permissions_array['SEE_BALANCE']= 

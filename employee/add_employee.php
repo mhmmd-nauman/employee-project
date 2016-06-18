@@ -112,12 +112,12 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
     
         $employee_list=$obj->select("alpp_emp","emp_id=$id ",array("*")); 
         //print_r($employee_list);
-        $emp_first_contract=date("m/d/Y",strtotime($employee_list[0]['emp_first_contract']));
-        if(empty($emp_first_contract) || $emp_first_contract == "01/01/1970" ){
+        $emp_first_contract=date("d-m-Y",strtotime($employee_list[0]['emp_first_contract']));
+        if(empty($emp_first_contract) || $emp_first_contract == "01-01-1970" ){
             $emp_first_contract = "";
         }
-        $emp_current_contract=date("m/d/Y",strtotime($employee_list[0]['emp_current_contract']));
-        if(empty($emp_current_contract) || $emp_current_contract == "01/01/1970" ){
+        $emp_current_contract=date("d-m-Y",strtotime($employee_list[0]['emp_current_contract']));
+        if(empty($emp_current_contract) || $emp_current_contract == "01-01-1970" ){
             $emp_current_contract = "";
         }
 }
@@ -292,8 +292,12 @@ else
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script>
 $(function() {
-  $( "#emp_first_contract" ).datepicker();
-  $( "#emp_current_contract" ).datepicker();
+  $( "#emp_first_contract" ).datepicker({
+        dateFormat: "dd-mm-yy"
+    });
+  $( "#emp_current_contract" ).datepicker({
+        dateFormat: "dd-mm-yy"
+    });
   
 });
 function getyear(contract2)

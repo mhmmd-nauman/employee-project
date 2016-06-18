@@ -78,7 +78,7 @@ function action(action_status,id){
             
 
 <div class="box-content">
-    <table class="table table-striped table-bordered   responsive" id="leave_list" style=" font-size: 12px; padding-bottom: 0px;">
+    <table class="table table-striped table-bordered datatable   responsive" id="leave_list" style=" font-size: 12px; padding-bottom: 0px;">
     <thead>
     <tr>
         <th style=" width: 8%;">Req. Date</th>
