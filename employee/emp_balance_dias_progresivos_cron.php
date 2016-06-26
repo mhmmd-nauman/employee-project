@@ -5,6 +5,52 @@ $objTransaction =new Transaction();
 $objEmployee = new Employee();
 $obj=new Queries();
 $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
+
+if($_REQUEST['process_now'] == 1){
+    exit;
+    $count = 0;
+    foreach($employee_list as $employee) {
+        // check if the transaction allready exist on this date
+        $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."'",array("alpp_emp.emp_id"));
+        if(empty($trans_exist[0]['emp_id'])){
+            
+            $insert=$objTransaction->InsertTransaction(array(
+                'emp_id'=>$employee['emp_id'],
+                'end_month_data'=>date("Y-m-t h:i:s"),
+                'amount'=>1.25,
+                'trans_type'=>"I",
+                'date'=> date("Y-m-d h:i:s"),
+                'done_by'=>$_SESSION['session_admin_id'],
+                'status'=>0
+            ));
+             
+            $count++;
+        }
+        
+    }
+    $message_type="alert-success"; 
+    $message_text = "<strong>Success!</strong> $count enteries completed successfully.";
+    //header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_balance.php?emp_id='.$_REQUEST['emp_id']); 
+}
+if($_REQUEST['process_now'] == 2){
+    exit;
+    $count = 0;
+    foreach($employee_list as $employee) {
+        // check if the transaction exist on this date
+        $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."'",array("alpp_transactions.ID"));
+        if($trans_exist[0]['ID']>0){
+            
+            $objTransaction->DeleteTransantion($trans_exist[0]['ID']);
+             
+            $count++;
+        }
+        
+    }
+    $message_type="alert-success"; 
+    $message_text = "<strong>Success!</strong> $count enteries removed successfully.";
+    //header('REFRESH:2, url='.SITE_ADDRESS.'employee/emp_balance.php?emp_id='.$_REQUEST['emp_id']); 
+}
+
 ?>
 <script>
     $(document).ready(function(){
@@ -20,8 +66,19 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-star-empty"></i> Expected Dias Progresivos Balance on <?php echo date("t-m-Y");?></h2>
             </div>
-            
-            
+            <!--
+            <div class="col-md-7">
+                <br>
+                    
+            </div>
+            <div class="col-md-4">
+                <br>
+                <p style="text-align: right;">
+                <a class="btn  btn-success btn-sm " href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_feriado_legal_cron.php?process_now=1"><i class="glyphicon icon-white"></i>Process Balance Now</a>
+                <a class="btn  btn-success btn-sm " href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_feriado_legal_cron.php?process_now=2"><i class="glyphicon icon-white"></i>Undo Process Balance Now</a>
+                </p><br>
+            </div>
+            -->
             
            <div class="box-content">
      <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style="font-size: 12px;">
@@ -54,13 +111,22 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
                  $diff = $d2->diff($d1);
                  $effective_year = $diff->y ;
                  if($effective_year >= 13){
+                     $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and month(end_month_data) = '".date("m")."' and year(end_month_data) = '".date("Y")."' and trans_type = 'D'",array("alpp_transactions.ID"));
                      $inc = 1;
                      $css_string = "class=\" danger\"";
+                     if($trans_exist[0]['ID']>0){
+                        $inc = 0;
+                        $css_string = "class=\" success\"";
+                     }
                  }
             ?>
         
         <tr <?php echo $css_string; ?> >
-        <td><?php echo $employee['emp_file']; ?></td>
+        <td>
+            <a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
+            <?php echo $employee['emp_file']; ?>
+            </a>
+        </td>
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
@@ -84,7 +150,9 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
         <?php if($inc == 1){
         ?>
         <a class=" btn-success btn-sm add_balance" href="<?php echo SITE_ADDRESS; ?>/employee/add_balance.php?emp_id=<?php echo $employee['emp_id']; ?>&inc=<?php echo $inc;?>&day=<?php echo date("d",strtotime($next_date));?>&trans_type=D">Add Manually</a>
-            <?php } ?>
+            <?php } else {?>
+            processed
+            <?php }?>
         </td>
        
        

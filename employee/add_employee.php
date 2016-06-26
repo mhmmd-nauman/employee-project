@@ -243,12 +243,12 @@ else
             </select>
         </div>
         
-        <label class="control-label col-sm-2">Admin Privileges</label>
+        <label class="control-label col-sm-2">User Type</label>
         <div class="col-sm-4">
             <select name="emp_type" class="form-control">
                 <option value="">SELECT</option>
         <?php
-                $type_array=array('1'=>'Yes','0'=>'No');                               
+                $type_array=array('1'=>'EMPLOYEE','2'=>'SUPERVISOR',"3"=>"ADMINISTRATOR");                               
                 foreach ($type_array as $key=>$value)
                 {
                     $sel=$employee_list[0]['emp_type']==$key ? 'selected' : '';

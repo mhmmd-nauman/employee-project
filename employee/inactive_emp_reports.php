@@ -79,12 +79,14 @@ $employee_list=$obj->select("alpp_emp","emp_status = 1 order by emp_name",array(
             <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">
            Solicitud
          </a>
+         <?php if( $_SESSION['session_admin_role'] == 'admin' ){?>     
         <a class="btn btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
            <i class="glyphicon glyphicon-edit icon-white"></i>
          </a>
          <a class="btn btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
              <i class="glyphicon glyphicon-trash icon-white"></i>
          </a>
+        <?php }?>  
         </td>
     </tr>
         <?php 

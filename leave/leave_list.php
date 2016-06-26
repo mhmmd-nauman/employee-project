@@ -82,13 +82,13 @@ function action(action_status,id){
     <thead>
     <tr>
         <th style=" width: 8%;">Req. Date</th>
-        <th>Nombre</th>
-        <th>Days</th>
+        <th style=" width: 10%;">Nombre</th>
+        <th style=" width: 2%;">Days</th>
         <th style=" width: 8%;">From<br>To</th>
-        <th>Reason</th>
+        <th style=" width: 20%;">Reason</th>
         <th style=" width: 10%;">Type</th>
         <th style=" width: 12%;">Status</th>
-        <?php   if($_SESSION['session_admin_role']=='admin') { ?><th style=" width: 13%;">Actions</th><?php } ?>
+        <?php   if($_SESSION['session_admin_role']=='admin' || $_SESSION['session_admin_role']=='supervisor') { ?><th style=" width: 13%;">Actions</th><?php } ?>
     </tr>
     </thead>
     <tbody>
@@ -125,7 +125,7 @@ function action(action_status,id){
                   else echo "";
             ?>
         </td>
-       <?php if($_SESSION['session_admin_role']=='admin') {?>
+       <?php if($_SESSION['session_admin_role']=='admin' || $_SESSION['session_admin_role']=='supervisor' ) {?>
         <td>
         <div class="btn-group">
             <?php switch ($leave['leave_approval']){
@@ -156,7 +156,7 @@ function action(action_status,id){
 
        }
       
-        if($_SESSION['session_admin_role']=='admin') { ?> 
+        if($_SESSION['session_admin_role']=='admin' || $_SESSION['session_admin_role']=='supervisor') { ?> 
         <td>
             
             

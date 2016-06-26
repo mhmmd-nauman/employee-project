@@ -23,7 +23,7 @@ $obj=new Queries();
         <h2>Bienvenido al Sistema de Gestión de Empleados</h2>
     </div>
     <div class="col-md-2 ">
-        <a href="index.php" class="btn btn-primary"> Employee Login</a>
+        <a href="index.php" class="btn btn-primary"> Employee/Supervisor Login</a>
     </div>
 </div>
 <div class="row">

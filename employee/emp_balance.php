@@ -4,6 +4,14 @@ include (dirname(__FILE__).'/../lib/header.php');
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
 $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_REQUEST['emp_id']."");
+// need bit of manaul sorting of data for now
+foreach($trasanction_list as $trasanction) { 
+    $trasanction_list_temp[$trasanction['id']] = $trasanction;
+}
+ksort($trasanction_list_temp);
+$trasanction_list_temp = array_reverse($trasanction_list_temp);
+
+$trasanction_list = $trasanction_list_temp;
 $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
 $balance_detail= $objTransaction->GetEmpBalanceDetail($_REQUEST['emp_id']);

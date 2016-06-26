@@ -5,7 +5,7 @@ $objTransaction =new Transaction();
 ?>
 <?php 
 $obj=new Queries();
-$employee_list=$obj->select("alpp_emp","emp_type = 1 order by emp_name",array("*"));
+$employee_list=$obj->select("alpp_emp","emp_type = 2 order by emp_name",array("*"));
 //print_r($employee_list);
 ?>
 <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
@@ -13,7 +13,7 @@ $employee_list=$obj->select("alpp_emp","emp_type = 1 order by emp_name",array("*
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>  Empleados Administradores </h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>  Empleados Supervisors </h2>
             </div>
            <div class="box-content">
                <br>
@@ -28,7 +28,7 @@ $employee_list=$obj->select("alpp_emp","emp_type = 1 order by emp_name",array("*
                     <th>FECHA INGRESO</th>
                     <th style=" width: 10px;">Feriados Disponibles</th>
                     
-                    <th style=" text-align: center;">Has Admin <br>Right?</th>
+                    
                     
                 </tr>
             </thead>
@@ -63,15 +63,7 @@ $employee_list=$obj->select("alpp_emp","emp_type = 1 order by emp_name",array("*
             </a>
             </td>-->
         
-        <td style="text-align: center;">
-            <?php if($employee['emp_type']==0) { ?>
-                No
-             <?php }else{ ?>
-                Yes
-            <?php } ?>
-              
-            
-        </td>
+       
         
         
     </tr>

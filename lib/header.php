@@ -117,19 +117,65 @@
                     </div>
                     <ul class="nav nav-pills nav-stacked main-menu">
                         <li class="nav-header">Main&nbsp;
-                        <?php if($_SESSION['session_admin_role']=='employee')   { ?> 
-                            <span style=" font-size: 8px;"><b>(Conectado como Empleado)</b></span>
-                        <?php } else { ?>
-                            <?php ?>
-                                <span style=" font-size: 8px;"><b>(administrador)</b></span>
-                                <?php 
-                           }  ?>
+                         <?php switch($_SESSION['session_admin_role']){
+                                case 'supervisor':
+                                    ?>
+                                    <span style=" font-size: 8px;"><b>(Supervisor)</b></span>
+                                <?php
+                                    break;
+                                case 'admin':
+                                    ?>
+                                    <span style=" font-size: 8px;"><b>(administrador)</b></span>
+                                    <?php
+                                    
+                                    break;
+                                default :
+                                    ?>
+                                    <span style=" font-size: 8px;"><b>(Empleado)</b></span>
+                                    <?php
+                                    
+                            } 
+                            ?>  
+                        
                         </li>
+                        
                         <li><a class="ajax-link" href="<?php echo SITE_ADDRESS; ?>dashboard.php"><i class="glyphicon glyphicon-home"></i><span> Inicio</span></a></li>
-                        <?php if($_SESSION['session_admin_role']=='admin')
-                        {
+                        <?php
+                        switch($_SESSION['session_admin_role']){
+                                case 'supervisor':
+                                    ?>
+                                <li class="accordion">
+                                    <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Empleados</span></a>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-icon-user"></i><span> Ver empleados </span></a></li>
+                                        
+                                    </ul>
+                                </li>
+                                <li class="accordion">
+                                    <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ingresar movimientos</span></a>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li class="ajax-link"><a  class="add_leave_multi" href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-list"></i><span> Ingresar solicitud masiva</span></a></li>
+                                        <!--<li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>manage_requests.php"><i class="glyphicon glyphicon-file"></i><span> Manage Requests</span></a></li>-->
+                                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-eye-open"></i><span> Historial</span></a></li>
+                                    </ul>
+                                </li>
+                                <li class="accordion">
+                                    <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Informes</span></a>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Informe del empleado </span></a></li>
+                                        <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_monthly_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Saldo mensual</span></a></li>
+                                        <li><a href="<?php echo SITE_ADDRESS; ?>employee/active_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Empleados activos</span></a></li>
+                                        <li><a href="<?php echo SITE_ADDRESS; ?>employee/inactive_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> En Empleados Activos</span></a></li>
+                                        
+
+                                    </ul>
+                                </li>
+                                <?php
+                                    break;
+                                case 'admin': 
+                        
                         ?>   
-                        <li class="accordion">
+                            <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Empleados</span></a>
                             <ul class="nav nav-pills nav-stacked">
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php"><i class="glyphicon glyphicon-icon-user"></i><span> Ver empleados </span></a></li>
@@ -137,7 +183,7 @@
                                 <li><a class="add_employee_balance" href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_single.php"><i class="glyphicon glyphicon-list-alt"></i><span> Modificar saldos</span></a></li>
                             </ul>
                         </li>
-                        <?php } if($_SESSION['session_admin_role']=='admin' ) { ?>                       
+                                            
                             
                         <li class="accordion">
                             <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ingresar movimientos</span></a>
@@ -177,18 +223,21 @@
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_monthly_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Saldo mensual</span></a></li>
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/active_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Empleados activos</span></a></li>
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/inactive_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> En Empleados Activos</span></a></li>
-                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/admin_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span>Empleados Administradores</span></a></li>
+                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/admin_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span>Empleados Supervisors</span></a></li>
                                 
                             </ul>
                         </li>
                         <li><a href="<?php echo SITE_ADDRESS; ?>settings/permissions.php"><i class="glyphicon glyphicon-globe"></i><span> PREMISOLOGÍA</span></a></li>
                         <li><a href="<?php echo SITE_ADDRESS; ?>settings/alerts.php"><i class="glyphicon glyphicon-globe"></i><span> System Alerts</span></a></li>
 
-           <?php } if($_SESSION['session_admin_role']=='employee') {   ?>                        
-                        <li class="ajax-link"><a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><i class="glyphicon glyphicon-list"></i><span> Presentar una solicitud de licencia</span></a></li>
-                        <li><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-list"></i> Historial </a></li>
-                        <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>"><i class="glyphicon glyphicon-list"></i> Equilibrar</a></li>
-                        <?php }   ?>                       
+           <?php 
+           break;
+           
+           default :   ?>                        
+                <li class="ajax-link"><a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><i class="glyphicon glyphicon-list"></i><span> Presentar una solicitud de licencia</span></a></li>
+                <li><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-list"></i> Historial </a></li>
+                <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>"><i class="glyphicon glyphicon-list"></i> Equilibrar</a></li>
+            <?php }   ?>                       
                         <li><a href="<?php echo SITE_ADDRESS; ?>logout.php"><i class="glyphicon glyphicon-lock"></i><span> Cerrar sesión</span></a></li>
                     </ul>
                  </div>

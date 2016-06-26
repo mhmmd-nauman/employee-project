@@ -10,7 +10,7 @@ if($_SESSION['session_admin_role']=='admin')
     {
     $active_employee=$obj->select("alpp_emp"," emp_status=0",array("count(emp_id)"));
     $inactive_employee=$obj->select("alpp_emp"," emp_status=1",array("count(emp_id)"));
-    $active_admin=$obj->select("alpp_emp"," emp_type=1",array("count(emp_id)"));
+    $active_admin=$obj->select("alpp_emp"," emp_type=2",array("count(emp_id)"));
     $pending_leaves=$obj->select("alpp_leave"," leave_approval=0",array("count(leave_id)"));
     
     $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id ","1 order by emp_name limit 3",array("*"));
@@ -37,7 +37,7 @@ else
  
 
 
-            <?php if($_SESSION['session_admin_role']=='admin')
+            <?php if($_SESSION['session_admin_role']=='admin' || $_SESSION['session_admin_role']=='supervisor')
             { ?>
         
              <div class=" row">
@@ -58,15 +58,15 @@ else
         </a>
     </div>
 
-
+ <?php if($_SESSION['session_admin_role']=='admin'){?>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a data-toggle="tooltip" title="" class="well top-block" href="employee/admin_emp_reports.php" data-original-title=" Administradores <?php echo $active_admin[0][0]; ?>">
             <i class="glyphicon glyphicon-user Red"></i>
-            <div>Administradores</div>
+            <div>Supervisors</div>
             <div><?php echo $active_admin[0][0]; ?></div>
         </a>
     </div>
-
+<?php }?>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a data-toggle="tooltip" title="" class="well top-block" href="leave/leave_list.php" data-original-title="Solicitudes Pendientes <?php echo $pending_leaves[0][0]; ?>">
             <i class="glyphicon glyphicon-star yellow"></i>

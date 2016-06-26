@@ -28,7 +28,7 @@ $obj=new Queries();
 </div>
 <div class="row">
     <div class="col-md-12 center login-header">
-        <h4>Entrar como Empleado</h4>
+        <h4>Entrar como Empleado/Supervisor</h4>
     </div>
     <!--/span-->
 </div><!--/row-->
@@ -42,18 +42,28 @@ $obj=new Queries();
     {   
        $user=$_REQUEST['email'];
     }
-    $get_user=   $obj->select("alpp_emp"," ( emp_cellnum='".$user."' or emp_email='".$user."') and emp_password='".$_REQUEST['password']."'",  array("*"));
+    $get_user =   $obj->select("alpp_emp"," ( emp_cellnum='".$user."' or emp_email='".$user."') and emp_password='".$_REQUEST['password']."'",  array("*"));
 
     if($get_user)
     {
-            $_SESSION['session_admin_role'] =	'employee';	
+            switch($get_user[0]['emp_type']){
+                case 2:
+                    $_SESSION['session_admin_role'] =	'supervisor';
+                    break;
+                case 3:
+                    $_SESSION['session_admin_role'] =	'admin';
+                    break;
+                default :
+                    $_SESSION['session_admin_role'] =	'employee';
+            }
+            	
             $_SESSION['session_admin_id'] =	$get_user[0]['emp_id'];	
             $_SESSION['session_admin_email']=	$get_user[0]['emp_email'];	
             $_SESSION['session_admin_name'] =	$get_user[0]['emp_name'];	
 
               header("Location: dashboard.php");	
     }
-     else $error='Wrong Login Credentials for Employee';	 
+     else $error='Wrong Login Credentials for Employee/Supervisor';	 
     
  } 
  
