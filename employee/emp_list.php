@@ -21,7 +21,7 @@ $objTransaction =new Transaction();
            <div class="box-content">
             <?php 
             $obj=new Queries();
-            $employee_list=$obj->select("alpp_emp","emp_status = 0 order by emp_name",array("*"));
+            $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type = 1 order by emp_name",array("*"));
             if(isset($_REQUEST['emp_id']) && isset($_REQUEST['type']))	
             {	
                     $id = $_REQUEST['emp_id'];

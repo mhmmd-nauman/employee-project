@@ -5,7 +5,12 @@ $objTransaction =new Transaction();
 ?>
 <?php 
 $obj=new Queries();
-$employee_list=$obj->select("alpp_emp","emp_type = 2 order by emp_name",array("*"));
+$str = "";
+if($_SESSION['session_admin_is_super'] == "Y"){
+    $str = ",3,4";
+} 
+$employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",array("*"));
+
 //print_r($employee_list);
 ?>
 <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
@@ -13,7 +18,7 @@ $employee_list=$obj->select("alpp_emp","emp_type = 2 order by emp_name",array("*
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>  Empleados Supervisors </h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Supervisors/Managers/Administrators </h2>
             </div>
            <div class="box-content">
                <br>
@@ -25,8 +30,9 @@ $employee_list=$obj->select("alpp_emp","emp_type = 2 order by emp_name",array("*
                     <th>Nombre</th>
                     <th>Department</th>
                     <th>RUT</th>
-                    <th>FECHA INGRESO</th>
+                    <th>Type</th>
                     <th style=" width: 10px;">Feriados Disponibles</th>
+                    <th>Actions</th>
                     
                     
                     
@@ -53,7 +59,19 @@ $employee_list=$obj->select("alpp_emp","emp_type = 2 order by emp_name",array("*
                      */
         
         ?></td>
-        <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td>
+            <?php  switch ($employee['emp_type']){
+                    case 2:
+                        echo "Supervisor";
+                        break;
+                    case 3:
+                        echo "Manager";
+                        break;
+                    case 4:
+                        echo "Administrators";
+                        break;
+                    } ?>
+        </td>
         <td><?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
         echo number_format($balance, 2);
         ?></td>
@@ -62,7 +80,16 @@ $employee_list=$obj->select("alpp_emp","emp_type = 2 order by emp_name",array("*
             <?php //echo $balance; ?>
             </a>
             </td>-->
-        
+        <td>
+        <?php if( $_SESSION['session_admin_role'] == 'admin' ){?>  
+            <a class=" btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+               <i class="glyphicon glyphicon-edit icon-white"></i>
+            </a>
+            <a class=" btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+            </a>
+        <?php }?>
+        </td>
        
         
         

@@ -88,11 +88,8 @@
                 <?php } else { ?>
                     <li><a class="add_employee">Conectado como administrador</a></li>
                     <li class="divider"></li>
-                    <?php if($_SESSION['session_admin_is_super'] == 'Y'){?>
-                    <li><a href="<?php echo SITE_ADDRESS; ?>admin_profile.php">Mi perfil</a></li>
-                    <?php }else{?>
                     <li><a class="add_employee" href="<?php echo SITE_ADDRESS; ?>employee/update_employee_profile.php?update=<?php echo $_SESSION['session_admin_id']; ?>">Mi perfil</a></li>
-                <?php }
+                <?php 
                     }  ?>
 
                     <li class="divider"></li>
@@ -160,12 +157,20 @@
                                     </ul>
                                 </li>
                                 <li class="accordion">
+                                    <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Vacaciones</span></a>
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/holidays_list.php"><i class="glyphicon glyphicon-random"></i><span> Holidays List</span></a></li>
+                                        
+                                    </ul>
+                                </li>
+                                <li class="accordion">
                                     <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Informes</span></a>
                                     <ul class="nav nav-pills nav-stacked">
                                         <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Informe del empleado </span></a></li>
                                         <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_monthly_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Saldo mensual</span></a></li>
                                         <li><a href="<?php echo SITE_ADDRESS; ?>employee/active_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Empleados activos</span></a></li>
                                         <li><a href="<?php echo SITE_ADDRESS; ?>employee/inactive_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> En Empleados Activos</span></a></li>
+                                        <li><a href="<?php echo SITE_ADDRESS; ?>employee/retired_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Retired Empleados</span></a></li>
                                         
 
                                     </ul>
@@ -223,11 +228,14 @@
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_monthly_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Saldo mensual</span></a></li>
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/active_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Empleados activos</span></a></li>
                                 <li><a href="<?php echo SITE_ADDRESS; ?>employee/inactive_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> En Empleados Activos</span></a></li>
-                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/admin_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span>Empleados Supervisors</span></a></li>
+                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/admin_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span>Supervisors/Managers</span></a></li>
+                                <li><a href="<?php echo SITE_ADDRESS; ?>employee/retired_emp_reports.php"><i class="glyphicon glyphicon-list-alt"></i><span> Retired Empleados</span></a></li>
                                 
                             </ul>
                         </li>
+                        <!--
                         <li><a href="<?php echo SITE_ADDRESS; ?>settings/permissions.php"><i class="glyphicon glyphicon-globe"></i><span> PREMISOLOGÍA</span></a></li>
+                        -->
                         <li><a href="<?php echo SITE_ADDRESS; ?>settings/alerts.php"><i class="glyphicon glyphicon-globe"></i><span> System Alerts</span></a></li>
 
            <?php 

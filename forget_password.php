@@ -10,14 +10,15 @@ $obj=new Queries();
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Set New Password </h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Change Password </h2>
             </div>
                 <div class="box-content">
      <br>
 <?php         
 if(isset($_REQUEST['update_button']))  // update code
 {
-    $submit=$obj->update("alpp_emp","emp_cellnum='".$_REQUEST['rut']."'",array('emp_password'=>$_REQUEST['password'] ));
+    //$submit=$obj->update("alpp_emp","emp_cellnum='".$_REQUEST['rut']."'",array('emp_password'=>$_REQUEST['password'] ));
+    $submit = false;
     if($submit )
 	{  ?>
             <div class="widget-body">
@@ -27,26 +28,33 @@ if(isset($_REQUEST['update_button']))  // update code
                 </div>
             </div>
         <?php   
-        }
-	else echo "<script> alert('Admin Profile not Updated'); </script> ";
+        } else{?>
+            <div class="widget-body">
+                <div class="alert alert-danger">
+                        <button class="close" data-dismiss="alert">×</button>
+                        <strong>Error!</strong> Under Construction.
+                </div>
+            </div>
+        <?php }
+	
 }
 ?>
      <form class="form-horizontal" role="form"  method="post" >
         <div class="form-group">
             <label class="control-label col-sm-2">RUT</label>                     
             <div class="col-sm-4">
-                <input type="text" name="rut" class="form-control" placeholder="RUT">
+                <input type="text" name="rut" class="form-control" placeholder="RUT" required="">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2">Password</label>                     
             <div class="col-sm-3">
-                <input type="text" name="password" class="form-control" placeholder="Password">
+                <input type="text" name="password" class="form-control" placeholder="Password" required="">
             </div>
         </div>
         <div class="form-group">        
             <div class="col-sm-offset-4 col-sm-4" align="center">
-                <button type="submit" name="update_button" class="btn btn-small btn-success">Update</button>
+                <button type="submit" name="update_button" class="btn btn-small btn-success">Change Password</button>
              </div>
         </div>  
      </form>

@@ -14,7 +14,7 @@
 //  }
 
   // filename for download
-  $filename = "website_data_" . date('Ymd') . ".xls";
+  $filename = "employee_report_" . date('d-m-Y') . ".xls";
 
   header("Content-Disposition: attachment; filename=\"$filename\"");
   header("Content-Type: application/vnd.ms-excel");

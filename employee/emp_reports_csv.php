@@ -2,7 +2,7 @@
 include (dirname(__FILE__).'/../lib/include.php');
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type in ( 1,2) order by emp_name",array("*"));
 header("Content-Type: text/csv");
 header("Content-Disposition: attachment; filename=IndubalReport-".$_REQUEST['date'].".csv");
 // Disable caching
@@ -44,7 +44,7 @@ foreach($employee_list as $employee) {
                     $employee['emp_name'], 
                     $employee['emp_department'],
                     $employee['emp_cellnum'],
-                    date("m/d/Y",strtotime($employee['emp_current_contract'])),
+                    date("d-m-Y",strtotime($employee['emp_current_contract'])),
                     number_format($balance, 2),
                     number_format(($balance_detail['I']-$balance_detail['leavesI']), 2),
                     number_format(($balance_detail['D']-$balance_detail['leavesD']), 2)

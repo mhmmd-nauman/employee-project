@@ -2,7 +2,7 @@
 include (dirname(__FILE__).'/../lib/include.php');
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type in ( 1,2) order by emp_name",array("*"));
   // Original PHP code by Chirp Internet: www.chirp.com.au
   // Please acknowledge use of this code by including this header.
 
@@ -14,7 +14,7 @@ function cleanData(&$str)
   }
 
   // filename for download
-  $filename = "website_data_" . date('Ymd') . ".xls";
+  $filename = "employee_report_" . date('d-m-Y') . ".xls";
 
   header("Content-Disposition: attachment; filename=\"$filename\"");
   header("Content-Type: application/vnd.ms-excel");
@@ -34,7 +34,7 @@ foreach($employee_list as $employee) {
                     "Nombre" => $employee['emp_name'],
                     "Department" => $employee['emp_department'],
                     "RUT" => $employee['emp_cellnum'],
-                    "FECHA INGRESO" => date("m/d/Y",strtotime($employee['emp_current_contract'])),
+                    "FECHA INGRESO" => date("d-m-Y",strtotime($employee['emp_current_contract'])),
                     "Today Balance" => number_format($balance, 2),
                     "FERIADO LEGAL" => number_format(($balance_detail['I']-$balance_detail['leavesI']), 2),
                     "DIAS PROGRESIVOS" => number_format(($balance_detail['D']-$balance_detail['leavesD']), 2)

@@ -3,14 +3,15 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type in ( 1,2) order by emp_name",array("*"));
 $month_array=array("01"=>"January","02"=>"February","03"=>"March","04"=>"April","05"=>"May","06"=>"June","07"=>"July","08"=>"August","09"=>"September","10"=>"October","11"=>"November","12"=>"December");
 
 if($_REQUEST['month']) { $month=$_REQUEST['month']; $year=$_REQUEST['year'];}
 else                   { $month=date('m'); $year=date('Y');}
 
- $first_day_this_month = date($year.'-'.$month.'-01'); // hard-coded '01' for first day
- $last_day_this_month  = date($year.'-'.$month.'-t');
+$first_day_this_month = date($year.'-'.$month.'-01'); // hard-coded '01' for first day
+ //echo "<br>";
+$last_day_this_month  = date($year.'-'.$month.'-t');
 ?>
 <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
 <div class="row">
@@ -48,7 +49,7 @@ else                   { $month=date('m'); $year=date('Y');}
             </div>            
             <div class=" col-md-4 " style=" text-align: right;">
 <!--                <a href="emp_reports_csv.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to CSV</a>-->
-                <a href="emp_monthly_reports_print.php?month=<?php echo $month;?>&year=<?php echo $year;?>"  class="btn btn-small btn-warning">Print</a>
+                <a target="_blank" href="emp_monthly_reports_print.php?month=<?php echo $month;?>&year=<?php echo $year;?>"  class="btn btn-small btn-warning">Print</a>
             </div>           
         </form> 
         <br><br><br>
@@ -69,7 +70,8 @@ else                   { $month=date('m'); $year=date('Y');}
         <?php foreach($employee_list as $employee) {           
 ?>      
         <tr>
-            <td><?php 
+            <td><?php
+            //$balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']);
             $balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id'] ,$first_day_this_month ,$last_day_this_month);
             
             //$balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id']." and ( leave_duration_from >= '".$first_day_this_month." 00:00:00' && leave_duration_to <= '".$last_day_this_month." 12:60:60' )");
@@ -81,8 +83,12 @@ else                   { $month=date('m'); $year=date('Y');}
             <td><?php echo $employee['emp_cellnum'];?></td>
             <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
             <td><?php   echo number_format($balance, 2);?></td>
-            <td><?php   echo number_format(($balance_detail['leavesI']), 2);?></td>
-            <td><?php   echo number_format(($balance_detail['leavesD']), 2);?></td>
+            <td>
+                <?php echo $balance_detail['I']-$balance_detail['leavesI'];?>
+            </td>
+            <td>
+                <?php echo $balance_detail['D']-$balance_detail['leavesD'];?>
+            </td>
         </tr>
         <?php 
         $balance = 0;

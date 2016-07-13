@@ -5,7 +5,7 @@ $objTransaction =new Transaction();
 ?>
 <?php 
 $obj=new Queries();
-$employee_list=$obj->select("alpp_emp","emp_status = 0 order by emp_name",array("*"));
+$employee_list=$obj->select("alpp_emp","emp_status = 0 and emp_type = 1 order by emp_name",array("*"));
 //print_r($employee_list);
 ?>
 <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
@@ -25,7 +25,7 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 order by emp_name",array(
                     <th>Nombre</th>
                     <th>Department</th>
                     <th>RUT</th>
-                    <th>FECHA INGRESO</th>
+                    <th width="10%">FECHA INGRESO</th>
                     <th style=" width: 10px;">Feriados Disponibles</th>
                     <th>Status/ Notes</th>
                     
@@ -38,7 +38,7 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 order by emp_name",array(
             ?>
         
     <tr>
-        <td><a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
+        <td><a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
@@ -53,7 +53,7 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 order by emp_name",array(
         ?></td>
         <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td>
-            <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
+            <a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
             <?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
             echo number_format($balance, 2);
             ?>
@@ -66,24 +66,24 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 order by emp_name",array(
             </td>-->
         <td class="center" style="text-align: center;">
            <?php if($employee['emp_status']==0) { ?>
-            <a class="btn btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i></a>
+            <a class=" btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i></a>
             
            <?php } else{ ?>
-              <a class="btn btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i></a>
+              <a class=" btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i></a>
            <?php } ?>&nbsp;<a title="Manage Notes" class="btn btn-info btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span>
             </a>
         </td>
         
         
         <td class="center">
-            <a class="btn btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">
+            <a class=" btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">
            Solicitud
          </a>
         <?php if( $_SESSION['session_admin_role'] == 'admin' ){?> 
-        <a class="btn btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+        <a class=" btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
            <i class="glyphicon glyphicon-edit icon-white"></i>
          </a>
-         <a class="btn btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+         <a class=" btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
              <i class="glyphicon glyphicon-trash icon-white"></i>
          </a>
          <?php }?>  

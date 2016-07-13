@@ -141,7 +141,15 @@ switch ($_REQUEST['postback']){
                     </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($trasanction_list as $trasanction) {   ?>
+                        <?php 
+                        foreach($trasanction_list as $trasanction) { 
+                            $trasanction_list_temp[$trasanction['id']] = $trasanction;
+                        }
+                        ksort($trasanction_list_temp);
+                        $trasanction_list_temp = array_reverse($trasanction_list_temp);
+
+                        $trasanction_list = $trasanction_list_temp;
+                        foreach($trasanction_list as $trasanction) {   ?>
 
                     <tr>
                 <!--        <td><?php //echo $trasanction['id']; ?></td>-->

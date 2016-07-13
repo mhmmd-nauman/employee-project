@@ -3,7 +3,7 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type in ( 1,2) order by emp_name",array("*"));
 if($_REQUEST['date']) 
     $date=date('Y-m-d',strtotime($_REQUEST['date']));
 else 
@@ -14,7 +14,7 @@ else
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Report</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Report</h2>
             </div>         
     <div class="box-content">    
         <form class="form-horizontal" role="form"  method="post" >  
@@ -30,7 +30,7 @@ else
             <div class=" col-sm-4 " style=" text-align: right;">
                 <a href="emp_reports_csv.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to CSV</a>
                 <a href="emp_reports_excel.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to Excel</a>
-                <a href="emp_reports_print.php?date=<?php echo $date;?>"  class="btn btn-small btn-warning">Print</a>
+                <a href="emp_reports_print.php?date=<?php echo $date;?>"  class="btn btn-small btn-warning" target="_blank">Print</a>
             </div>            
         </form> 
     <br><br><br>

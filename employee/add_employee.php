@@ -192,7 +192,7 @@ else
             <select name="emp_department" class="form-control">
                 <option value="">SELECT</option>
         <?php
-                $dep_array=array('Indubal','Soinb');                               
+                $dep_array=array('Indubal','Soinb','AppAdmins');                               
                 foreach ($dep_array as $dep)
                 {
                     $sel=$employee_list[0]['emp_department']==$dep ? 'selected' : '';
@@ -233,7 +233,7 @@ else
             <select name="emp_status" class="form-control">
                 <option value="">SELECT</option>
         <?php
-                $status_array=array('0'=>'Active','1'=>'Inactive');                               
+                $status_array=array('0'=>'Active','1'=>'Inactive','2'=>'Retired');                               
                 foreach ($status_array as $key=>$value)
                 {
                     $sel=$employee_list[0]['emp_status']==$key ? 'selected' : '';
@@ -248,7 +248,7 @@ else
             <select name="emp_type" class="form-control">
                 <option value="">SELECT</option>
         <?php
-                $type_array=array('1'=>'EMPLOYEE','2'=>'SUPERVISOR',"3"=>"ADMINISTRATOR");                               
+                $type_array=array('1'=>'Worker','2'=>'Supervisor',"3"=>"Manager",'4'=>'Administrators');                               
                 foreach ($type_array as $key=>$value)
                 {
                     $sel=$employee_list[0]['emp_type']==$key ? 'selected' : '';

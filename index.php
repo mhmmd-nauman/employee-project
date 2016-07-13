@@ -19,16 +19,14 @@ $obj=new Queries();
     &nbsp;
 </div>
 <div class="row">
-    <div class="col-md-9" style="text-align: center;">
+    <div class="col-md-12" style="text-align: center;">
         <h2>Bienvenido al Sistema de Gestión de Empleados</h2>
     </div>
-    <div class="col-md-2 ">
-        <a href="admin_login.php" class="btn btn-primary"> Admin Login</a>
-    </div>
+    
 </div>
 <div class="row">
     <div class="col-md-12 center login-header">
-        <h4>Entrar como Empleado/Supervisor</h4>
+        <h4>Entrar como Empleado/Supervisor/Admins</h4>
     </div>
     <!--/span-->
 </div><!--/row-->
@@ -42,7 +40,7 @@ $obj=new Queries();
     {   
        $user=$_REQUEST['email'];
     }
-    $get_user =   $obj->select("alpp_emp"," ( emp_cellnum='".$user."' or emp_email='".$user."') and emp_password='".$_REQUEST['password']."'",  array("*"));
+    $get_user =   $obj->select("alpp_emp"," ( emp_cellnum='".$user."' or emp_email='".$user."') and emp_password='".$_REQUEST['password']."' and emp_status = 0",  array("*"));
 
     if($get_user)
     {
@@ -52,6 +50,10 @@ $obj=new Queries();
                     break;
                 case 3:
                     $_SESSION['session_admin_role'] =	'admin';
+                    break;
+                case 4:
+                    $_SESSION['session_admin_role'] =	'admin';
+                    $_SESSION['session_admin_is_super'] = "Y" ;
                     break;
                 default :
                     $_SESSION['session_admin_role'] =	'employee';
@@ -63,7 +65,7 @@ $obj=new Queries();
 
               header("Location: dashboard.php");	
     }
-     else $error='Wrong Login Credentials for Employee/Supervisor';	 
+     else $error='Wrong Login Credentials';	 
     
  } 
  

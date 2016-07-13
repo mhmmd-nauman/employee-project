@@ -2,7 +2,7 @@
 include (dirname(__FILE__).'/../lib/include.php');
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("1 order by emp_name",array("*"));
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type in ( 1,2) order by emp_name",array("*"));
 if($_REQUEST['month']) { $month=$_REQUEST['month']; $year=$_REQUEST['year'];}
 else                   { $month=date('m'); $year=date('Y');}
 
@@ -58,8 +58,12 @@ window.print()
             <td><?php echo $employee['emp_cellnum'];?></td>
             <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
             <td><?php   echo number_format($balance, 2);?></td>
-            <td><?php   echo number_format(($balance_detail['leavesI']), 2);?></td>
-            <td><?php   echo number_format(($balance_detail['leavesD']), 2);?></td>
+            <td>
+                <?php echo $balance_detail['I']-$balance_detail['leavesI'];?>
+            </td>
+            <td>
+                <?php echo $balance_detail['D']-$balance_detail['leavesD'];?>
+            </td>
         </tr>
 
         <?php 

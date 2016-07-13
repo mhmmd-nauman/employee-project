@@ -8,7 +8,7 @@ $objTransaction =new Transaction();
 
 if($_SESSION['session_admin_role']=='admin')
     {
-    $active_employee=$obj->select("alpp_emp"," emp_status=0",array("count(emp_id)"));
+    $active_employee=$obj->select("alpp_emp"," emp_status=0 and emp_type = 1",array("count(emp_id)"));
     $inactive_employee=$obj->select("alpp_emp"," emp_status=1",array("count(emp_id)"));
     $active_admin=$obj->select("alpp_emp"," emp_type=2",array("count(emp_id)"));
     $pending_leaves=$obj->select("alpp_leave"," leave_approval=0",array("count(leave_id)"));
@@ -60,9 +60,9 @@ else
 
  <?php if($_SESSION['session_admin_role']=='admin'){?>
     <div class="col-md-3 col-sm-3 col-xs-6">
-        <a data-toggle="tooltip" title="" class="well top-block" href="employee/admin_emp_reports.php" data-original-title=" Administradores <?php echo $active_admin[0][0]; ?>">
+        <a data-toggle="tooltip" title="" class="well top-block" href="employee/admin_emp_reports.php" data-original-title=" Supervisors/Managers <?php echo $active_admin[0][0]; ?>">
             <i class="glyphicon glyphicon-user Red"></i>
-            <div>Supervisors</div>
+            <div>Supervisors/Managers</div>
             <div><?php echo $active_admin[0][0]; ?></div>
         </a>
     </div>
