@@ -223,7 +223,7 @@ else
         </div>
         <label class="control-label col-sm-2">Password</label>                     
         <div class="col-sm-3">
-            <input type="text" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
+            <input type="password" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
         </div>
     </div>
                 

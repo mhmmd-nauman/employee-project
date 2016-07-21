@@ -44,10 +44,11 @@ if(isset($_REQUEST['del']))
     </tr>
     </thead>
     <tbody>
-    <?php foreach($holiday_list as $holiday) {  ?>
+    <?php foreach($holiday_list as $holiday) {  
+       ?>
         
-    <tr>
-        <td><?php echo $holiday['title']; ?></td>
+        <tr>
+        <td ><?php echo $holiday['title']; ?></td>
         <td><?php echo $holiday['type']; ?></td>
         <td><?php echo date("d-m-Y",strtotime($holiday['date'])); ?></td>
         <td class="center">            

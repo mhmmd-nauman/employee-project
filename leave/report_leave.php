@@ -14,6 +14,8 @@ if(isset($_REQUEST['view']) )	// code to edit status only
 {	           
     $leave_data=$obj->select("alpp_leave","leave_id = ".$_REQUEST['view'],array("*"));
     //print_r($leave_data);
+    $approver_data=$obj->select("alpp_emp","emp_id = '".trim($leave_data[0]['leave_user'])."' or emp_email = '".trim($leave_data[0]['leave_user'])."'",array("*"));
+    //print_r($approver_data);
     if($action) {        
         $message_type="alert-success"; 
         $msg=($_REQUEST['status']==3)? 'Deleted' : ($_REQUEST['status']==1)?  'Cancelled' : 'Approved';  
@@ -62,19 +64,17 @@ function PrintWindow() {
 <!-- start of first copy -->
 
 <div class="row">
-    <div class="col-md-2 ">
-         <img alt="Indubal" src="<?php echo SITE_ADDRESS; ?>img/logo20.png" class="hidden-xs">
-     </div>
-    <div class=" col-md-7" data-original-title="" style=" text-align: center;">
-        <h4> SOLICITUD DE VACACIONES</h4>
-    </div>
-    <div class="col-md-2 pull-right">
+    
+    <div class="col-md-12 pull-right">
          <button type="button" onclick="PrintWindow()" name="search" class="btn btn-small btn-success pull-right"><i title="Report" class="glyphicon glyphicon-print icon-white"> Print</i></button>
      </div>
 </div>
 <?php
    include('report_leave_inner.php'); ?>
 <div class="row" style="border-bottom: 1px dotted black;">
+    &nbsp;
+</div>
+<div class="row">
     &nbsp;
 </div>
 <?php
@@ -88,7 +88,7 @@ function PrintWindow() {
 .rep_background{
  
  border-bottom: 1px solid black;
- padding: 3px;
+ padding: 5px;
  font-size: 11px;
  margin: 5px;
  font-weight: bold;
@@ -98,7 +98,7 @@ function PrintWindow() {
    margin-bottom: 7px;
 }
 .cel_data{
-     border-bottom: 1px solid black;
+     border-top: 1px solid black;
      padding: 3px;
      margin: 1px 5px 1px 5px;
      text-align:   center;
@@ -109,5 +109,6 @@ function PrintWindow() {
 }
 .row{
     padding-left: 15px;
+    
 }
 </style>

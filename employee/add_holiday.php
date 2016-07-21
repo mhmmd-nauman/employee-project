@@ -10,7 +10,7 @@ if(isset($_REQUEST['update_button']))  // update code
                 array(
                     'type'  => $_REQUEST['type'],
                     'title'  => $_REQUEST['title'],
-                    'date'   => $_REQUEST['date']
+                    'date'   => date("Y-m-d",strtotime($_REQUEST['date']))
                     ));
         if($submit )
 	{
@@ -30,7 +30,7 @@ if(isset($_REQUEST['update_button']))  // update code
            array(
                     'type'  => $_REQUEST['type'],
                     'title'  => $_REQUEST['title'],
-                    'date'   => $_REQUEST['date']
+                    'date'   => date("Y-m-d",strtotime($_REQUEST['date']))
             ));
     if($submit)
     {        
@@ -137,8 +137,8 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
 <script>
 $(function() {
   $( "#date" ).datepicker({
-        dateFormat: "dd-mm-yy",
-        beforeShowDay: $.datepicker.noWeekends
+        dateFormat: "dd-mm-yy"
+        //beforeShowDay: $.datepicker.noWeekends
     });
 });
 </script>

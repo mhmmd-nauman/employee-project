@@ -10,10 +10,16 @@ $leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave
 <?php
 if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	// code to edit status only 
 {	           
-    if($_REQUEST['status']==1 || $_REQUEST['status']==2)  {  // cancel | Approve
+    if($_REQUEST['status']==1 )  {  // cancel 
         $action=$obj->Update("alpp_leave",'leave_id='.$_REQUEST['leave_id'] , array('leave_approval'=>$_REQUEST['status']));
     } 
-    else if($_REQUEST['status']==3) { // delete
+    if( $_REQUEST['status']==2)  {  // Approve
+        $action=$obj->Update("alpp_leave",'leave_id='.$_REQUEST['leave_id'] , array('leave_approval'=>$_REQUEST['status'],
+            'leave_datetime'   =>date('Y-m-d h:i:s'),
+                'leave_user'       =>$_SESSION['session_admin_id']
+                ));
+    } 
+    if($_REQUEST['status']==3) { // delete
         $action = $obj->Delete("alpp_leave",'leave_id='.$_REQUEST['leave_id']);
     }
     if($action) {        

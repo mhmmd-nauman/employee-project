@@ -61,60 +61,73 @@ $objTransaction =new Transaction();
                     <th>Nombre</th>
                     <th>Department</th>
                     <th>Rut</th>
-                    
-                    <th style=" width: 10px;">Feriados Disponibles</th>
+                    <th>Today Balance</th>
+                    <th>FERIADO LEGAL</th>
+                    <th>DIAS PROGRESIVOS</th>
+                    <th width="13%">Actions</th>
                     <th>Status/ Notes</th>
-                    
-                    <th width="25%">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($employee_list as $employee) {  
-            $balance = $objTransaction->GetEmpBalance($employee['emp_id']);
+            <?php foreach($employee_list as $employee) {  
+            $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." ");
+            $balance=($balance_detail['I']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD'])
             ?>
         
-    <tr>
-        <td>
-            <?php echo $employee['emp_file']; ?>
-        </td>
-        <td><?php echo $employee['emp_name']; ?></td>
-        <td><?php echo $employee['emp_department']; ?></td>
-        <td><?php echo $employee['emp_cellnum']; ?></td>
-        
-        <td><?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
-            echo number_format($balance, 2);
-            ?>
-        </td>
-        <td class="center" style="text-align: center;">
-           <?php if($employee['emp_status']==0) { ?>
-            <a class=" btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i></a>
-            
-           <?php } else{ ?>
-              <a class=" btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i></a>
-           <?php } ?>&nbsp;<a title="Manage Notes" class=" btn-info btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span>
-            </a>
-        </td>
-        
-        
-        <td class="center">
-            <a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
-                Modificar saldos 
-            </a>
-            <a class=" btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">
-           Solicitud
-         </a>
-        <?php if( $_SESSION['session_admin_role'] == 'admin' ){?>  
-            <a class=" btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
-               <i class="glyphicon glyphicon-edit icon-white"></i>
-            </a>
-            <a class=" btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
-                <i class="glyphicon glyphicon-trash icon-white"></i>
-            </a>
-        <?php }?>
-        </td>
-    </tr>
-        <?php 
-        $balance = 0;
+            <tr>
+                <td>
+                    <?php echo $employee['emp_file']; ?>
+                </td>
+                <td><?php echo $employee['emp_name']; ?></td>
+                <td><?php echo $employee['emp_department']; ?></td>
+                <td><?php echo $employee['emp_cellnum']; ?></td>
+
+                <td><?php  echo number_format($balance, 2); ?>
+                </td>
+                <td><?php   echo number_format(($balance_detail['I']-$balance_detail['leavesI']), 2);?></td>
+                <td><?php   echo number_format(($balance_detail['D']-$balance_detail['leavesD']), 2);?></td>
+
+                <td class="center">
+                    <div class="btn-group">
+                        <button class="btn btn-success btn-sm">Actions</button>
+                        <button data-toggle="dropdown" class="btn btn-success dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">Modificar saldos</a>
+                            </li>
+                            <li>
+                                <a class=" btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">Solicitud</a>
+                            </li>
+                            <?php if( $_SESSION['session_admin_role'] == 'admin' ){?>  
+                            <li>
+                                <a class=" btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+                                   <i class="glyphicon glyphicon-edit icon-white"></i> Edit
+                                </a>
+                            </li>
+                            <li>
+                                <a class=" btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+                                    <i class="glyphicon glyphicon-trash icon-white"></i> Delete
+                                </a>
+                            </li>
+                        <?php }?>
+                        </ul>
+                    </div>
+                    
+                    
+                
+                </td>
+                <td class="center" style="text-align: center;">
+                   <?php if($employee['emp_status']==0) { ?>
+                    <a class=" btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i></a>
+
+                   <?php } else{ ?>
+                      <a class=" btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i></a>
+                   <?php } ?>&nbsp;<a title="Manage Notes" class=" btn-info btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span>
+                    </a>
+                </td>
+            </tr>
+            <?php 
+            $balance = 0;
            } ?>
     
     </tbody>
@@ -144,5 +157,15 @@ $objTransaction =new Transaction();
         }
             
     
+}
+</script>
+<script>
+    function confirmation() {
+        var answer = confirm("Do you want to delete this record?");
+    if(answer){
+            return true;
+    }else{
+            return false;
+    }
 }
 </script>

@@ -4,36 +4,36 @@ include (dirname(__FILE__).'/../lib/modal_header.php');
 $obj=new Queries();
 $objHoliday=new Holiday();
 $objTransaction =new Transaction();
-$employee_list=$obj->select("alpp_emp","1 order by emp_name ASC ",array("*"));
+if(isset($_REQUEST['Search']))  /// insert code
+{
+   $search = $_REQUEST['SearchText'];
+   if(!empty($search)){
+      $searchqry = " and ( emp_name  LIKE '%$search%' or emp_file  LIKE '%$search%')"; 
+   }
+}
+
+$employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type = 1 $searchqry order by emp_name ASC ",array("*"));
 $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled"); 
 if(isset($_REQUEST['submit']))  /// insert code
 {
-   $employees=$_REQUEST['emp_ids'];
-    
-   $total_days=$local_holiday=$final_days=0;
+    $employees=$_REQUEST['emp_ids'];
+    $total_days=$local_holiday=$final_days=0;
     if($_REQUEST['leave_duration_to'])
     {
     $date1 = new DateTime($_REQUEST['leave_duration_from']);
     $date2 = new DateTime($_REQUEST['leave_duration_to']);
     if((strtotime($date1) < strtotime($date2)) ||  (date("d",strtotime($date1)) === date("d",strtotime($date2)))){
-         //|| (date("d",strtotime($date1)) == ate("d",strtotime($date2)))   
         
         $date2 = $date2->modify( '+1 day' ); 
-        //echo  $total_days = $date2->diff($date1)->format("%a");
-
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($date1, $interval, $date2);
-        //echo "<pre>";
-        //print_r($period);
-        //echo "</pre>";
+        
         foreach ( $period as $dt )
         {
-            //echo "<pre>";
-            //print_r($dt);
-            //echo "</pre>";
             $day=$dt->format( "l" );
             $date=$dt->format( "d-m-Y" );
-            
+            $d = $dt->format( "d" );
+            $m = $dt->format( "m" );
             if($day=='Saturday' || $day=='Sunday')
             {
                 
@@ -48,16 +48,11 @@ if(isset($_REQUEST['submit']))  /// insert code
             }   
             
             $holiday_list=array();
-            $holiday_list=$objHoliday->GetAllHoliday(" date='".$date."'",array("*"));
+            $holiday_list=$objHoliday->GetAllHoliday(" month(`date`) = '".$m."' and day(`date`) = '".$d."'  ",array("*"));
             if($holiday_list)
             {
                 $local_holiday++;
             }
-        
-       
-            //echo "Total :".$total_days."<br>";
-            //echo "Local :".$local_holiday."<br>";        
-
             $final_days=$total_days-$local_holiday;
     }
     
@@ -66,16 +61,12 @@ if(isset($_REQUEST['submit']))  /// insert code
     $insert_count_ok = 0;
     $error_I_count= 0;
     $error_D_count= 0;
-    //print_r($employees);
-   foreach($employees as $emp)
+    foreach($employees as $emp)
     {    
        // check weather employee have enough balance 
        $balance_detail= $objTransaction->GetEmpBalanceDetail($emp);
-       //print_r($balance_detail);
        $bI = $balance_detail['I']-$balance_detail['leavesI'];
-       //echo "<br>";
        $bD = $balance_detail['D']-$balance_detail['leavesD'];
-       
        if($_REQUEST['trans_type'] == 'I'){
             if($bI >= $final_days){
                 $insert_ok =1;
@@ -103,7 +94,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                                                  'leave_balance_type'   =>$_REQUEST['trans_type'],
                                                  'leave_approval'   =>$_REQUEST['approval'],
                                                  'leave_datetime'   =>date('Y-m-d h:i:s'),
-                                                 'leave_user'       =>$_SESSION['session_admin_email']
+                                                 'leave_user'       =>$_SESSION['session_admin_id']
                                                  ));
        } 
        $insert_ok = 0;
@@ -203,15 +194,22 @@ if($message_success){
     <div class="form-group">                    
         <label class="control-label col-sm-2">1/2 Day Leave</label>                     
         <div class="col-sm-2">
-            <select name="half_day" class="form-control" >
+            <select name="half_day" class="form-control col-sm-2" >
                 <option value="0">No</option>
                 <option value="1">Yes</option>
             </select>
         </div>
+        <label class="control-label col-sm-2">Search:</label>  
+        <div class="col-sm-3">
+            <input name="SearchText" class="form-control col-sm-3" type="text" value="" placeholder="Seach Worker">
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" name="Search" class="btn btn-block btn-info">Search</button>
+        </div>
     </div>
 <div class="form-group">
     <label class="control-label col-sm-2">Name</label>
-    <div class="col-sm-8">                                    
+    <div class="col-sm-10">                                    
         <fieldset class="multiselectcheck form-control">
         <label> <input type="checkbox" id="togglecheck" value="select" onClick="do_this()" />&nbsp;&nbsp;&nbsp;Select All</label>
         <?php

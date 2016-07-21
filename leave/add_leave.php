@@ -25,7 +25,8 @@ if(isset($_REQUEST['update_button']))  // update code
         {
             $day=$dt->format( "l" );
             $date=$dt->format( "d-m-Y" );
-            
+            $d = $dt->format( "d" );
+            $m = $dt->format( "m" );
             if($day=='Saturday' || $day=='Sunday')
             {
                 
@@ -40,7 +41,7 @@ if(isset($_REQUEST['update_button']))  // update code
             }   
             
             $holiday_list=array();
-            $holiday_list=$objHoliday->GetAllHoliday(" date='".$date."'",array("*"));
+            $holiday_list=$objHoliday->GetAllHoliday(" month(`date`) = '".$m."' and day(`date`) = '".$d."'",array("*"));
             if($holiday_list)
             {
                 $local_holiday++;
@@ -64,10 +65,15 @@ if(isset($_REQUEST['update_button']))  // update code
                                                  'leave_duration_to'   =>date("Y-m-d h:i:s",  strtotime($_REQUEST['leave_duration_to'])),
                                                  'leave_balance_type'   =>$_REQUEST['trans_type'],
                                                  'leave_approval'   =>$_REQUEST['approval'],
-                                                 'leave_datetime'   =>date('Y-m-d h:i:s'),
-                                                 'leave_user'       =>$_SESSION['session_admin_email']
+                                                 
                                                   ));
-        
+        if($_REQUEST['approval'] == 2){
+            // its approved leave
+            $submit=$obj->update("alpp_leave","leave_id=".$_REQUEST['leave_id'] ,array(
+                'leave_datetime'   =>date('Y-m-d h:i:s'),
+                'leave_user'       =>$_SESSION['session_admin_id']
+            ));
+        }
         if($submit){        
             $message_type="alert-success"; 
             $message_text = "<strong>Success!</strong> Leave Updated.";
@@ -107,7 +113,8 @@ if(isset($_REQUEST['update_button']))  // update code
         {
             $day=$dt->format( "l" );
             $date=$dt->format( "m/d/Y" );
-            
+            $d = $dt->format( "d" );
+            $m = $dt->format( "m" );
             if($day=='Saturday' || $day=='Sunday')
             {
                 
@@ -122,7 +129,7 @@ if(isset($_REQUEST['update_button']))  // update code
             }   
             
             $holiday_list=array();
-            $holiday_list=$objHoliday->GetAllHoliday(" date='".$date."'",array("*"));
+            $holiday_list=$objHoliday->GetAllHoliday(" month(`date`) = '".$m."' and day(`date`) = '".$d."'",array("*"));
             if($holiday_list)
             {
                 $local_holiday++;
@@ -173,7 +180,7 @@ if(isset($_REQUEST['update_button']))  // update code
                                                  'leave_balance_type'   =>$_REQUEST['trans_type'],
                                                  'leave_approval'   =>$approval,
                                                  'leave_datetime'   =>date('Y-m-d h:i:s'),
-                                                 'leave_user'       =>$_SESSION['session_admin_email']
+                                                 'leave_user'       =>$_SESSION['session_admin_id']
                                                   
               ));
         
