@@ -12,7 +12,7 @@ if(isset($_REQUEST['Search']))  /// insert code
    }
 }
 
-$employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type = 1 $searchqry order by emp_name ASC ",array("*"));
+$employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 $searchqry order by emp_name ASC ",array("*"));
 $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled"); 
 if(isset($_REQUEST['submit']))  /// insert code
 {

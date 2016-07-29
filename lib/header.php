@@ -149,7 +149,7 @@
                                     </ul>
                                 </li>
                                 <li class="accordion">
-                                    <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ingresar movimientos</span></a>
+                                    <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ingresar Solicitud</span></a>
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="ajax-link"><a  class="add_leave_multi" href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-list"></i><span> Ingresar solicitud masiva</span></a></li>
                                         <!--<li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>manage_requests.php"><i class="glyphicon glyphicon-file"></i><span> Manage Requests</span></a></li>-->
@@ -157,7 +157,7 @@
                                     </ul>
                                 </li>
                                 <li class="accordion">
-                                    <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Vacaciones</span></a>
+                                    <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Listado de Feriados</span></a>
                                     <ul class="nav nav-pills nav-stacked">
                                         <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/holidays_list.php"><i class="glyphicon glyphicon-random"></i><span> Holidays List</span></a></li>
                                         
@@ -191,7 +191,7 @@
                                             
                             
                         <li class="accordion">
-                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ingresar movimientos</span></a>
+                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ingresar Solicitud</span></a>
                             <ul class="nav nav-pills nav-stacked">
                                 <li class="ajax-link"><a  class="add_leave_multi" href="<?php echo SITE_ADDRESS; ?>leave/add_multiple_leave.php"><i class="glyphicon glyphicon-list"></i><span> Ingresar solicitud masiva</span></a></li>
                                 <!--<li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>manage_requests.php"><i class="glyphicon glyphicon-file"></i><span> Manage Requests</span></a></li>-->
@@ -200,7 +200,7 @@
                         </li>
                         
                         <li class="accordion">
-                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Balance(Equilibrar)</span></a>
+                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Ajuste de Saldos</span></a>
                             <ul class="nav nav-pills nav-stacked">
                                 <li><a class="add_monthly" href="<?php echo SITE_ADDRESS; ?>employee/add_monthly.php"><i class="glyphicon glyphicon-icon-user"></i><span> Add Manual Balance </span></a></li>
                                 <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance_feriado_legal_cron.php"><i class="glyphicon glyphicon-random"></i><span> Feriado Legal</span></a></li>
@@ -212,7 +212,7 @@
                         </li>
                         
                         <li class="accordion">
-                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Vacaciones</span></a>
+                            <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Listado de Feriados</span></a>
                             <ul class="nav nav-pills nav-stacked">
                                 <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/holidays_list.php"><i class="glyphicon glyphicon-random"></i><span> Holidays List</span></a></li>
                                 <li class="ajax-link"><a class="add_holiday cboxElement" href="<?php echo SITE_ADDRESS; ?>employee/add_holiday_type.php"><i class="glyphicon glyphicon-random"></i><span> Holiday Type</span></a></li>
@@ -244,7 +244,7 @@
            default :   ?>                        
                 <li class="ajax-link"><a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php"><i class="glyphicon glyphicon-list"></i><span> Presentar una solicitud de licencia</span></a></li>
                 <li><a href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php"><i class="glyphicon glyphicon-list"></i> Historial </a></li>
-                <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>"><i class="glyphicon glyphicon-list"></i> Equilibrar</a></li>
+                <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_balance.php?emp_id=<?php echo $_SESSION['session_admin_id']; ?>"><i class="glyphicon glyphicon-list"></i> Ajuste de Saldos</a></li>
             <?php }   ?>                       
                         <li><a href="<?php echo SITE_ADDRESS; ?>logout.php"><i class="glyphicon glyphicon-lock"></i><span> Cerrar sesión</span></a></li>
                     </ul>

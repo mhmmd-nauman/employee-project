@@ -62,7 +62,7 @@ else
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a data-toggle="tooltip" title="" class="well top-block" href="employee/admin_emp_reports.php" data-original-title=" Supervisors/Managers <?php echo $active_admin[0][0]; ?>">
             <i class="glyphicon glyphicon-user Red"></i>
-            <div>Supervisors/Managers</div>
+            <div>Supervisor/Jefe</div>
             <div><?php echo $active_admin[0][0]; ?></div>
         </a>
     </div>
