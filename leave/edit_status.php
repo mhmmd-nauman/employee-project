@@ -54,7 +54,7 @@ if(isset($_REQUEST['id']))
 
 <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
    <div class="form-group">
-        <label class="control-label col-sm-2">Reason</label>                     
+        <label class="control-label col-sm-2">Observación</label>                     
             <div class="col-sm-4">
                 <textarea  class="form-control" name="reason" <?php echo $readonly; ?>  placeholder="Enter Detail here..."><?php echo $leave_list[0]['leave_reason']; ?></textarea>
             </div>

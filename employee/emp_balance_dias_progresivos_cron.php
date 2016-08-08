@@ -151,7 +151,7 @@ if($_REQUEST['process_now'] == 2){
         ?>
         <a class=" btn-success btn-sm add_balance" href="<?php echo SITE_ADDRESS; ?>/employee/add_balance.php?emp_id=<?php echo $employee['emp_id']; ?>&inc=<?php echo $inc;?>&day=<?php echo date("d",strtotime($next_date));?>&trans_type=D">Add Manually</a>
             <?php } else {?>
-            processed
+            No Action Required
             <?php }?>
         </td>
        

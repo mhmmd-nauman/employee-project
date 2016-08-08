@@ -70,7 +70,7 @@ $objTransaction =new Transaction();
             <tbody>
             <?php foreach($employee_list as $employee) {  
             $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." ");
-            $balance=($balance_detail['I']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD'])
+            $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD'])
             ?>
         
             <tr>
@@ -83,7 +83,7 @@ $objTransaction =new Transaction();
 
                 <td><?php  echo number_format($balance, 2); ?>
                 </td>
-                <td><?php   echo number_format(($balance_detail['I']-$balance_detail['leavesI']), 2);?></td>
+                <td><?php   echo number_format(($balance_detail['F']-$balance_detail['leavesI']), 2);?></td>
                 <td><?php   echo number_format(($balance_detail['D']-$balance_detail['leavesD']), 2);?></td>
 
                 <td class="center">
@@ -91,21 +91,27 @@ $objTransaction =new Transaction();
                         <button class="btn btn-success btn-sm">Actions</button>
                         <button data-toggle="dropdown" class="btn btn-success dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
                         <ul class="dropdown-menu">
+                            <?php if($_SESSION['session_admin_role'] == 'admin'){?>
                             <li>
                                 <a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">Modificar saldos</a>
                             </li>
+                            <?php }?>
                             <li>
                                 <a class=" btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">Solicitud</a>
                             </li>
-                            <?php if($employee['emp_status']==0) { ?>
-                                <li>    
-                                    <a class=" btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i> Status</a>
-                                </li>
-                                   <?php } else{ ?>
-                                <li> 
-                                      <a class=" btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i> Status</a>
-                                </li>
-                            <?php } ?>
+                            <?php 
+                            if($_SESSION['session_admin_role'] == 'admin'){
+                                if($employee['emp_status']==0) { ?>
+                                    <li>    
+                                        <a class=" btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i> Status</a>
+                                    </li>
+                                       <?php } else{ ?>
+                                    <li> 
+                                          <a class=" btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i> Status</a>
+                                    </li>
+                                <?php } 
+                            }
+                            ?>
                             <li>
                                 <a title="Manage Notes" class=" btn-success btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span> Notes</a>
                             </li>

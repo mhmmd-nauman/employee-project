@@ -5,7 +5,7 @@ $objTransaction =new Transaction();
 ?>
 <?php 
 $obj=new Queries();
-$employee_list=$obj->select("alpp_emp","emp_status = 0 and emp_type = 1 order by emp_name",array("*"));
+$employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 order by emp_name",array("*"));
 //print_r($employee_list);
 ?>
 <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">

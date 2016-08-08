@@ -3,7 +3,7 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/modal_header.php'); 
 $obj=new Queries();
 $objTransaction =new Transaction();
-$employee_list=$obj->select("alpp_emp"," emp_status=0 order by emp_file",array("*"));
+$employee_list=$obj->select("alpp_emp"," emp_status=0 and emp_type <> 4 order by emp_file",array("*"));
 
 
 if(isset($_REQUEST['submit']))  /// insert code
@@ -21,7 +21,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                         'emp_id'=>$emp_id,
                         'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                         'amount'=>$all_amount[$i],
-                        'trans_type'=>'D',
+                        'trans_type'=>'F',
                         'date'=> date("Y-m-d h:i:s"),
                         'done_by'=>$_SESSION['session_admin_id'],
                         'status'=>0
@@ -77,7 +77,7 @@ if(isset($_REQUEST['submit']))  /// insert code
        <th>Ficha</th>
         <th>Nombre</th>
         <th>FECHA INGRESO</th>
-        <th>Feriados Disponibles</th>
+        <th>FERIADO LEGAL</th>
         
         <th>Balance</th>
     </tr>

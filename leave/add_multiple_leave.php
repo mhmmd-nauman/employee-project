@@ -13,7 +13,7 @@ if(isset($_REQUEST['Search']))  /// insert code
 }
 
 $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 $searchqry order by emp_name ASC ",array("*"));
-$leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled"); 
+$leave_array=array("2"=>"Aprobado","0"=>"Pendiente","1"=>"Cancelado"); 
 if(isset($_REQUEST['submit']))  /// insert code
 {
     $employees=$_REQUEST['emp_ids'];
@@ -65,9 +65,9 @@ if(isset($_REQUEST['submit']))  /// insert code
     {    
        // check weather employee have enough balance 
        $balance_detail= $objTransaction->GetEmpBalanceDetail($emp);
-       $bI = $balance_detail['I']-$balance_detail['leavesI'];
+       $bI = $balance_detail['F']-$balance_detail['leavesI'];
        $bD = $balance_detail['D']-$balance_detail['leavesD'];
-       if($_REQUEST['trans_type'] == 'I'){
+       if($_REQUEST['trans_type'] == 'F'){
             if($bI >= $final_days){
                 $insert_ok =1;
             }else{
@@ -186,37 +186,38 @@ if(isset($_REQUEST['submit']))  /// insert code
 <?php
 if($message_success){
     echo  $message_success;
-}
-    ?>
+?>
+      <script> window.parent.location.reload();</script>
+<?php } ?>
      <form class="form-horizontal" role="form"  method="post">
                
                         
     <div class="form-group">                    
-        <label class="control-label col-sm-2">1/2 Day Leave</label>                     
+        <label class="control-label col-sm-2">1/2 Día</label>                     
         <div class="col-sm-2">
             <select name="half_day" class="form-control col-sm-2" >
                 <option value="0">No</option>
                 <option value="1">Yes</option>
             </select>
         </div>
-        <label class="control-label col-sm-2">Search:</label>  
+        <label class="control-label col-sm-2">Buscador:</label>  
         <div class="col-sm-3">
-            <input name="SearchText" class="form-control col-sm-3" type="text" value="" placeholder="Seach Worker">
+            <input name="SearchText" class="form-control col-sm-3" type="text" value="" placeholder="Buscador Empleado">
         </div>
         <div class="col-sm-2">
-            <button type="submit" name="Search" class="btn btn-block btn-info">Search</button>
+            <button type="submit" name="Search" class="btn btn-block btn-info">Buscar</button>
         </div>
     </div>
 <div class="form-group">
-    <label class="control-label col-sm-2">Name</label>
+    <label class="control-label col-sm-2">Empleado</label>
     <div class="col-sm-10">                                    
         <fieldset class="multiselectcheck form-control">
-        <label> <input type="checkbox" id="togglecheck" value="select" onClick="do_this()" />&nbsp;&nbsp;&nbsp;Select All</label>
+        <label> <input type="checkbox" id="togglecheck" value="select" onClick="do_this()" />&nbsp;&nbsp;&nbsp;Seleccionar todos</label>
         <?php
           foreach($employee_list as $employee)
           {  
             $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']);
-            $bI=$balance_detail['I'] - $balance_detail['leavesI'];
+            $bI=$balance_detail['F'] - $balance_detail['leavesI'];
             if($bI < 0)$bI="($bI)";
             $bD=$balance_detail['D']-$balance_detail['leavesD'];
             if($bD < 0)$bD="($bD)";
@@ -224,39 +225,37 @@ if($message_success){
           }
         ?>
         </fieldset>
-        &nbsp;(Ficha - Employee Name - Department - DIAS PROGRESIVOS - FERIADO LEGAL)
+        &nbsp;(Ficha - Nombre del Empleado - Departamento - DIAS PROGRESIVOS - FERIADO LEGAL)
     </div>
 </div>
       
          
             <div class="form-group">                    
-             <label class="control-label col-sm-2">From Date *</label>                     
+             <label class="control-label col-sm-2">Fecha de Inicio *</label>                     
              <div class="col-sm-2">
                  <input type="text" required="" class="form-control col-sm-4"  style="width:180px;"  id="leave_duration_from" name="leave_duration_from" value="<?php echo date('d-m-Y'); ?>">
              </div>
                             
-             <label class="control-label col-sm-2">To Date *</label>                     
+             <label class="control-label col-sm-2">Fecha de Término *</label>                     
              <div class="col-sm-2">
                  <input type="text" required="" class="form-control col-sm-4" style="width:180px;"  id="leave_duration_to" name="leave_duration_to" value="<?php echo date('d-m-Y'); ?>">
              </div>
          </div>
          
          <div class="form-group">
-              <label class="control-label col-sm-2">Type</label>
-              <div class="col-sm-2">
-                  <select name="trans_type" class="form-control" >
-<!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
-                      <option value="C" <?php //if($transaction[0]['trans_type']=='C')echo"selected";?>>Auto System Added</option>-->
-                      <option value="D" <?php if($transaction[0]['trans_type']=='D')echo"selected";?>>DIAS PROGRESIVOS</option>
-                      <option value="I" <?php if($transaction[0]['trans_type']=='I')echo"selected";?>>FERIADO LEGAL</option>
-                      
-                  </select>
-              </div>
+              <label class="control-label col-sm-2">Tipo</label>
+                <div class="col-sm-2">
+                    <select name="trans_type" class="form-control" >
+                        <option value="F" <?php if($transaction[0]['trans_type']=='F')echo"selected";?>>FERIADO LEGAL</option>
+                        <option value="D" <?php if($transaction[0]['trans_type']=='D')echo"selected";?>>DIAS PROGRESIVOS</option>
+                        
+                    </select>
+                </div>
          
-                        <label class="control-label col-sm-2">Approval</label>
+                        <label class="control-label col-sm-2">Estatus</label>
                         <div class="col-sm-2">          
                          <select name="approval" class="form-control" required="">
-                          <option value="">SELECT</option>
+                          <option value="">SELECCIONE</option>
                            <?php 
                                 foreach($leave_array as $status=>$value)
                                 {   
@@ -273,9 +272,9 @@ if($message_success){
          
                 
           <div class="form-group">
-                         <label class="control-label col-sm-2">Reason</label>                     
+                         <label class="control-label col-sm-2">Observación</label>                     
                         <div class="col-sm-8">
-                            <textarea  class="form-control" name="reason"  placeholder="Enter Detail here..."></textarea>
+                            <textarea  class="form-control" name="reason"  placeholder="Observación"></textarea>
                         </div>
                                
                         
@@ -284,7 +283,7 @@ if($message_success){
 
          <div class="form-group">        
                         <div class="col-sm-offset-2 col-sm-4">
-                            <button type="submit" name="submit" class="btn btn-block btn-info">Save</button>
+                            <button type="submit" name="submit" class="btn btn-block btn-info">Guardar</button>
                          </div>
                     </div>  
 

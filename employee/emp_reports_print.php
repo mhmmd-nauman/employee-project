@@ -42,7 +42,7 @@ window.print()
     <tbody>
         <?php foreach($employee_list as $employee) {           
             $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." and date <= '".$date." 12:60:60'");
-            $balance=($balance_detail['I']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);?>      
+            $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);?>      
         <tr>
             <td><?php echo $employee['emp_file']; ?></td>
             <td><?php echo $employee['emp_name']; ?></td>
@@ -50,7 +50,7 @@ window.print()
             <td><?php echo $employee['emp_cellnum'];?></td>
             <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
             <td><?php   echo number_format($balance, 2);?></td>
-            <td><?php   echo number_format(($balance_detail['I']-$balance_detail['leavesI']), 2);?></td>
+            <td><?php   echo number_format(($balance_detail['F']-$balance_detail['leavesI']), 2);?></td>
             <td><?php   echo number_format(($balance_detail['D']-$balance_detail['leavesD']), 2);?></td>
         </tr>
         <?php 

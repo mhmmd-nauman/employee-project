@@ -7,7 +7,7 @@ $objTransaction =new Transaction();
 $obj=new Queries();
 $str = "";
 if($_SESSION['session_admin_is_super'] == "Y"){
-    $str = ",3,4";
+    $str = ",3,4,1";
 } 
 $employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",array("*"));
 

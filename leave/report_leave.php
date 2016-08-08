@@ -28,8 +28,8 @@ switch($leave_data[0]['leave_balance_type']){
     case"D":
         $balance_before_leave = $balance_detail['D']-$balance_detail['leavesD'];
         break;
-    case"I":
-        $balance_before_leave = $balance_detail['I']-$balance_detail['leavesI'];
+    case"F":
+        $balance_before_leave = $balance_detail['F']-$balance_detail['leavesI'];
         break;
 }
 

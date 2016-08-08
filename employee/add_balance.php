@@ -78,9 +78,10 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <div class="widget-body">
                         <div class="alert alert-success">
                                 <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Balance Detail Submitted.
+                                <strong>Success!</strong> Balance Detail Added.
                         </div>
                     </div>
+        <script> window.parent.location.reload();</script>
         <?php      //header('REFRESH:2, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);
 		}
 	
@@ -129,7 +130,7 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
 <!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
                       <option value="C" <?php //if($transaction[0]['trans_type']=='C')echo"selected";?>>Auto System Added</option>-->
                       <option value="D" <?php if($transaction[0]['trans_type']=='D')echo"selected";?>>DIAS PROGRESIVOS</option>
-                      <option value="I" <?php if($transaction[0]['trans_type']=='I')echo"selected";?>>FERIADO LEGAL</option>
+                      <option value="F" <?php if($transaction[0]['trans_type']=='F')echo"selected";?>>FERIADO LEGAL</option>
                       
                   </select>
               </div>

@@ -29,7 +29,7 @@ if(isset($_REQUEST['del']))
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>Holiday List</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>Feriados</h2>
             </div>
             
     <div class="box-content">
@@ -40,7 +40,9 @@ if(isset($_REQUEST['del']))
         <th>Title</th>
         <th>Type</th>
         <th>Date</th>
-        <th width="20%">Actions</th>
+        <?php if($_SESSION['session_admin_role'] == 'admin'){?>
+            <th width="20%">Actions</th>
+        <?php }?>
     </tr>
     </thead>
     <tbody>
@@ -51,6 +53,7 @@ if(isset($_REQUEST['del']))
         <td ><?php echo $holiday['title']; ?></td>
         <td><?php echo $holiday['type']; ?></td>
         <td><?php echo date("d-m-Y",strtotime($holiday['date'])); ?></td>
+        <?php if($_SESSION['session_admin_role'] == 'admin'){?>
         <td class="center">            
             <a class="btn btn-info btn-sm add_holiday" href="add_holiday.php?update=<?php echo $holiday['id']; ?>">
                <i class="glyphicon glyphicon-edit icon-white"></i>
@@ -59,6 +62,7 @@ if(isset($_REQUEST['del']))
              <i class="glyphicon glyphicon-trash icon-white"></i>
             </a>
         </td>
+        <?php }?>
     </tr>
         <?php } ?>
     

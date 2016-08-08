@@ -41,7 +41,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 ">
-                                <?php if($leave_data[0]['leave_balance_type']=='I'){?>
+                                <?php if($leave_data[0]['leave_balance_type']=='F'){?>
                                 FERIADO LEGAL <?php }else{ ?> DIAS PROGRESIVOS
                                 <?php }?>
                             </div>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-5" style="text-align: center;">
-                                <?php echo $balance_detail['I']-$balance_detail['leavesI'];?>
+                                <?php echo $balance_detail['F']-$balance_detail['leavesI'];?>
                             </div>
                             <div class="col-md-5" style="text-align: center;">
                                 <?php echo $balance_detail['D']-$balance_detail['leavesD'];?>		

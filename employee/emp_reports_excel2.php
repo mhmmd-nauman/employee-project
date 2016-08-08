@@ -26,7 +26,7 @@ function cleanData(&$str)
   $data=array();
 foreach($employee_list as $employee) { 
     $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." and date <= '".$_REQUEST['date']." 12:60:60'");
-    $balance=($balance_detail['I']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);
+    $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);
   
    
   $data[] = array("Ficha" =>$employee['emp_file'],
@@ -36,7 +36,7 @@ foreach($employee_list as $employee) {
                     "RUT" => $employee['emp_cellnum'],
                     "FECHA INGRESO" => date("d-m-Y",strtotime($employee['emp_current_contract'])),
                     "Today Balance" => number_format($balance, 2),
-                    "FERIADO LEGAL" => number_format(($balance_detail['I']-$balance_detail['leavesI']), 2),
+                    "FERIADO LEGAL" => number_format(($balance_detail['F']-$balance_detail['leavesI']), 2),
                     "DIAS PROGRESIVOS" => number_format(($balance_detail['D']-$balance_detail['leavesD']), 2)
                 );
         $balance = 0;

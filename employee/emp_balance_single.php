@@ -116,7 +116,7 @@ switch ($_REQUEST['postback']){
 <?php } else{ ?>
             <table class="table table-striped table-bordered" >
                 <tr>
-                    <th>Feriado Legal</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></th>
+                    <th>Feriado Legal</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['F']-$balance_detail['leavesI'];?></th>
                     <th>Dias Progresivos</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></th>
                 </tr>
             </table>
@@ -163,7 +163,7 @@ switch ($_REQUEST['postback']){
                                 case"C":
                                     echo "<td>Auto System Added</td>";
                                     break;
-                                case"I":
+                                case"F":
                                     echo "<td>FERIADO LEGAL</td>";
                                     break;
                                 case"D":
@@ -172,7 +172,7 @@ switch ($_REQUEST['postback']){
                                 case"L":
                                     echo "<td>Leave -  (";
                                     if($trasanction['leave_type']=='D') echo "DIAS PROGRESIVOS";
-                                        else if($trasanction['leave_type']=='I') echo "FERIADO LEGAL";
+                                        else if($trasanction['leave_type']=='F') echo "FERIADO LEGAL";
                                         else echo "";
 
                                         echo")</td>";
@@ -246,7 +246,7 @@ switch ($_REQUEST['postback']){
                        <!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
                                              <option value="C" <?php //if($transaction[0]['trans_type']=='C')echo"selected";?>>Auto System Added</option>-->
                                              <option value="D" <?php if($transaction[0]['trans_type']=='D')echo"selected";?>>DIAS PROGRESIVOS</option>
-                                             <option value="I" <?php if($transaction[0]['trans_type']=='I')echo"selected";?>>FERIADO LEGAL</option>
+                                             <option value="F" <?php if($transaction[0]['trans_type']=='F')echo"selected";?>>FERIADO LEGAL</option>
 
                                          </select>
                                      </div>

@@ -149,11 +149,11 @@ if(isset($_REQUEST['update_button']))  // update code
    
     $balance_detail= $objTransaction->GetEmpBalanceDetail($employee);
     //print_r($balance_detail);
-    $bI = $balance_detail['I']-$balance_detail['leavesI'];
+    $bI = $balance_detail['F']-$balance_detail['leavesI'];
     //echo "<br>";
     $bD = $balance_detail['D']-$balance_detail['leavesD'];
 
-    if($_REQUEST['trans_type'] == 'I'){
+    if($_REQUEST['trans_type'] == 'F'){
          if($bI >= $final_days){
              $insert_ok =1;
          }else{
@@ -292,7 +292,7 @@ if($_SESSION['session_admin_role']=='admin')
 <?php } ?>                 
        
     <div class="form-group">                    
-        <label class="control-label col-sm-2">1/2 Day Leave</label>                     
+        <label class="control-label col-sm-2">1/2 Día</label>                     
         <div class="col-sm-2">
             <select name="half_day" class="form-control" >
                 <option value="0" <?php if($leave_list[0]['half_day']==0)echo"selected";?>>No</option>
@@ -301,26 +301,26 @@ if($_SESSION['session_admin_role']=='admin')
         </div>
     </div>
     <div class="form-group">                    
-        <label class="control-label col-sm-2">From</label>                     
+        <label class="control-label col-sm-2">Fecha de Inicio</label>                     
         <div class="col-sm-2">
             <input type="text" id="leave_duration_from" required="" class="form-control col-sm-2"  <?php //echo $readonly; ?> value="<?php echo $leave_duration_from; ?>"  name="leave_duration_from">
         </div>
     </div>
 
     <div class="form-group">                    
-        <label class="control-label col-sm-2">To</label>                     
+        <label class="control-label col-sm-2">Fecha de Término</label>                     
         <div class="col-sm-2">
             <input type="text" id="leave_duration_to"  required="" class="form-control col-sm-2" <?php echo $readonly; ?> value="<?php echo $leave_duration_to; ?>"  name="leave_duration_to">
         </div>
     </div>
       <div class="form-group">
-              <label class="control-label col-sm-2">Type</label>
+              <label class="control-label col-sm-2">Tipo</label>
               <div class="col-sm-4">
                   <select name="trans_type" class="form-control" >
 <!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
                       <option value="C" <?php //if($transaction[0]['trans_type']=='C')echo"selected";?>>Auto System Added</option>-->
                       <option value="D" <?php if($leave_list[0]['leave_balance_type']=='D')echo"selected";?>>DIAS PROGRESIVOS</option>
-                      <option value="I" <?php if($leave_list[0]['leave_balance_type']=='I')echo"selected";?>>FERIADO LEGAL</option>
+                      <option value="F" <?php if($leave_list[0]['leave_balance_type']=='F')echo"selected";?>>FERIADO LEGAL</option>
                       
                   </select>
               </div>
@@ -344,9 +344,9 @@ if($_SESSION['session_admin_role']=='admin')
     <?php } ?>
               
     <div class="form-group">
-        <label class="control-label col-sm-2">Reason</label>                     
+        <label class="control-label col-sm-2">Observación</label>                     
             <div class="col-sm-4">
-                <textarea  class="form-control" name="reason" <?php echo $readonly; ?>  placeholder="Enter Detail here..."><?php echo $leave_list[0]['leave_reason']; ?></textarea>
+                <textarea  class="form-control" name="reason" <?php echo $readonly; ?>  placeholder="Observación"><?php echo $leave_list[0]['leave_reason']; ?></textarea>
             </div>
     </div>
 
@@ -355,13 +355,13 @@ if(isset($_REQUEST['view']))            {  }
 else if(isset($_REQUEST['update']))	{  ?>
     <div class="form-group">        
         <div class="col-sm-offset-2 col-sm-4">
-            <button type="submit" name="update_button" class="btn btn-small btn-block btn-error">Update</button>
+            <button type="submit" name="update_button" class="btn btn-small btn-block btn-error">Guardar</button>
          </div>
     </div>  
 <?php } else {     ?>         
     <div class="form-group">        
         <div class="col-sm-offset-2 col-sm-4">
-            <button type="submit" name="submit" class="btn btn-block btn-info">Submit Leave Application</button>
+            <button type="submit" name="submit" class="btn btn-block btn-info">Guardar</button>
          </div>
     </div>  
 <?php }?>

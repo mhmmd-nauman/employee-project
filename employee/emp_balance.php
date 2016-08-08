@@ -51,7 +51,7 @@ if(isset($_REQUEST['del']))
                 <br>
                  <table class="table table-striped table-bordered" >
                         <tr>
-                            <th>Feriado Legal</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></th>
+                            <th>Feriado Legal</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['F']-$balance_detail['leavesI'];?></th>
                             <th>Dias Progresivos</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></th>
                         </tr>
                 </table>   
@@ -102,7 +102,7 @@ if(isset($_REQUEST['del']))
                 case"C":
                     echo "<td>Auto System Added</td>";
                     break;
-                case"I":
+                case"F":
                     echo "<td>FERIADO LEGAL</td>";
                     break;
                 case"D":
@@ -111,7 +111,7 @@ if(isset($_REQUEST['del']))
                 case"L":
                     echo "<td>Leave -  (";
                     if($trasanction['leave_type']=='D') echo "DIAS PROGRESIVOS";
-                        else if($trasanction['leave_type']=='I') echo "FERIADO LEGAL";
+                        else if($trasanction['leave_type']=='F') echo "FERIADO LEGAL";
                         else echo "";
                   
                         echo")</td>";

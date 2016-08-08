@@ -37,7 +37,7 @@ outputCSV(array(
     ));
 foreach($employee_list as $employee) { 
     $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." and date <= '".$_REQUEST['date']." 12:60:60'");
-    $balance=($balance_detail['I']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);
+    $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);
         outputCSV(array(
                 array(
                     $employee['emp_file'], 
@@ -46,7 +46,7 @@ foreach($employee_list as $employee) {
                     $employee['emp_cellnum'],
                     date("d-m-Y",strtotime($employee['emp_current_contract'])),
                     number_format($balance, 2),
-                    number_format(($balance_detail['I']-$balance_detail['leavesI']), 2),
+                    number_format(($balance_detail['F']-$balance_detail['leavesI']), 2),
                     number_format(($balance_detail['D']-$balance_detail['leavesD']), 2)
                     )
         )); 

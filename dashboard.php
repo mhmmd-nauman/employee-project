@@ -8,7 +8,7 @@ $objTransaction =new Transaction();
 
 if($_SESSION['session_admin_role']=='admin')
     {
-    $active_employee=$obj->select("alpp_emp"," emp_status=0 and emp_type = 1",array("count(emp_id)"));
+    $active_employee=$obj->select("alpp_emp"," emp_status=0 and  emp_type <> 4",array("count(emp_id)"));
     $inactive_employee=$obj->select("alpp_emp"," emp_status=1",array("count(emp_id)"));
     $active_admin=$obj->select("alpp_emp"," emp_type=2",array("count(emp_id)"));
     $pending_leaves=$obj->select("alpp_leave"," leave_approval=0",array("count(leave_id)"));
@@ -81,7 +81,7 @@ else
             // emp balance
             //print_r($_SESSION);
             $balance_detail= $objTransaction->GetEmpBalanceDetail($_SESSION['session_admin_id']);
-            $bI = $balance_detail['I']-$balance_detail['leavesI'];
+            $bI = $balance_detail['F']-$balance_detail['leavesI'];
             $bD = $balance_detail['D']-$balance_detail['leavesD'];
             ?>
 <div class="row">

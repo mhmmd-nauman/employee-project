@@ -3,7 +3,7 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type in ( 1,2) order by emp_name",array("*"));
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type <> 4 order by emp_name",array("*"));
 $month_array=array("01"=>"January","02"=>"February","03"=>"March","04"=>"April","05"=>"May","06"=>"June","07"=>"July","08"=>"August","09"=>"September","10"=>"October","11"=>"November","12"=>"December");
 
 if($_REQUEST['month']) { $month=$_REQUEST['month']; $year=$_REQUEST['year'];}
@@ -56,6 +56,7 @@ $last_day_this_month  = date($year.'-'.$month.'-t');
     <table class="table table-striped table-bordered bootstrap-datatable  responsive" style="font-size: 12px;">
         <thead>
         <tr>
+            <th>#</th>
             <th>Ficha</th>
             <th>Nombre</th>
             <th>Department</th>
@@ -67,9 +68,12 @@ $last_day_this_month  = date($year.'-'.$month.'-t');
         </tr>
         </thead>
     <tbody>
-        <?php foreach($employee_list as $employee) {           
-?>      
+        <?php 
+        $sr = 1;
+        foreach($employee_list as $employee) {           
+        ?>      
         <tr>
+            <td><?php echo $sr++ ;?></td>
             <td><?php
             //$balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']);
             $balance_detail= $objTransaction->GetEmpLeaveBalanceDetail($employee['emp_id'] ,$first_day_this_month ,$last_day_this_month);
@@ -84,10 +88,10 @@ $last_day_this_month  = date($year.'-'.$month.'-t');
             <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
             <td><?php   echo number_format($balance, 2);?></td>
             <td>
-                <?php echo $balance_detail['I']-$balance_detail['leavesI'];?>
+                <?php echo number_format($balance_detail['F']-$balance_detail['leavesI'],2);?>
             </td>
             <td>
-                <?php echo $balance_detail['D']-$balance_detail['leavesD'];?>
+                <?php echo number_format($balance_detail['D']-$balance_detail['leavesD'],2);?>
             </td>
         </tr>
         <?php 

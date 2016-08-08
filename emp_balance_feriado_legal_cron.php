@@ -17,7 +17,7 @@ $employee_list=$obj->select("alpp_emp","1 order by emp_name",array("*"));
 $count = 0;
 foreach($employee_list as $employee) {
     // check if the transaction allready exist on this date
-    $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."' and trans_type = 'I'",array("alpp_emp.emp_id"));
+    $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."' and trans_type = 'F'",array("alpp_emp.emp_id"));
     if(empty($trans_exist[0]['emp_id'])){
 
         $insert=$objTransaction->InsertTransaction(array(

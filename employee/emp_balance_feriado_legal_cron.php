@@ -35,7 +35,7 @@ if($_REQUEST['process_now'] == 2){
     $count = 0;
     foreach($employee_list as $employee) {
         // check if the transaction exist on this date
-        $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."' and trans_type = 'I'",array("alpp_transactions.ID"));
+        $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."' and trans_type = 'F'",array("alpp_transactions.ID"));
         if($trans_exist[0]['ID']>0){
             
             $objTransaction->DeleteTransantion($trans_exist[0]['ID']);
@@ -101,7 +101,7 @@ if($_REQUEST['process_now'] == 2){
     <tbody>
         <?php foreach($employee_list as $employee) {
             $inc = 1.25;
-            $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."' and trans_type = 'I'",array("alpp_transactions.ID"));
+            $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."' and trans_type = 'F'",array("alpp_transactions.ID"));
             if($trans_exist[0]['ID']>0){
                 $inc = 0;
             }
@@ -115,7 +115,7 @@ if($_REQUEST['process_now'] == 2){
 <!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
         <td><?php echo $employee['emp_name']; ?></td>
         <td><?php echo $employee['emp_department']; ?></td>
-        <td><?php  $balance = $balance_detail['I']-$balance_detail['leavesI'];
+        <td><?php  $balance = $balance_detail['F']-$balance_detail['leavesI'];
         echo number_format($balance,2);
         ?></td>
         <td><?php
@@ -136,7 +136,7 @@ if($_REQUEST['process_now'] == 2){
         </td>
         <td>
        <?php if($inc > 0){?>
-        <a class=" btn-success btn-sm add_balance" href="<?php echo SITE_ADDRESS; ?>/employee/add_balance.php?emp_id=<?php echo $employee['emp_id']; ?>&inc=<?php echo $inc;?>&day=<?php echo date("t");?>&trans_type=I">Add Manually</a>
+        <a class=" btn-success btn-sm add_balance" href="<?php echo SITE_ADDRESS; ?>/employee/add_balance.php?emp_id=<?php echo $employee['emp_id']; ?>&inc=<?php echo $inc;?>&day=<?php echo date("t");?>&trans_type=F">Add Manually</a>
        <?php } else {?>
         Processed
        <?php }?>
