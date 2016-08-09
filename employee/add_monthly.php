@@ -3,7 +3,7 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/modal_header.php'); 
 $obj=new Queries();
 $objTransaction =new Transaction();
-$employee_list=$obj->select("alpp_emp"," emp_status=0 order by emp_file",array("*"));
+$employee_list=$obj->select("alpp_emp"," emp_status=0 and emp_type <> 4 order by emp_file",array("*"));
 
 
 if(isset($_REQUEST['submit']))  /// insert code
@@ -21,7 +21,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                         'emp_id'=>$emp_id,
                         'end_month_data'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['end_month_data'])),
                         'amount'=>$all_amount[$i],
-                        'trans_type'=>'D',
+                        'trans_type'=>'F',
                         'date'=> date("Y-m-d h:i:s"),
                         'done_by'=>$_SESSION['session_admin_id'],
                         'status'=>0
@@ -62,13 +62,13 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <label class="control-label col-sm-2">Month</label>
              
                     <div class="col-sm-4">
-                        <input type="text" id="datepicker" class="form-control" name="end_month_data" value="<?php echo date('m/d/Y'); ?>">
+                        <input type="text" id="datepicker" class="form-control" name="end_month_data" value="<?php echo date('d-m-Y'); ?>">
                     </div>
                         
                     
                     </div>
           
-         
+         <p><b>Check from the list to include in updated queue</b></p>
             <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
   
          <thead>
@@ -77,7 +77,7 @@ if(isset($_REQUEST['submit']))  /// insert code
        <th>Ficha</th>
         <th>Nombre</th>
         <th>FECHA INGRESO</th>
-        <th>Feriados Disponibles</th>
+        <th>FERIADO LEGAL</th>
         
         <th>Balance</th>
     </tr>
@@ -89,7 +89,7 @@ if(isset($_REQUEST['submit']))  /// insert code
         <td><input type=checkbox class=selectedId name=emp_ids[] value="<?php echo $employee['emp_id']; ?>"/></td>
         <td><?php echo $employee['emp_file']; ?></td>
         <td><?php echo $employee['emp_name']; ?></td>
-        <td><?php echo date("m/d/Y",strtotime($employee['emp_current_contract'])); ?></td>
+        <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
         <td><?php echo $employee['emp_count']; ?></td>
         
         <td class="center">
@@ -132,7 +132,9 @@ if(isset($_REQUEST['submit']))  /// insert code
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script>
   $(function() {
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({
+        dateFormat: "dd-mm-yy"
+    });
   });
   </script>
   <?php

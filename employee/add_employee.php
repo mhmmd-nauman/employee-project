@@ -37,6 +37,7 @@ if(isset($_REQUEST['update_button']))  // update code
                             'emp_status'        =>$_REQUEST['emp_status'],
                             'emp_email'        =>$_REQUEST['emp_email'],
                             'emp_password'      =>$_REQUEST['emp_password'],
+                            'emp_type'      =>$_REQUEST['emp_type'],
                             'emp_count'      =>$_REQUEST['years']
               ));
         if($submit || $submit0)
@@ -76,20 +77,21 @@ if(isset($_REQUEST['update_button']))  // update code
     //// insert query
                 
     $submit=$obj->insert("alpp_emp",array(
-                                     'emp_name'         =>$_REQUEST['emp_name'],
-                                     'emp_file'          =>$_REQUEST['emp_file'],
-                                    'emp_department'          =>$_REQUEST['emp_department'],
-                                     'emp_current_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_current_contract'])),
-                                     //'emp_designation'  =>$_REQUEST['emp_des'],
-                                     //'emp_account_no'   =>$_REQUEST['emp_acc'],
-                                     'emp_cellnum'      =>$_REQUEST['emp_cell'],
-                                     'emp_landline'     =>$_REQUEST['emp_landline'],
-                                     'emp_address'      =>$_REQUEST['emp_address'],
-                                     'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
-                                     'emp_email'        =>$_REQUEST['emp_email'],
-                                     'emp_password'      =>$_REQUEST['emp_password'],
-                                     'emp_count'      =>$_REQUEST['years'],
-                                     'emp_pic'       =>$pic
+                            'emp_name'         =>$_REQUEST['emp_name'],
+                            'emp_file'          =>$_REQUEST['emp_file'],
+                            'emp_department'          =>$_REQUEST['emp_department'],
+                            'emp_current_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_current_contract'])),
+                            //'emp_designation'  =>$_REQUEST['emp_des'],
+                            //'emp_account_no'   =>$_REQUEST['emp_acc'],
+                            'emp_cellnum'      =>$_REQUEST['emp_cell'],
+                            'emp_landline'     =>$_REQUEST['emp_landline'],
+                            'emp_address'      =>$_REQUEST['emp_address'],
+                            'emp_first_contract'=>date("Y-m-d h:i:s",  strtotime($_REQUEST['emp_first_contract'])),
+                            'emp_email'        =>$_REQUEST['emp_email'],
+                            'emp_password'      =>$_REQUEST['emp_password'],
+                            'emp_type'      =>$_REQUEST['emp_type'],
+                            'emp_count'      =>$_REQUEST['years'],
+                            'emp_pic'       =>$pic
               ));
         if($submit)
 	{        
@@ -110,12 +112,12 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
     
         $employee_list=$obj->select("alpp_emp","emp_id=$id ",array("*")); 
         //print_r($employee_list);
-        $emp_first_contract=date("m/d/Y",strtotime($employee_list[0]['emp_first_contract']));
-        if(empty($emp_first_contract) || $emp_first_contract == "01/01/1970" ){
+        $emp_first_contract=date("d-m-Y",strtotime($employee_list[0]['emp_first_contract']));
+        if(empty($emp_first_contract) || $emp_first_contract == "01-01-1970" ){
             $emp_first_contract = "";
         }
-        $emp_current_contract=date("m/d/Y",strtotime($employee_list[0]['emp_current_contract']));
-        if(empty($emp_current_contract) || $emp_current_contract == "01/01/1970" ){
+        $emp_current_contract=date("d-m-Y",strtotime($employee_list[0]['emp_current_contract']));
+        if(empty($emp_current_contract) || $emp_current_contract == "01-01-1970" ){
             $emp_current_contract = "";
         }
 }
@@ -150,7 +152,7 @@ else
     <div class="box col-md-9">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Employee</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Ingresar</h2>
             </div>
             
 <div class="box-content">
@@ -190,7 +192,7 @@ else
             <select name="emp_department" class="form-control">
                 <option value="">SELECT</option>
         <?php
-                $dep_array=array('Indubal','Soinb');                               
+                $dep_array=array('Indubal','Soinb','AppAdmins');                               
                 foreach ($dep_array as $dep)
                 {
                     $sel=$employee_list[0]['emp_department']==$dep ? 'selected' : '';
@@ -205,10 +207,13 @@ else
             <div class="col-sm-4">
             <input type="text" id="emp_current_contract" class="form-control" value="<?php echo $emp_current_contract; ?>" onchange="getyear(this.value,'<?php echo date('m/d/Y'); ?>')" placeholder="Contrato Actual" name="emp_current_contract">
             </div>
-         <label class="control-label col-sm-2">Years</label>                     
+         <!--
+         <label class="control-label col-sm-2">Years</label> 
+         -->
         <div class="col-sm-4">
-            <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_count']; ?>" placeholder="years" name="years" id="years">
+            <input type="hidden" class="form-control" value="<?php echo $employee_list[0]['emp_count']; ?>" placeholder="years" name="years" id="years">
         </div>
+         
     </div>
 
     <div class="form-group">
@@ -218,17 +223,17 @@ else
         </div>
         <label class="control-label col-sm-2">Password</label>                     
         <div class="col-sm-3">
-            <input type="text" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
+            <input type="password" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
         </div>
     </div>
                 
-          <div class="form-group">
+    <div class="form-group">
         <label class="control-label col-sm-2">Status</label>
         <div class="col-sm-4">
             <select name="emp_status" class="form-control">
                 <option value="">SELECT</option>
         <?php
-                $status_array=array('0'=>'Active','1'=>'Inactive');                               
+                $status_array=array('0'=>'Active','1'=>'Inactive','2'=>'Retired');                               
                 foreach ($status_array as $key=>$value)
                 {
                     $sel=$employee_list[0]['emp_status']==$key ? 'selected' : '';
@@ -237,7 +242,24 @@ else
                 ?>
             </select>
         </div>
+        
+        <label class="control-label col-sm-2">User Type</label>
+        <div class="col-sm-4">
+            <select name="emp_type" class="form-control">
+                <option value="">SELECT</option>
+        <?php
+                $type_array=array('1'=>'Worker','2'=>'Supervisor',"3"=>"Manager",'4'=>'Administrators');                               
+                foreach ($type_array as $key=>$value)
+                {
+                    $sel=$employee_list[0]['emp_type']==$key ? 'selected' : '';
+                    echo "<option value=".$key." $sel>$value</option>";
+                }
+                ?>
+            </select>
+        </div>
     </div>
+    
+    
 <?php if(isset($_REQUEST['view']))	{  ?>                   
 <?php } else if(isset($_REQUEST['update']))	{  ?>
        <div class="form-group">        
@@ -270,8 +292,12 @@ else
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script>
 $(function() {
-  $( "#emp_first_contract" ).datepicker();
-  $( "#emp_current_contract" ).datepicker();
+  $( "#emp_first_contract" ).datepicker({
+        dateFormat: "dd-mm-yy"
+    });
+  $( "#emp_current_contract" ).datepicker({
+        dateFormat: "dd-mm-yy"
+    });
   
 });
 function getyear(contract2)

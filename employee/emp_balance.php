@@ -4,11 +4,19 @@ include (dirname(__FILE__).'/../lib/header.php');
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
 $trasanction_list=$objTransaction->GetBalanceDetail("alpp_transactions.emp_id = ".$_REQUEST['emp_id']."");
+// need bit of manaul sorting of data for now
+foreach($trasanction_list as $trasanction) { 
+    $trasanction_list_temp[$trasanction['id']] = $trasanction;
+}
+ksort($trasanction_list_temp);
+$trasanction_list_temp = array_reverse($trasanction_list_temp);
+
+$trasanction_list = $trasanction_list_temp;
 $balance=0.00;
 $balance = $objTransaction->GetEmpBalance($_REQUEST['emp_id']);
 $balance_detail= $objTransaction->GetEmpBalanceDetail($_REQUEST['emp_id']);
 $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
-//var_dump($balance_detail);
+//print_r($balance_detail);
 if(isset($_REQUEST['del']))	
 {	
         $id = $_REQUEST['del'];
@@ -23,21 +31,7 @@ if(isset($_REQUEST['del']))
 }
 ?>
 
-<div>
-    <ul class="breadcrumb">
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
-        </li>
-<?php if($_SESSION['session_admin_role']=='admin') { ?>
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>">Add Balance</a>
-        </li>
-   <?php } ?>
-        <li>
-            Employee Balance Details
-        </li>
-    </ul>
-</div>
+
 <?php if($message_type){ ?>
      <div class="widget-body">
         <div class="alert <?php echo $message_type;?>">
@@ -50,26 +44,25 @@ if(isset($_REQUEST['del']))
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i><?php echo $emp_data[0]['emp_name'];?>  ( Employee Balance Details )</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i><?php echo $emp_data[0]['emp_name'];?>  - Modificar saldos</h2>
             </div>
             
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <br>
                  <table class="table table-striped table-bordered" >
                         <tr>
-                            <th>Today Balance</th> <td style=" background-color: #FFFFFF"><?php echo $balance;?></td>
-                            <th>FERIADO LEGAL</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['I']-$balance_detail['leavesI'];?></td>
-                            <th>DIAS PROGRESIVOS</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></td>
+                            <th>Feriado Legal</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['F']-$balance_detail['leavesI'];?></th>
+                            <th>Dias Progresivos</th><td style=" background-color: #FFFFFF"><?php echo $balance_detail['D']-$balance_detail['leavesD'];?></th>
                         </tr>
                 </table>   
             </div>
         
           <?php if($_SESSION['session_admin_role']=='admin') { ?>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <br>
                 <p style="text-align: right;">
-                <a class="btn btn-success " href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Add Manual Balance</a>
-                <a class="btn btn-success " href="emp_list.php">Go Back</a>
+                <a class="btn add_balance btn-success btn-sm " href="<?php echo SITE_ADDRESS; ?>employee/add_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>"><i class="glyphicon icon-white"></i>Añadir Manual de Balanza</a>
+                <a class="btn btn-success btn-sm" href="emp_list.php">Ver empleados</a>
                 </p><br>
             </div>
           <?php } ?>
@@ -77,11 +70,11 @@ if(isset($_REQUEST['del']))
  <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">            
 <div class="box-content">
    <br>
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" >
+   <table class="table table-striped table-bordered   responsive" style=" font-size: 12px;" >
     <thead>
     <tr>
 <!--        <th>ID</th>-->
-        <th>Date</th>
+        <th style=" width: 10%;">Date</th>
       
         
         <th>Reason</th>
@@ -90,7 +83,7 @@ if(isset($_REQUEST['del']))
         <th>Days</th>
         <th>Status</th>
 <?php if($_SESSION['session_admin_role']=='admin') { ?>
-        <th>Actions</th>
+        <th style=" width: 10%;">Actions</th>
 <?php } ?>   
     </tr>
     </thead>
@@ -99,7 +92,7 @@ if(isset($_REQUEST['del']))
         
     <tr>
 <!--        <td><?php //echo $trasanction['id']; ?></td>-->
-        <td><?php echo date("m/d/Y",strtotime($trasanction['entered_on_date'])); ?></td>
+        <td><?php echo date("d-m-Y",strtotime($trasanction['entered_on_date'])); ?></td>
         
             <?php
             switch($trasanction['trans_type']) {
@@ -109,7 +102,7 @@ if(isset($_REQUEST['del']))
                 case"C":
                     echo "<td>Auto System Added</td>";
                     break;
-                case"I":
+                case"F":
                     echo "<td>FERIADO LEGAL</td>";
                     break;
                 case"D":
@@ -118,7 +111,7 @@ if(isset($_REQUEST['del']))
                 case"L":
                     echo "<td>Leave -  (";
                     if($trasanction['leave_type']=='D') echo "DIAS PROGRESIVOS";
-                        else if($trasanction['leave_type']=='I') echo "FERIADO LEGAL";
+                        else if($trasanction['leave_type']=='F') echo "FERIADO LEGAL";
                         else echo "";
                   
                         echo")</td>";
@@ -138,7 +131,7 @@ if(isset($_REQUEST['del']))
         <?php if($_SESSION['session_admin_role']=='admin') { ?>    
         <td class="center">
             <?php if($trasanction['trans_type'] !="L"){?>
-            <a class="btn btn-info btn-sm" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
+            <a class="btn add_balance btn-info btn-sm" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
             </a>
             <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
@@ -169,4 +162,5 @@ if(isset($_REQUEST['del']))
             return false;
     }
 }
+$(".add_balance").colorbox({iframe:true, width:"50%", height:"90%"});
 </script>

@@ -1,10 +1,15 @@
 <?php 
 include (dirname(__FILE__).'/../lib/include.php');
-include (dirname(__FILE__).'/../lib/header.php'); 
+include('../lib/modal_header.php'); 
 $obj=new Queries();
 $objTransaction =new Transaction();
-
-
+if(isset($_REQUEST['emp_id'])){
+    $objEmployee =new Employee();
+    $emp_data = $objEmployee->GetAllEmployee("emp_id = ".$_REQUEST['emp_id'],array("*"));
+    $title= $emp_data[0]['emp_file']." - ".$emp_data[0]['emp_name']." - Añadir Manual de Balanza";
+}else{
+    $title="Añadir Manual de Balanza";
+}
 if(isset($_REQUEST['update_button']))  // update code
 {
    $emp_id=$_REQUEST['emp_id_update'];
@@ -37,39 +42,19 @@ if(isset($_REQUEST['submit']))  /// insert code
 ?>
 
 
-<div>
-    <ul class="breadcrumb">
-        <li>
-            <a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a>
-        </li>
-        <li>
-            Add Manual Balance
-        </li>
-        <li>
-            Balance Details
-        </li>
-    </ul>
-</div>
+
 
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Manual Balance</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> <?php echo $title;?></h2>
             </div>
             
             
             
            <div class="box-content">
-               <div class="col-md-10">
-                   &nbsp;
-               </div>
-                <div class="col-md-2">
-                    <a class="btn btn-success" href="emp_balance.php?emp_id=<?php echo $_REQUEST['emp_id']?>">Go Back</a>
-               </div>
-               <div class="col-md-12">
-                   &nbsp;
-               </div>
+               
                
      <br>
 <?php 
@@ -81,6 +66,7 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <strong>Success!</strong> Balance Detail Update.
             </div>
         </div>
+        <script> window.parent.location.reload();</script>
 <?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$emp_id);
     }
 	
@@ -92,10 +78,11 @@ if(isset($_REQUEST['submit']))  /// insert code
                     <div class="widget-body">
                         <div class="alert alert-success">
                                 <button class="close" data-dismiss="alert">×</button>
-                                <strong>Success!</strong> Balance Detail Submitted.
+                                <strong>Success!</strong> Balance Detail Added.
                         </div>
                     </div>
-        <?php      header('REFRESH:2, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);
+        <script> window.parent.location.reload();</script>
+        <?php      //header('REFRESH:2, url=emp_balance.php?emp_id='.$_REQUEST['emp_id']);
 		}
 	
       
@@ -104,9 +91,13 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
 {	
         if($_REQUEST['emp_id']) $id = $_REQUEST['view'];
         else  $id = $_REQUEST['update'];
-    
-        $transaction=$obj->select("alpp_transactions","id=$id ",array("*")); 
-       // var_dump($transaction);
+        if($id){
+            $transaction=$obj->select("alpp_transactions","id=$id ",array("*")); 
+        }else{
+            $transaction[0]['amount'] = $_REQUEST['inc'];
+            $transaction[0]['end_month_data'] = date("d-m-Y",strtotime($_REQUEST['day']."-".date("m-Y")));
+            $transaction[0]['trans_type'] = $_REQUEST['trans_type'];
+        }
 }
         ?>
      <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
@@ -121,10 +112,10 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                     <label class="control-label col-sm-2">Date</label>
                     <div class="col-sm-4">
                         <?php
-                         $end_month_data=date("m/d/Y",strtotime($transaction[0]['end_month_data']));
-                        if(empty($end_month_data) || $end_month_data == "01/01/1970" ){
+                         $end_month_data=date("d-m-Y",strtotime($transaction[0]['end_month_data']));
+                        if(empty($end_month_data) || $end_month_data == "01-01-1970" ){
                             //$end_month_data = lastOfMonth();
-                            $end_month_data = date("m/d/Y");
+                            $end_month_data = date("d-m-Y");
                         }
                         ?>
                         <input type="text" id="datepicker" class="form-control" value="<?php echo $end_month_data;?>" placeholder="" name="end_month_data">
@@ -139,7 +130,7 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
 <!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
                       <option value="C" <?php //if($transaction[0]['trans_type']=='C')echo"selected";?>>Auto System Added</option>-->
                       <option value="D" <?php if($transaction[0]['trans_type']=='D')echo"selected";?>>DIAS PROGRESIVOS</option>
-                      <option value="I" <?php if($transaction[0]['trans_type']=='I')echo"selected";?>>FERIADO LEGAL</option>
+                      <option value="F" <?php if($transaction[0]['trans_type']=='F')echo"selected";?>>FERIADO LEGAL</option>
                       
                   </select>
               </div>
@@ -183,7 +174,7 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
 
 </div><!--/row-->
 
-<?php include('../lib/footer.php'); ?>
+<?php include('../lib/modal_footer.php'); ?>
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -191,7 +182,9 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script>
   $(function() {
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({
+        dateFormat: "dd-mm-yy"
+    });
   });
   </script>
   <?php

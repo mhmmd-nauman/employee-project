@@ -2,23 +2,25 @@
 include ('../lib/include.php');
 include('../lib/modal_header.php');
 $objHoliday =new Holiday();
+$holidaytype_list=$objHoliday->GetAllHolidaytype("1 order by type",array("*"));
 
 if(isset($_REQUEST['update_button']))  // update code
 {
     $submit=$objHoliday->UpdateHoliday("id=".$_REQUEST['update'],
                 array(
+                    'type'  => $_REQUEST['type'],
                     'title'  => $_REQUEST['title'],
-                    'date'   => $_REQUEST['date']
+                    'date'   => date("Y-m-d",strtotime($_REQUEST['date']))
                     ));
         if($submit )
 	{
             $message_type="alert-success"; 
-            $message_text = "<strong>Success!</strong> Employee Detail Updated.";
+            $message_text = "<strong>Success!</strong> Holiday Detail Updated.";
 	} 
         else
         {
-            $message_type="alert-error"; 
-            $message_text = "<strong>Error!</strong> Employee Detail not Updated.";
+            $message_type="alert-warning"; 
+            $message_text = "<strong>Error!</strong> Holiday Detail not Updated.";
         }
 }
 
@@ -26,8 +28,9 @@ if(isset($_REQUEST['update_button']))  // update code
 {
    $submit=$objHoliday->InsertHoliday(
            array(
+                    'type'  => $_REQUEST['type'],
                     'title'  => $_REQUEST['title'],
-                    'date'   => $_REQUEST['date']
+                    'date'   => date("Y-m-d",strtotime($_REQUEST['date']))
             ));
     if($submit)
     {        
@@ -43,8 +46,9 @@ if(isset($_REQUEST['update_button']))  // update code
 if(isset($_REQUEST['view']) || isset($_REQUEST['update']))	
 {	
     if($_REQUEST['view']) $id = $_REQUEST['view'];  else  $id = $_REQUEST['update'];
-    $holiday_list=$objHoliday->GetAllHoliday(" id=$id order by title",array("*"));
+    $holiday_list=$objHoliday->GetAllHoliday(" alpp_holidays.id = $id order by title",array("alpp_holidays.*"));
 }
+//print_r($holiday_list);
 ?>
 <div class="row">
     <div class="box col-md-9">
@@ -70,6 +74,19 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
 <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
                
     <div class="form-group">
+        <label class="control-label col-sm-2">Holiday Type</label>
+        <div class="col-sm-4">          
+            <select name="type" class="form-control">
+                <?php foreach($holidaytype_list as $type){  
+                    $sel=($holiday_list[0]['type']==$type['id'])? 'selected': '';?>
+                
+                    <option value="<?php echo $type['id'];?>" <?php echo $sel;  ?>><?php echo $type['type'];?></option>
+                <?php   }   ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="control-label col-sm-2">Holiday Title</label>
         <div class="col-sm-4">          
             <input type="text" class="form-control" value="<?php echo $holiday_list[0]['title']; ?>" placeholder="Title" name="title">
@@ -79,7 +96,10 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
     <div class="form-group">
         <label class="control-label col-sm-2">Date</label>                     
             <div class="col-sm-4">
-               <input type="text" id="date" class="form-control" value="<?php echo $holiday_list[0]['date']; ?>" name="date">
+                <?php if($holiday_list[0]['date']){
+                    $date=date("d-m-Y",strtotime($holiday_list[0]['date']));
+                }?>
+               <input type="text" id="date" class="form-control" value="<?php echo $date;?>" name="date">
             </div>
     </div>
 
@@ -116,6 +136,9 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script>
 $(function() {
-  $( "#date" ).datepicker();
+  $( "#date" ).datepicker({
+        dateFormat: "dd-mm-yy"
+        //beforeShowDay: $.datepicker.noWeekends
+    });
 });
 </script>
