@@ -99,7 +99,7 @@ if(isset($_REQUEST['submit']))  /// insert code
         </td> 
 
         <td><?php if($request['leave_balance_type']=='D') echo "DIAS PROGRESIVOS";
-                        else if($leave['leave_balance_type']=='I') echo "FERIADO LEGAL";
+                        else if($leave['leave_balance_type']=='F') echo "FERIADO LEGAL";
                         else echo "";
                   ?>
               </td>

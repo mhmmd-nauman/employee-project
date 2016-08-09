@@ -70,39 +70,31 @@ function action(status,leave_id,emp_id){
                               }        
     }
 </script>
-<div>
-    <ul class="breadcrumb">
-        <li><a href="<?php echo SITE_ADDRESS; ?>dashboard.php">Home</a></li>
-        <li><a href="<?php echo SITE_ADDRESS; ?>employee/emp_list.php">Employee</a></li>
-        <li>Leave List</li>
-    </ul>
-</div>
-
 <div class="row">
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Leave List</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>Ingresar solicitud individual </h2>
             </div>
             
 
             <div class="box-content">
             
-                <h5>Person: <?php echo $emp_data[0]['emp_name'];?></h5> 
+                <h5>Empleado: <?php echo $emp_data[0]['emp_name'];?></h5> 
                 
                 <p style="text-align: right;">
-                    <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Add New Leave</button></a> 
+                    <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Ingresar solicitud individual</button></a> 
                     <a class="btn btn-success" href="emp_list.php">Go Back</a>
                 </p>                
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" id="">
+    <table class="table table-striped table-bordered bootstrap-datatable  responsive" id="">
     <thead>
     <tr>
        <th>No of Days</th>
-        <th>Duration</th>
-        <th>Reason</th>
+        <th width="10%">From:<br>To:</th>
+        <th >Reason</th>
         <th>Type</th>
         <th>Status</th>
-        <th>Actions</th>
+        <th width="18%">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -115,13 +107,13 @@ function action(status,leave_id,emp_id){
                     if($leave['leave_duration_from'])
                     {
                                $from = new DateTime($leave['leave_duration_from']);
-                               echo  $from = $from->format("m/d/Y");
+                               echo  $from = $from->format("d-m-Y");
 
                             if($leave['leave_duration_to'])
                             {
-                                        echo "  <b>To</b>  "; 
+                                        echo "  <br>  "; 
                                         $to = new DateTime($leave['leave_duration_to']);
-                                       echo $to = $to->format("m/d/Y");
+                                       echo $to = $to->format("d-m-Y");
                             }
                     }
         ?>
@@ -131,7 +123,7 @@ function action(status,leave_id,emp_id){
         <td><?php echo $leave['leave_reason']; ?></td>
         
          <td><?php if($leave['leave_balance_type']=='D') echo "DIAS PROGRESIVOS";
-                        else if($leave['leave_balance_type']=='I') echo "FERIADO LEGAL";
+                        else if($leave['leave_balance_type']=='F') echo "FERIADO LEGAL";
                         else echo "";
                   ?>
         </td>
@@ -162,7 +154,7 @@ function action(status,leave_id,emp_id){
 <!--            <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
             </a>-->
-            <a class="btn btn-info btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
+            <a class="btn btn-info btn-sm add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>
             </a>
             <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
