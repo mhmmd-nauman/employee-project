@@ -22,7 +22,7 @@
                 
                 <div class="row rep_background">
                     <div class="col-md-5">
-                        SUPERVISOR / APROBADOR: <?php echo $_SESSION['session_admin_name'];?>
+                        SUPERVISOR / APROBADOR: <?php echo $approver_data[0]['emp_name'];?>
                     </div>
                     <div class="col-md-4">
                         FECHA DEL REGISTRO: <?php echo date("d-m-Y",  strtotime($leave_data[0]['leave_datetime'])); ?>

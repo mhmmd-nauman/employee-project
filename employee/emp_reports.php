@@ -14,22 +14,22 @@ else
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Employee Report</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Reporte de Empleados</h2>
             </div>         
     <div class="box-content">    
         <form class="form-horizontal" role="form"  method="post" >  
             <div class="control-group">
-                <label class="control-label" >Select Date</label>
+                <label class="control-label" >Seleccione Fecha</label>
                     <div class="controls">
                         <input type="date" style=" width: 20%" id="date" required="" class="form-control col-sm-2"  value="<?php echo $date;?>"  name="date">
                     </div>
             </div>  
             <div class=" col-sm-5 " style=" text-align: left;">
-                <button type="submit" name="search" class="btn btn-small btn-info">Search</button>
+                <button type="submit" name="search" class="btn btn-small btn-info">Buscar</button>
             </div>            
             <div class=" col-sm-4 " style=" text-align: right;">
-                <a href="emp_reports_csv.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to CSV</a>
-                <a href="emp_reports_excel.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Export to Excel</a>
+                <a href="emp_reports_csv.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Exportar a CSV</a>
+                <a href="emp_reports_excel.php?date=<?php echo $date;?>"  class="btn btn-small btn-success">Exportar a Excel</a>
                 <a href="emp_reports_print.php?date=<?php echo $date;?>"  class="btn btn-small btn-warning" target="_blank">Print</a>
             </div>            
         </form> 
@@ -40,10 +40,10 @@ else
             <th>#</th>
             <th>Ficha</th>
             <th>Nombre</th>
-            <th>Department</th>
+            <th>Departamento</th>
             <th>RUT</th>
             <th>FECHA INGRESO</th>
-            <th>Today Balance</th>
+            <th>Saldo a la fecha</th>
             <th>FERIADO LEGAL</th>
             <th>DIAS PROGRESIVOS</th>
         </tr>

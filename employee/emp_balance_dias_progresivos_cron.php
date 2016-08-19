@@ -81,7 +81,7 @@ if($_REQUEST['process_now'] == 2){
             -->
             
            <div class="box-content">
-     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style="font-size: 12px;">
+               <table id="data_list" class="table table-striped table-bordered bootstrap-datatable  responsive" style="font-size: 12px;">
  <thead>
     <tr>
         <th>Ficha</th>
@@ -168,6 +168,8 @@ if($_REQUEST['process_now'] == 2){
     
     </tbody>
     </table>
+               <br>
+               <br>
     </div>
     </div>
     </div>

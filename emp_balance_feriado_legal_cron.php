@@ -24,7 +24,7 @@ foreach($employee_list as $employee) {
             'emp_id'=>$employee['emp_id'],
             'end_month_data'=>date("Y-m-t h:i:s"),
             'amount'=>1.25,
-            'trans_type'=>"I",
+            'trans_type'=>"F",
             'date'=> date("Y-m-d h:i:s"),
             'done_by'=>$_SESSION['session_admin_id'],
             'status'=>0

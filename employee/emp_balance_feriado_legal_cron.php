@@ -10,14 +10,14 @@ if($_REQUEST['process_now'] == 1){
     $count = 0;
     foreach($employee_list as $employee) {
         // check if the transaction allready exist on this date
-        $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."' and trans_type = 'I'",array("alpp_emp.emp_id"));
+        $trans_exist=$objTransaction->GetAllTrasanctions("alpp_emp.emp_id = ".$employee['emp_id']." and date(end_month_data) = '".date("Y-m-t")."' and trans_type = 'F'",array("alpp_emp.emp_id"));
         if(empty($trans_exist[0]['emp_id'])){
             
             $insert=$objTransaction->InsertTransaction(array(
                 'emp_id'=>$employee['emp_id'],
                 'end_month_data'=>date("Y-m-t h:i:s"),
                 'amount'=>1.25,
-                'trans_type'=>"I",
+                'trans_type'=>"F",
                 'date'=> date("Y-m-d h:i:s"),
                 'done_by'=>$_SESSION['session_admin_id'],
                 'status'=>0
@@ -84,7 +84,7 @@ if($_REQUEST['process_now'] == 2){
             </div>
             
            <div class="box-content">
-     <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style="font-size: 12px;">
+               <table id="data_list" class="table table-striped table-bordered bootstrap-datatable  responsive" style="font-size: 12px;">
  <thead>
     <tr>
         <th>Ficha</th>
@@ -148,6 +148,8 @@ if($_REQUEST['process_now'] == 2){
     
     </tbody>
     </table>
+               <br>
+               <br>
     </div>
     </div>
     </div>

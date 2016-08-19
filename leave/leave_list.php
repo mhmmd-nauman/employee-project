@@ -84,7 +84,7 @@ function action(action_status,id){
             
 
 <div class="box-content">
-    <table class="table table-striped table-bordered datatable   responsive" id="leave_list" style=" font-size: 12px; padding-bottom: 0px;">
+    <table id="data_list" class="table table-striped table-bordered    responsive" id="leave_list" style=" font-size: 12px; padding-bottom: 0px;">
     <thead>
     <tr>
         <th style=" width: 8%;">Fecha del Registro</th>
@@ -192,6 +192,7 @@ function action(action_status,id){
     
     </tbody>
     </table>
+    <br><br>
     </div>
     </div>
     </div>

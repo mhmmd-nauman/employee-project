@@ -28,10 +28,10 @@ $employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",
                 <tr>
                     <th>Ficha</th>
                     <th>Nombre</th>
-                    <th>Department</th>
+                    <th>Departamento</th>
                     <th>RUT</th>
                     <th>Type</th>
-                    <th style=" width: 10px;">Feriados Disponibles</th>
+                    
                     <th>Actions</th>
                     
                     
@@ -61,6 +61,9 @@ $employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",
         ?></td>
         <td>
             <?php  switch ($employee['emp_type']){
+                    case 1:
+                        echo "Worker";
+                        break;    
                     case 2:
                         echo "Supervisor";
                         break;
@@ -72,9 +75,7 @@ $employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",
                         break;
                     } ?>
         </td>
-        <td><?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
-        echo number_format($balance, 2);
-        ?></td>
+        
 <!--        <td>
             <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
             <?php //echo $balance; ?>

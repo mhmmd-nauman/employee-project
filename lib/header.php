@@ -19,7 +19,7 @@
     <link href='<?php echo SITE_ADDRESS; ?>css/noty_theme_default.css' rel='stylesheet'>
     <link href='<?php echo SITE_ADDRESS; ?>css/elfinder.min.css' rel='stylesheet'>
     <link href='<?php echo SITE_ADDRESS; ?>css/elfinder.theme.css' rel='stylesheet'>
-    <link href='<?php echo SITE_ADDRESS; ?>css/jquery.iphone.toggle.css' rel='stylesheet'>
+   
     <link href='<?php echo SITE_ADDRESS; ?>css/uploadify.css' rel='stylesheet'>
     <link href='<?php echo SITE_ADDRESS; ?>css/animate.min.css' rel='stylesheet'>
 
@@ -37,17 +37,52 @@
              $(".add_holiday").colorbox({iframe:true, width:"40%", height:"60%"});
         $(".add_leave").colorbox({iframe:true, width:"40%", height:"90%"});
             $(".status_leave").colorbox({iframe:true, width:"40%", height:"50%"});
+            
+            $('#data_list').dataTable( {
+                        
+                        "oLanguage": {
+                                "sProcessing":     "Procesando...",
+                                "sLengthMenu":     "_MENU_ Registros por hoja",
+                                "sZeroRecords":    "No se encontraron resultados",
+                                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                                "sInfo":           "_START_-_END_ / _TOTAL_",
+                                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                                "sInfoPostFix":    "",
+                                "sSearch":         "Buscar:",
+                                "sUrl":            "",
+                                "sInfoThousands":  ",",
+                                "sLoadingRecords": "Cargando...",
+                                "oPaginate": {
+                                    "sFirst":    "Primero",
+                                    "sLast":     "Último",
+                                    "sNext":     "Siguiente",
+                                    "sPrevious": "Anterior"
+                                },
+                                "oAria": {
+                                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                }
+                        }
+                } );
+                
+                $('#data_list_info')
+                    .addClass('col-md-9');
+                $('#data_list_paginate')
+                    .addClass('col-md-3 ');
+                $('#data_list_length')
+                    .addClass('col-md-9');
+                $('#dataTables_filter')
+                    .addClass('col-md-2 ');
+                $('#data_list_previous')
+                    .addClass('btn btn-default ');
+                $('#data_list_next')
+                    .addClass('btn btn-default ');
+                $('#data_list')
+                    .addClass('table table-striped table-bordered');
     
     });
-    /*
-    $(document).ready(function() {
-        $('#example').DataTable( {
-            "paging":   false,
-            "ordering": false,
-            "info":     false
-        } );
-    } );
-    */
+    
 </script>     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -212,8 +247,8 @@
                             <a href="#"><i class="glyphicon glyphicon-plus"></i><span>Listado de Feriados</span></a>
                             <ul class="nav nav-pills nav-stacked">
                                 <li class="ajax-link"><a href="<?php echo SITE_ADDRESS; ?>employee/holidays_list.php"><i class="glyphicon glyphicon-random"></i><span> Feriados</span></a></li>
-                                <li class="ajax-link"><a class="add_holiday cboxElement" href="<?php echo SITE_ADDRESS; ?>employee/add_holiday_type.php"><i class="glyphicon glyphicon-random"></i><span> Holiday Type</span></a></li>
-                                <li class="ajax-link"><a class="add_holiday cboxElement" href="<?php echo SITE_ADDRESS; ?>employee/add_holiday.php"><i class="glyphicon glyphicon-random"></i><span> Add Holiday</span></a></li>
+                                <li class="ajax-link"><a class="add_holiday cboxElement" href="<?php echo SITE_ADDRESS; ?>employee/add_holiday_type.php"><i class="glyphicon glyphicon-random"></i><span> Feriados Type</span></a></li>
+                                <li class="ajax-link"><a class="add_holiday cboxElement" href="<?php echo SITE_ADDRESS; ?>employee/add_holiday.php"><i class="glyphicon glyphicon-random"></i><span> Ingresar Feriados</span></a></li>
                             </ul>
                         </li>
                         

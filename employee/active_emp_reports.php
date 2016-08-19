@@ -17,7 +17,7 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 order 
             </div>
            <div class="box-content">
                <br>
-            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style=" font-size: 12px;">
+               <table id="data_list" class="table table-striped table-bordered bootstrap-datatable responsive" style=" font-size: 12px;">
   
             <thead>
                 <tr>
@@ -95,6 +95,8 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 order 
     
     </tbody>
     </table>
+               <br>
+               <br>
     </div>
     </div>
     </div>

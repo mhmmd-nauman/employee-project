@@ -42,7 +42,7 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
     <div class="box col-md-9">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Add Holiday Type</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Ingresar Feriados Tipo</h2>
             </div>
             
 <div class="box-content">
@@ -62,9 +62,9 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
 <form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
                
     <div class="form-group">
-        <label class="control-label col-sm-2">Holiday Type</label>
+        <label class="control-label col-sm-2">Feriados Tipo</label>
         <div class="col-sm-4">          
-            <input type="text" class="form-control" value="<?php echo $holiday_list[0]['type']; ?>" placeholder="Type" name="type">
+            <input type="text" class="form-control" value="<?php echo $holiday_list[0]['type']; ?>" placeholder="Tipo" name="type">
         </div>
     </div>
   
@@ -72,13 +72,13 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
 <?php } else if(isset($_REQUEST['update']))	{  ?>
        <div class="form-group">        
             <div class="col-sm-offset-4 col-sm-4">
-                <button type="submit" name="update_button" class="btn btn-small btn-block btn-error">Update</button>
+                <button type="submit" name="update_button" class="btn btn-small btn-block btn-error">Guardar</button>
              </div>
         </div>  
 <?php } else {     ?>         
        <div class="form-group">        
             <div class="col-sm-offset-4 col-sm-4">
-                <button type="submit" name="submit" class="btn btn-small btn-block btn-error">Save</button>
+                <button type="submit" name="submit" class="btn btn-small btn-block btn-error">Guardar</button>
              </div>
         </div>  
 <?php }?>

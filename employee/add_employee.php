@@ -169,7 +169,7 @@ else
         <script> window.parent.location.reload();</script>
      <?php }?>
 
-<form class="form-horizontal" role="form"  method="post" enctype="multipart/form-data">
+<form class="form-horizontal" role="form"  method="post" autocomplete="off" accept-charset="utf-8">
                
     <div class="form-group">
         <label class="control-label col-sm-2">Ficha</label>
@@ -219,11 +219,11 @@ else
     <div class="form-group">
         <label class="control-label col-sm-2">Email</label>                     
         <div class="col-sm-4">
-            <input type="email" name="emp_email" class="form-control"  value="<?php echo $employee_list[0]['emp_email']; ?>" placeholder="Enter email">
+            <input type="email" name="emp_email" class="form-control"  autocomplete="off" value="<?php echo $employee_list[0]['emp_email']; ?>" placeholder="Enter email">
         </div>
         <label class="control-label col-sm-2">Password</label>                     
         <div class="col-sm-3">
-            <input type="password" name="emp_password" class="form-control" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
+            <input type="password" name="emp_password" class="form-control" autocomplete="off" value="<?php echo $employee_list[0]['emp_password']; ?>"  placeholder="Password">
         </div>
     </div>
                 

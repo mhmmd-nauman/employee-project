@@ -29,17 +29,17 @@ if(isset($_REQUEST['del']))
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>Feriados</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>Listado de Feriados</h2>
             </div>
             
     <div class="box-content">
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style="font-size: 12px;">
+    <table id="data_list" class="table table-striped table-bordered bootstrap-datatable  responsive" style="font-size: 12px;">
   
          <thead>
     <tr>
-        <th>Title</th>
-        <th>Type</th>
-        <th>Date</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
         <?php if($_SESSION['session_admin_role'] == 'admin'){?>
             <th width="20%">Actions</th>
         <?php }?>
@@ -68,6 +68,8 @@ if(isset($_REQUEST['del']))
     
     </tbody>
     </table>
+        <br>
+        <br>
     </div>
     </div>
     </div>

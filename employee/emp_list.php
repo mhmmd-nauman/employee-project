@@ -1,4 +1,5 @@
 <?php 
+header('Content-Type: text/html; charset=utf-8');
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
@@ -11,10 +12,10 @@ $objTransaction =new Transaction();
 
     });
 </script>
-<link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
+ <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
 <div class="row">
     <div class="box col-md-12">
-        <div class="box-inner">
+        <div class="box-inner ">
             <div class="box-header well" data-original-title="">
                 <h2><i class="glyphicon glyphicon-star-empty"></i>  Ver empleados </h2>
             </div>
@@ -53,22 +54,23 @@ $objTransaction =new Transaction();
                     }
             }
             ?>
-            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive" style=" font-size: 12px;">
+               <table id="data_list" class="table table-striped table-bordered dataTable   responsive" style=" font-size: 12px;">
   
             <thead>
                 <tr>
                     <th>Ficha</th>
                     <th>Nombre</th>
-                    <th>Department</th>
+                    <th>Departamento</th>
                     <th>Rut</th>
-                    <th>Today Balance</th>
+                    <th>Saldo actual</th>
                     <th>FERIADO LEGAL</th>
                     <th>DIAS PROGRESIVOS</th>
                     <th width="13%">Actions</th>
                 </tr>
             </thead>
             <tbody>
-            <?php foreach($employee_list as $employee) {  
+            <?php foreach($employee_list as $employee) {
+                
             $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." ");
             $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD'])
             ?>
@@ -141,6 +143,7 @@ $objTransaction =new Transaction();
     
     </tbody>
     </table>
+               <br><br>
     </div>
     </div>
     </div>
@@ -177,4 +180,6 @@ $objTransaction =new Transaction();
             return false;
     }
 }
+
 </script>
+
