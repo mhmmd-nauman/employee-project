@@ -32,13 +32,17 @@ if(isset($_REQUEST['id']))
 {	
    $id = $_REQUEST['id'];    
 }
+$status_title="Aprobado";
+if($_REQUEST['status'] == 1){
+    $status_title="Cancelado";
+}
 ?>
 
 <div class="row">
     <div class="box col-md-4">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>Status Approval </h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>Estatus <?php echo $status_title;?> </h2>
             </div>
             
 <div class="box-content">
@@ -61,7 +65,7 @@ if(isset($_REQUEST['id']))
     </div>
     <div class="form-group">        
         <div class="col-sm-offset-2 col-sm-4" align="center">
-            <button type="submit" name="update_button" class="btn btn-small btn-info">Update</button>
+            <button type="submit" name="update_button" class="btn btn-small btn-info">Guardar</button>
          </div>
     </div>  
       

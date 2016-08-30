@@ -187,7 +187,7 @@ else
         <div class="col-sm-4">
              <input type="text" class="form-control" value="<?php echo $employee_list[0]['emp_cellnum']; ?>" placeholder="RUT" name="emp_cell">
         </div>
-        <label class="control-label col-sm-2">Department</label>
+        <label class="control-label col-sm-2">Departamento</label>
         <div class="col-sm-4">
             <select name="emp_department" class="form-control">
                 <option value="">SELECT</option>
@@ -228,7 +228,7 @@ else
     </div>
                 
     <div class="form-group">
-        <label class="control-label col-sm-2">Status</label>
+        <label class="control-label col-sm-2">Estatus</label>
         <div class="col-sm-4">
             <select name="emp_status" class="form-control">
                 <option value="">SELECT</option>
@@ -243,7 +243,7 @@ else
             </select>
         </div>
         
-        <label class="control-label col-sm-2">User Type</label>
+        <label class="control-label col-sm-2">Empleados Tipo</label>
         <div class="col-sm-4">
             <select name="emp_type" class="form-control">
                 <option value="">SELECT</option>
@@ -264,13 +264,13 @@ else
 <?php } else if(isset($_REQUEST['update']))	{  ?>
        <div class="form-group">        
                         <div class="col-sm-offset-4 col-sm-4">
-                            <button type="submit" name="update_button" class="btn btn-small btn-block btn-error">Update</button>
+                            <button type="submit" name="update_button" class="btn btn-small btn-block btn-error">Guardar</button>
                          </div>
                     </div>  
 <?php } else {     ?>         
        <div class="form-group">        
                         <div class="col-sm-offset-4 col-sm-4">
-                            <button type="submit" name="submit" class="btn btn-small btn-block btn-error">Save</button>
+                            <button type="submit" name="submit" class="btn btn-small btn-block btn-error">Guardar</button>
                          </div>
                     </div>  
 

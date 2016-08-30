@@ -87,23 +87,32 @@ function action(action_status,id){
     <table id="data_list" class="table table-striped table-bordered    responsive" id="leave_list" style=" font-size: 12px; padding-bottom: 0px;">
     <thead>
     <tr>
+        
         <th style=" width: 8%;">Fecha del Registro</th>
         <th style=" width: 10%;">Nombre</th>
         <th style=" width: 2%;">N° de Días</th>
-        <th style=" width: 8%;">Desde<br>Hasta</th>
-        <th style=" width: 20%;">Observación</th>
+        <th style=" width: 10%;">Desde<br>Hasta</th>
+        <th style=" width: 30%;">Observación</th>
         <th style=" width: 10%;">Tipo</th>
-        <th style=" width: 12%;">Estatus</th>
-        <?php   if($_SESSION['session_admin_role']=='admin' || $_SESSION['session_admin_role']=='supervisor') { ?><th style=" width: 13%;">Acciones</th><?php } ?>
+        <th style=" width: 10%;">Estatus
+            <?php   if($_SESSION['session_admin_role']=='admin' || $_SESSION['session_admin_role']=='supervisor') { ?>/Acciones<?php } ?>
+        </th>
     </tr>
     </thead>
     <tbody>
         <?php 
         $i=0;
-        foreach($leave_list as $leave) { $i++;      ?>
+        foreach($leave_list as $leave) { 
+            $i++;    
+            $date = date("d-m-Y",strtotime($leave['date']));
+            if($leave['leave_approval'] == 2){
+                $date = date("d-m-Y",strtotime($leave['leave_datetime']));
+            }
+        ?>
         
     <tr>
-        <td><?php echo date("d-m-Y",strtotime($leave['date'])); ?></td>
+        
+        <td><?php echo  $date;?></td>
              <td><?php echo $leave['emp_file']; ?><br>
                  <?php echo $leave['emp_name']; ?></td>
         <td><?php echo $leave['leave_duration']; ?></td>
@@ -149,44 +158,45 @@ function action(action_status,id){
             <?php break;
             }?>
             <ul class="dropdown-menu">
-                <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=2"><i class="icon-ok"></i> Aprobado</a></li>
-                <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=1"><i class="icon-minus"></i> Cancelado</a></li>
+                <?php if($leave['leave_approval']!=2){ ?>
+                    <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=2"><i class="glyphicon glyphicon-ok"></i> Aprobado</a></li>
+                <?php } ?>
+                <li><a class="status_leave" href="edit_status.php?id=<?php echo $leave['leave_id']; ?>&status=1"><i class="glyphicon glyphicon-remove"></i> Cancelado</a></li>
+                
+                <li role="separator" class="divider"></li>
+                <?php if($leave['leave_approval']==2){ ?>
+                    <li>
+                        <a class=" report_leave" href="<?php echo SITE_ADDRESS; ?>leave/report_leave.php?view=<?php echo $leave['leave_id']; ?>&emp_id=<?php echo $leave['leave_emp_id']; ?>">
+                            <i title="Report" class="glyphicon glyphicon-print"></i>&nbsp;Report
+                        </a>
+                    </li>
+                <li role="separator" class="divider"></li>
+                <?php } ?>
+                <li>
+                    <a class=" add_leave " href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
+                        <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
+
+                    </a>
+                </li>
                 <?php if($_SESSION['session_admin_role']=='admin'){?>
-                    <li><a href="javascript:;" onclick="return action('3','<?php  echo $leave['leave_id']; ?>');"><i class="icon-remove"></i>Delete</a></li>
-                <?php }?>
+                    <li>
+                        <a onclick="return confirmation();" class="" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
+                            <i class=" glyphicon glyphicon-trash"></i>&nbsp;Delete
+
+                        </a>
+                    </li>
+                <?php }?>  
             </ul>
         </div>
         </td>
        <?php }else{?>			
-<?php	if($leave['leave_approval']==0)       echo"<td class='hidden-phone '><span class='label label-danger'>Pending</span></td>";
-	else if($leave['leave_approval']==2)	echo"<td class='hidden-phone '><span class='label label-success'>Approved</span></td>";
-	else if($leave['leave_approval']==1)  echo"<td class='hidden-phone '><span class='label label-small label-danger'>Cancelled </span></td>";
+<?php	if($leave['leave_approval']==0)       echo"<td class='hidden-phone '><span class='label label-danger'>Pendiente</span></td>";
+	else if($leave['leave_approval']==2)	echo"<td class='hidden-phone '><span class='label label-success'>Aprobado</span></td>";
+	else if($leave['leave_approval']==1)  echo"<td class='hidden-phone '><span class='label label-small label-danger'>Cancelado </span></td>";
 
        }
       
-        if($_SESSION['session_admin_role']=='admin' || $_SESSION['session_admin_role']=='supervisor') { ?> 
-        <td>
-            
-            
-                           
-      
-            <?php if($leave['leave_approval']==2){ ?>
-            <a class="btn btn-success report_leave btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/report_leave.php?view=<?php echo $leave['leave_id']; ?>&emp_id=<?php echo $leave['leave_emp_id']; ?>">
-                <i title="Report" class="glyphicon glyphicon-print icon-white"></i>
-            </a>
-            <?php } ?>
-            <a class="btn btn-info add_leave btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
-               
-            </a>
-            <?php if($_SESSION['session_admin_role']=='admin'){?>
-                <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
-                    <i class="glyphicon glyphicon-trash icon-white"></i>
-
-                </a>
-            <?php }?>
-        </td>
-         <?php } ?>
+        ?>
     </tr>
         <?php } ?>
     

@@ -39,7 +39,8 @@
             $(".status_leave").colorbox({iframe:true, width:"40%", height:"50%"});
             
             $('#data_list').dataTable( {
-                        
+                        "bSort": false,
+                        "bStateSave": true,
                         "oLanguage": {
                                 "sProcessing":     "Procesando...",
                                 "sLengthMenu":     "_MENU_ Registros por hoja",

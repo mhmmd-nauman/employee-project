@@ -91,10 +91,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-5" style="text-align: center;">
-                                <?php echo $balance_detail['F']-$balance_detail['leavesI'];?>
+                                <?php echo number_format($balance_detail['F']-$balance_detail['leavesI'],2);?>
                             </div>
                             <div class="col-md-5" style="text-align: center;">
-                                <?php echo $balance_detail['D']-$balance_detail['leavesD'];?>		
+                                <?php echo number_format($balance_detail['D']-$balance_detail['leavesD'],2);?>		
                             </div>
                         </div>
                     </div>
@@ -124,15 +124,15 @@
                     &nbsp;  
                 </div>
                 <div class="row" >
-                <div class="col-md-5 cel_data big_cel_data" >
+                <div class="col-md-5 cel_data big_cel_data" style="font-size: 12px;">
                     <b><?php echo $employee_data[0]['emp_name'];?></b><br>
                     TRABAJADOR
                 </div>
-                <div class="col-md-3 cel_data big_cel_data" >
+                    <div class="col-md-3 cel_data big_cel_data" style="font-size: 12px;" >
                     <b><?php echo $approver_data[0]['emp_name'];?></b><br>
                     SUPERVISOR / APROBADOR
                 </div>
-                <div class="col-md-3 cel_data big_cel_data">
+                <div class="col-md-3 cel_data big_cel_data" style="font-size: 12px;">
                     <br>
                     CONTROL DE GESTIÓN
                 </div>

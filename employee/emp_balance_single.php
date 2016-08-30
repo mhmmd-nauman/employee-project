@@ -121,22 +121,22 @@ switch ($_REQUEST['postback']){
                 </tr>
             </table>
              <div id="accordion">
-                 <h3>Balance Details</h3>
+                 <h3>Modificar saldos</h3>
                 <div>
                     <table class="table table-striped table-bordered   responsive" style=" font-size: 12px;" >
                     <thead>
                     <tr>
                 <!--        <th>ID</th>-->
-                        <th style=" width: 10%;">Date</th>
+                        <th style=" width: 10%;">Fecha</th>
 
 
-                        <th>Reason</th>
+                        <th>Observación</th>
 
                 <!--        <th>Data Added</th>-->
-                        <th>Days</th>
-                        <th>Status</th>
+                        <th>N° de Días</th>
+                        <th>Estatus</th>
                 <?php if($_SESSION['session_admin_role']=='admin') { ?>
-                        <th style=" width: 10%;">Actions</th>
+                        <th style=" width: 14%;">Acciones</th>
                 <?php } ?>   
                     </tr>
                     </thead>
@@ -192,11 +192,11 @@ switch ($_REQUEST['postback']){
                         <?php if($_SESSION['session_admin_role']=='admin') { ?>    
                         <td class="center">
                             <?php if($trasanction['trans_type'] !="L"){?>
-                            <a class="btn add_balance btn-info btn-sm" href="?postback=4&activetab=1&update=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
-                                <i class="glyphicon glyphicon-edit icon-white"></i>
+                            <a class="  btn-sm add_balance " href="?postback=4&activetab=1&update=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
+                                <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
                             </a>
-                            <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="?postback=3&del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
-                                <i class="glyphicon glyphicon-trash icon-white"></i>
+                            <a onclick="return confirmation();" class="" href="?postback=3&del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
+                                <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
                             </a>
                             <?php }?>
                         </td>
@@ -209,9 +209,9 @@ switch ($_REQUEST['postback']){
                 </div>
                 <h3>
                     <?php if($transaction[0]['id'] > 0){?>
-                        Update Balance
+                        Añadir Manual de Balanza
                     <?php } else {?>
-                        Add New Balance
+                        Añadir Manual de Balanza
                     <?php } ?>
                 </h3>
                 <div>
@@ -221,15 +221,15 @@ switch ($_REQUEST['postback']){
                                 <input type="hidden" value="<?php echo $_REQUEST['emp_id'];?>" name="emp_id">
                                            <div class="form-group">
 
-                                               <label class="control-label col-sm-2">Day</label>
+                                               <label class="control-label col-sm-2">N° de Días</label>
                                                <div class="col-sm-4">          
-                                                   <input type="text" class="form-control" value="<?php echo $transaction[0]['amount']; ?>" placeholder="Days" name="amount">
+                                                   <input type="text" class="form-control" value="<?php echo $transaction[0]['amount']; ?>" placeholder="N° de Días" name="amount">
                                                </div>
-                                           <label class="control-label col-sm-2">Date</label>
+                                           <label class="control-label col-sm-2">Fecha</label>
                                            <div class="col-sm-4">
                                                <?php
                                                 $end_month_data=date("d-m-Y",strtotime($transaction[0]['end_month_data']));
-                                               if(empty($end_month_data) || $end_month_data == "01-01-1970" ){
+                                               if(empty($end_month_data) || $end_month_data == "01-01-1970" || $end_month_data == "31-12-1969" ){
                                                    //$end_month_data = lastOfMonth();
                                                    $end_month_data = date("d-m-Y");
                                                }
@@ -240,7 +240,7 @@ switch ($_REQUEST['postback']){
 
                                            </div>
                                  <div class="form-group">
-                                     <label class="control-label col-sm-2">Type</label>
+                                     <label class="control-label col-sm-2">Tipo</label>
                                      <div class="col-sm-4">
                                          <select name="trans_type" class="form-control" >
                        <!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
@@ -250,7 +250,7 @@ switch ($_REQUEST['postback']){
 
                                          </select>
                                      </div>
-                                     <label class="control-label col-sm-2">Status</label>                     
+                                     <label class="control-label col-sm-2">Estatus</label>                     
                                                <div class="col-sm-4">
                                                <?php if($transaction[0]['status']==0) 
                                                {   ?>
@@ -268,13 +268,13 @@ switch ($_REQUEST['postback']){
                        <?php  if(isset($_REQUEST['update']))	{  ?>
                               <div class="form-group">        
                                                <div class="col-sm-offset-4 col-sm-4">
-                                                   <button type="submit" name="update_button" class="btn btn-small btn-block btn-info">Update</button>
+                                                   <button type="submit" name="update_button" class="btn btn-small btn-block btn-info">Guardar</button>
                                                 </div>
                                            </div>  
                        <?php } else {     ?>         
                               <div class="form-group">        
                                                <div class="col-sm-offset-4 col-sm-4">
-                                                   <button type="submit" name="submit" class="btn btn-small btn-block btn-info">Save</button>
+                                                   <button type="submit" name="submit" class="btn btn-small btn-block btn-info">Guardar</button>
                                                 </div>
                                            </div>  
 

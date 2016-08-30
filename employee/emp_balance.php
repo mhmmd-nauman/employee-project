@@ -74,16 +74,16 @@ if(isset($_REQUEST['del']))
     <thead>
     <tr>
 <!--        <th>ID</th>-->
-        <th style=" width: 10%;">Date</th>
+        <th style=" width: 10%;">Fecha</th>
       
         
-        <th>Reason</th>
+        <th>Observación</th>
       
 <!--        <th>Data Added</th>-->
-        <th>Days</th>
-        <th>Status</th>
+        <th>N° de Días</th>
+        <th>Estatus</th>
 <?php if($_SESSION['session_admin_role']=='admin') { ?>
-        <th style=" width: 10%;">Actions</th>
+        <th style=" width: 10%;">Acciones</th>
 <?php } ?>   
     </tr>
     </thead>
@@ -131,11 +131,11 @@ if(isset($_REQUEST['del']))
         <?php if($_SESSION['session_admin_role']=='admin') { ?>    
         <td class="center">
             <?php if($trasanction['trans_type'] !="L"){?>
-            <a class="btn add_balance btn-info btn-sm" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
+            <a class=" add_balance" href="add_balance.php?update=<?php echo $trasanction['id']; ?>">
+                <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
             </a>
-            <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
-                <i class="glyphicon glyphicon-trash icon-white"></i>
+            <a onclick="return confirmation();" class="" href="emp_balance.php?del=<?php echo $trasanction['id']; ?>&emp_id=<?php echo $trasanction['emp_id']; ?>">
+                <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
             </a>
             <?php }?>
         </td>

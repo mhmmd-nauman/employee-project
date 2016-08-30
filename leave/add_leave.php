@@ -67,7 +67,7 @@ if(isset($_REQUEST['update_button']))  // update code
                                                  'leave_approval'   =>$_REQUEST['approval'],
                                                  
                                                   ));
-        if($_REQUEST['approval'] == 2){
+        if($_REQUEST['approval'] == 2 && $_REQUEST['pre_approval'] != 2){
             // its approved leave
             $submit=$obj->update("alpp_leave","leave_id=".$_REQUEST['leave_id'] ,array(
                 'leave_datetime'   =>date('Y-m-d h:i:s'),
@@ -80,8 +80,8 @@ if(isset($_REQUEST['update_button']))  // update code
         //    header('REFRESH:2, url='.SITE_ADDRESS.'leave/leave_list.php');
 	}
         else        { 
-            $message_type="alert-error"; 
-            $message_text = "<strong>Error!</strong> Leave not Submitted ,Please try again.";
+            $message_type="alert-danger"; 
+            $message_text = "<strong>Error!</strong> Leave not updated ,Please make modifications and  try again.";
         }
 }
 }
@@ -268,7 +268,7 @@ if(isset($_REQUEST['view']) || isset($_REQUEST['update']))
 if($_SESSION['session_admin_role']=='admin') 
 { ?>
     <div class="form-group">
-                   <label class="control-label col-sm-2">Name</label>
+                   <label class="control-label col-sm-2">Nombre</label>
                    <div class="col-sm-2">          
                        <input type="hidden" value="<?php echo $leave_list[0]['leave_id']; ?>"  name="leave_id">
                    <?php     if(isset($_REQUEST['emp_id']))  ///  ?? ?>
@@ -327,10 +327,10 @@ if($_SESSION['session_admin_role']=='admin')
          </div>                         
 <?php  if($_SESSION['session_admin_role']=='admin') {  ?>
     <div class="form-group">
-        <label class="control-label col-sm-2">Approval</label>
+        <label class="control-label col-sm-2">Aprobado</label>
         <div class="col-sm-2">          
         <select name="approval" class="form-control" <?php echo $readonly; ?>>
-        <?php $leave_array=array("2"=>"Approved","0"=>"Pending","1"=>"Cancelled"); ?>
+        <?php $leave_array=array("2"=>"Aprobado","0"=>"Pendiente","1"=>"Cancelado"); ?>
             <option value="">SELECT</option>
            <?php 
                 foreach($leave_array as $status=>$value)
@@ -339,6 +339,7 @@ if($_SESSION['session_admin_role']=='admin')
                 }
                 ?>
         </select>
+            <input type="hidden" name="pre_approval" value="<?php echo $leave_list[0]['leave_approval']?>">
         </div>
     </div>
     <?php } ?>

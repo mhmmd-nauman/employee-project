@@ -8,20 +8,23 @@ if($_REQUEST['emp_id'] > 0 ){
     $employee_data=$obj->select("alpp_emp","emp_id = ".$_REQUEST['emp_id'],array("*"));
     //print_r($employee_data);
 }
-$balance_detail= $objTransaction->GetEmpBalanceDetail($_REQUEST['emp_id']);
+
+
+	           
+$leave_data=$obj->select("alpp_leave","leave_id = ".$_REQUEST['view'],array("*"));
+//echo "<pre>";
+//print_r($leave_data);
+//echo "</pre>";
+$date=date('Y-m-d',strtotime($leave_data[0]['leave_datetime']));
+//echo "<pre>";
+$balance_detail= $objTransaction->GetEmpBalanceDetail($_REQUEST['emp_id'] . " and date <= '".$date." 12:60:60' ",$_REQUEST['view']);
 //print_r($balance_detail);
-if(isset($_REQUEST['view']) )	// code to edit status only 
-{	           
-    $leave_data=$obj->select("alpp_leave","leave_id = ".$_REQUEST['view'],array("*"));
-    //print_r($leave_data);
-    $approver_data=$obj->select("alpp_emp","emp_id = '".trim($leave_data[0]['leave_user'])."' or emp_email = '".trim($leave_data[0]['leave_user'])."'",array("*"));
-    //print_r($approver_data);
-    if($action) {        
-        $message_type="alert-success"; 
-        $msg=($_REQUEST['status']==3)? 'Deleted' : ($_REQUEST['status']==1)?  'Cancelled' : 'Approved';  
-        $message_text = "<strong>Success!</strong> Leave Record ". $msg ;
-    }
-}
+//echo "</pre>";
+
+$approver_data=$obj->select("alpp_emp","emp_id = '".trim($leave_data[0]['leave_user'])."' or emp_email = '".trim($leave_data[0]['leave_user'])."'",array("*"));
+//print_r($approver_data);
+    
+
 
 //balance calculations
 switch($leave_data[0]['leave_balance_type']){

@@ -3,7 +3,7 @@
 	
         function GetBalanceDetail($strWhere){
             global $link;
-               $sql="SELECT distinct(alpp_transactions.id) as id,
+                $sql="SELECT distinct(alpp_transactions.id) as id,
                    end_month_data as entered_on_date,
                    trans_type,
                    alpp_transactions.emp_id as emp_id, 
@@ -17,7 +17,7 @@
                    UNION ALL
                    SELECT 
                    distinct(alpp_leave.leave_id) as id, 
-                   leave_datetime as entered_on_date,
+                   alpp_leave.leave_datetime as entered_on_date,
                    'L' as trans_type,
                    leave_emp_id as emp_id, 
                    leave_duration as days, 
@@ -54,9 +54,12 @@
             return $arr; 
         }
 	
-        function GetEmpBalanceDetail ($emp_id){
+        function GetEmpBalanceDetail ($emp_id,$leave_id=false){
             global $link;
-            	
+            $leave_id_query="";
+            if($leave_id){
+                $leave_id_query = " and leave_id <= $leave_id";
+            }
             $sqld="Select sum(amount) as D from alpp_transactions where trans_type ='D' AND emp_id = $emp_id and status = 0" ;
             $resultd=mysqli_query($link,$sqld) ;
             $rowd=mysqli_fetch_array($resultd);
@@ -69,12 +72,12 @@
             
             $emp_id=  str_replace("date", "leave_datetime", $emp_id);// this is for emp_reports.php page only , it will not run for anyother page
             
-            $sql_leaved="SELECT sum(leave_duration) as leavesD  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='D' and leave_approval = 2 " ;
+            $sql_leaved="SELECT sum(leave_duration) as leavesD  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='D' and leave_approval = 2 $leave_id_query" ;
             $result_leaved=mysqli_query($link,$sql_leaved) ;
             $row_leaved=mysqli_fetch_array($result_leaved);
             $arr['leavesD'] = $row_leaved['leavesD'];
             
-            $sql_leavei="SELECT sum(leave_duration) as leavesI  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='F' and leave_approval = 2 " ;
+            $sql_leavei="SELECT sum(leave_duration) as leavesI  FROM alpp_leave WHERE leave_emp_id = $emp_id and leave_balance_type='F' and leave_approval = 2 $leave_id_query" ;
             $result_leavei=mysqli_query($link,$sql_leavei) ;
             $row_leavei=mysqli_fetch_array($result_leavei);
             $arr['leavesI'] = $row_leavei['leavesI'];

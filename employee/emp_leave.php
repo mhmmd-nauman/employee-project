@@ -84,17 +84,17 @@ function action(status,leave_id,emp_id){
                 
                 <p style="text-align: right;">
                     <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?emp_id=<?php echo $_REQUEST['emp_id']; ?>"><button class="btn btn-warning"> <i class="glyphicon glyphicon-star icon-white"></i>Ingresar solicitud individual</button></a> 
-                    <a class="btn btn-success" href="emp_list.php">Go Back</a>
+                    <a class="btn btn-success" href="emp_list.php">Ver empleados</a>
                 </p>                
-    <table class="table table-striped table-bordered bootstrap-datatable  responsive" id="">
+                <table class="table table-striped table-bordered bootstrap-datatable  responsive" id="" style="font-size: 12px;">
     <thead>
     <tr>
-       <th>No of Days</th>
-        <th width="10%">From:<br>To:</th>
-        <th >Reason</th>
-        <th>Type</th>
-        <th>Status</th>
-        <th width="18%">Actions</th>
+       <th>N° de Días</th>
+        <th width="10%">Desde<br>Hasta</th>
+        <th >Observación</th>
+        <th>Tipo</th>
+        <th>Estatus</th>
+        <th width="13%">Acciones</th>
     </tr>
     </thead>
     <tbody>
@@ -130,9 +130,9 @@ function action(status,leave_id,emp_id){
        
         
         			
-<?php	if($leave['leave_approval']==0)       echo"<td class='hidden-phone '><span class='label label-danger'>Pending</span></td>";
-	else if($leave['leave_approval']==2)	echo"<td class='hidden-phone '><span class='label label-success'>Approved</span></td>";
-	else if($leave['leave_approval']==1)  echo"<td class='hidden-phone '><span class='label label-small label-danger'>Cancelled </span></td>";
+<?php	if($leave['leave_approval']==0)       echo"<td class='hidden-phone '><span class='label label-danger'>Pendiente</span></td>";
+	else if($leave['leave_approval']==2)	echo"<td class='hidden-phone '><span class='label label-success'>Aprobado</span></td>";
+	else if($leave['leave_approval']==1)  echo"<td class='hidden-phone '><span class='label label-small label-danger'>Cancelado </span></td>";
 
         
       ?>
@@ -141,25 +141,29 @@ function action(status,leave_id,emp_id){
             
  <?php if($_SESSION['session_admin_role']=='admin') { ?> 
                            <div class="btn-group">
-                                    <button class="btn btn-warning btn-sm">Status</button>
-                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+                                    <button class="btn btn-success btn-sm">Acciones</button>
+                                    <button data-toggle="dropdown" class="btn btn-success dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
                                     <ul class="dropdown-menu">
-<li><a href="javascript:;" onclick="return action('2','<?php  echo $leave['leave_id']; ?>','<?php  echo $leave['leave_emp_id']; ?>');"><i class="icon-ok"></i> Approve</a></li>
-<li><a href="javascript:;" onclick="return action('1','<?php  echo $leave['leave_id']; ?>','<?php  echo $leave['leave_emp_id']; ?>');"><i class="icon-minus"></i> Cancel</a></li>
-<li><a href="javascript:;" onclick="return action('3','<?php  echo $leave['leave_id']; ?>','<?php  echo $leave['leave_emp_id']; ?>');"><i class="icon-remove"></i>Delete</a></li>
+                                        <li><a href="javascript:;" onclick="return action('2','<?php  echo $leave['leave_id']; ?>','<?php  echo $leave['leave_emp_id']; ?>');"><i class="glyphicon glyphicon-ok"></i> Aprobado</a></li>
+                                        <li><a href="javascript:;" onclick="return action('1','<?php  echo $leave['leave_id']; ?>','<?php  echo $leave['leave_emp_id']; ?>');"><i class="glyphicon glyphicon-remove"></i> Cancelado</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a class="add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
+                                                <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a onclick="return confirmation();" class="" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
+                                                <i class="glyphicon glyphicon-trash"></i>&nbsp;Delete
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
        <?php } ?>
             
-<!--            <a class="btn btn-success btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?view=<?php echo $leave['leave_id']; ?>">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-            </a>-->
-            <a class="btn btn-info btn-sm add_leave" href="<?php echo SITE_ADDRESS; ?>leave/add_leave.php?update=<?php echo $leave['leave_id']; ?>">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
-            </a>
-            <a onclick="return confirmation();" class="btn btn-danger btn-sm" href="<?php echo SITE_ADDRESS; ?>leave/leave_list.php?del=<?php echo $leave['leave_id']; ?>">
-                <i class="glyphicon glyphicon-trash icon-white"></i>
-            </a>
+
+            
+            
         </td>
     </tr>
         <?php } ?>

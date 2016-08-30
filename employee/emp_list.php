@@ -65,7 +65,7 @@ $objTransaction =new Transaction();
                     <th>Saldo actual</th>
                     <th>FERIADO LEGAL</th>
                     <th>DIAS PROGRESIVOS</th>
-                    <th width="13%">Actions</th>
+                    <th width="13%">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,42 +90,43 @@ $objTransaction =new Transaction();
 
                 <td class="center">
                     <div class="btn-group">
-                        <button class="btn btn-success btn-sm">Actions</button>
+                        <button class="btn btn-success btn-sm">Acciones</button>
                         <button data-toggle="dropdown" class="btn btn-success dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <?php if($_SESSION['session_admin_role'] == 'admin'){?>
                             <li>
-                                <a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">Modificar saldos</a>
+                                <a class="  " href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span> Modificar saldos</a>
                             </li>
                             <?php }?>
                             <li>
-                                <a class=" btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">Solicitud</a>
+                                <a class=" " href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual"><span class="glyphicon glyphicon-file"></span> Solicitud</a>
                             </li>
+                             <li role="separator" class="divider"></li>
                             <?php 
                             if($_SESSION['session_admin_role'] == 'admin'){
                                 if($employee['emp_status']==0) { ?>
                                     <li>    
-                                        <a class=" btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i> Status</a>
+                                        <a class=""><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i> Estatus</a>
                                     </li>
                                        <?php } else{ ?>
                                     <li> 
-                                          <a class=" btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i> Status</a>
+                                          <a class=""><i title="Status" class="glyphicon glyphicon-remove"></i> Status</a>
                                     </li>
                                 <?php } 
                             }
                             ?>
                             <li>
-                                <a title="Manage Notes" class=" btn-success btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span> Notes</a>
+                                <a title="Manage Notes" class=" add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span> Notes</a>
                             </li>
                             <?php if( $_SESSION['session_admin_role'] == 'admin' ){?>  
                             <li>
-                                <a class=" btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
-                                   <i class="glyphicon glyphicon-edit icon-white"></i> Edit
+                                <a class=" add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+                                   <i class="glyphicon glyphicon-edit"></i> Edit
                                 </a>
                             </li>
                             <li>
-                                <a class=" btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
-                                    <i class="glyphicon glyphicon-trash icon-white"></i> Delete
+                                <a class="" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+                                    <i class="glyphicon glyphicon-trash"></i> Delete
                                 </a>
                             </li>
                         <?php }?>

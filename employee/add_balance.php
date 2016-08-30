@@ -105,11 +105,11 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
          <input type="hidden" value="<?php echo $transaction[0]['emp_id'];?>" name="emp_id_update">
                     <div class="form-group">
                         
-                        <label class="control-label col-sm-2">Day</label>
+                        <label class="control-label col-sm-2">N° de Días</label>
                         <div class="col-sm-4">          
                             <input type="text" class="form-control" value="<?php echo $transaction[0]['amount']; ?>" placeholder="Days" name="amount">
                         </div>
-                    <label class="control-label col-sm-2">Date</label>
+                    <label class="control-label col-sm-2">Fecha</label>
                     <div class="col-sm-4">
                         <?php
                          $end_month_data=date("d-m-Y",strtotime($transaction[0]['end_month_data']));
@@ -124,7 +124,7 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                     
                     </div>
           <div class="form-group">
-              <label class="control-label col-sm-2">Type</label>
+              <label class="control-label col-sm-2">Tipo</label>
               <div class="col-sm-4">
                   <select name="trans_type" class="form-control" >
 <!--                      <option value="M" <?php //if($transaction[0]['trans_type']=='M')echo"selected";?>>Manual</option>
@@ -134,7 +134,7 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
                       
                   </select>
               </div>
-              <label class="control-label col-sm-2">Status</label>                     
+              <label class="control-label col-sm-2">Estatus</label>                     
                         <div class="col-sm-4">
                         <?php if($transaction[0]['status']==0) 
                         {   ?>
@@ -152,13 +152,13 @@ if(isset($_REQUEST['emp_id']) || isset($_REQUEST['update']))
 <?php  if(isset($_REQUEST['update']))	{  ?>
        <div class="form-group">        
                         <div class="col-sm-offset-4 col-sm-4">
-                            <button type="submit" name="update_button" class="btn btn-small btn-block btn-info">Update</button>
+                            <button type="submit" name="update_button" class="btn btn-small btn-block btn-info">Guardar</button>
                          </div>
                     </div>  
 <?php } else {     ?>         
        <div class="form-group">        
                         <div class="col-sm-offset-4 col-sm-4">
-                            <button type="submit" name="submit" class="btn btn-small btn-block btn-info">Save</button>
+                            <button type="submit" name="submit" class="btn btn-small btn-block btn-info">Guardar</button>
                          </div>
                     </div>  
 

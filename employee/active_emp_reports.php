@@ -17,80 +17,92 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 order 
             </div>
            <div class="box-content">
                <br>
-               <table id="data_list" class="table table-striped table-bordered bootstrap-datatable responsive" style=" font-size: 12px;">
+              <table id="data_list" class="table table-striped table-bordered dataTable   responsive" style=" font-size: 12px;">
   
             <thead>
                 <tr>
                     <th>Ficha</th>
                     <th>Nombre</th>
-                    <th>Department</th>
-                    <th>RUT</th>
-                    <th width="10%">FECHA INGRESO</th>
-                    <th style=" width: 10px;">Feriados Disponibles</th>
-                    <th>Status/ Notes</th>
-                    
-                    <th width="15%">Actions</th>
+                    <th>Departamento</th>
+                    <th>Rut</th>
+                    <th>Saldo actual</th>
+                    <th>FERIADO LEGAL</th>
+                    <th>DIAS PROGRESIVOS</th>
+                    <th width="13%">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($employee_list as $employee) {  
-            $balance = $objTransaction->GetEmpBalance($employee['emp_id']);
+            <?php foreach($employee_list as $employee) {
+                
+            $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." ");
+            $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD'])
             ?>
         
-    <tr>
-        <td><a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><?php echo $employee['emp_file']; ?></a></td>
-<!--        <td><a class="btn btn-success btn-sm add_employee" href="add_employee.php?view=<?php //echo $employee['emp_id']; ?>"><?php //echo $employee['emp_file']; ?></a></td>-->
-        <td><?php echo $employee['emp_name']; ?></td>
-        <td><?php echo $employee['emp_department']; ?></td>
-        <td><?php echo $employee['emp_cellnum'];
+            <tr>
+                <td>
+                    <?php echo $employee['emp_file']; ?>
+                </td>
+                <td><?php echo $employee['emp_name']; ?></td>
+                <td><?php echo $employee['emp_department']; ?></td>
+                <td><?php echo $employee['emp_cellnum']; ?></td>
+
+                <td><?php  echo number_format($balance, 2); ?>
+                </td>
+                <td><?php   echo number_format(($balance_detail['F']-$balance_detail['leavesI']), 2);?></td>
+                <td><?php   echo number_format(($balance_detail['D']-$balance_detail['leavesD']), 2);?></td>
+
+                <td class="center">
+                    <div class="btn-group">
+                        <button class="btn btn-success btn-sm">Acciones</button>
+                        <button data-toggle="dropdown" class="btn btn-success dropdown-toggle b2 btn-sm"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <?php if($_SESSION['session_admin_role'] == 'admin'){?>
+                            <li>
+                                <a class="  " href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span> Modificar saldos</a>
+                            </li>
+                            <?php }?>
+                            <li>
+                                <a class=" " href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual"><span class="glyphicon glyphicon-file"></span> Solicitud</a>
+                            </li>
+                             <li role="separator" class="divider"></li>
+                            <?php 
+                            if($_SESSION['session_admin_role'] == 'admin'){
+                                if($employee['emp_status']==0) { ?>
+                                    <li>    
+                                        <a class=""><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i> Estatus</a>
+                                    </li>
+                                       <?php } else{ ?>
+                                    <li> 
+                                          <a class=""><i title="Status" class="glyphicon glyphicon-remove"></i> Status</a>
+                                    </li>
+                                <?php } 
+                            }
+                            ?>
+                            <li>
+                                <a title="Manage Notes" class=" add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span> Notes</a>
+                            </li>
+                            <?php if( $_SESSION['session_admin_role'] == 'admin' ){?>  
+                            <li>
+                                <a class=" add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+                                   <i class="glyphicon glyphicon-edit"></i> Edit
+                                </a>
+                            </li>
+                            <li>
+                                <a class="" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+                                    <i class="glyphicon glyphicon-trash"></i> Delete
+                                </a>
+                            </li>
+                        <?php }?>
+                        </ul>
+                    </div>
                     
-                    /*
-                    $submit=$obj->update("alpp_emp","emp_id=".$employee['emp_id'],array(
-                            'emp_cellnum'         =>$str));
-                     * 
-                     */
-        
-        ?></td>
-        <td><?php echo date("d-m-Y",strtotime($employee['emp_current_contract'])); ?></td>
-        <td>
-            <a class=" btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
-            <?php   $balance = $objTransaction->GetEmpBalance($employee['emp_id']); 
-            echo number_format($balance, 2);
-            ?>
-            </a>
-            </td>
-<!--        <td>
-            <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
-            <?php //echo $balance; ?>
-            </a>
-            </td>-->
-        <td class="center" style="text-align: center;">
-           <?php if($employee['emp_status']==0) { ?>
-            <a class=" btn-success btn-sm"><i title="Status" class="glyphicon glyphicon-ok icon-ok"></i></a>
-            
-           <?php } else{ ?>
-              <a class=" btn-danger btn-sm"><i title="Status" class="glyphicon glyphicon-remove"></i></a>
-           <?php } ?>&nbsp;<a title="Manage Notes" class="btn btn-info btn-sm add_employee_notes" href="add_employee_notes.php?emp_id=<?php echo $employee['emp_id']; ?>"><span class="glyphicon glyphicon-file"></span>
-            </a>
-        </td>
-        
-        
-        <td class="center">
-            <a class=" btn-warning btn-sm" href="emp_leave.php?emp_id=<?php echo $employee['emp_id']; ?>" title="Ingresar solicitud individual">
-           Solicitud
-         </a>
-        <?php if( $_SESSION['session_admin_role'] == 'admin' ){?> 
-        <a class=" btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
-           <i class="glyphicon glyphicon-edit icon-white"></i>
-         </a>
-         <a class=" btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
-             <i class="glyphicon glyphicon-trash icon-white"></i>
-         </a>
-         <?php }?>  
-        </td>
-    </tr>
-        <?php 
-        $balance = 0;
+                    
+                
+                </td>
+                
+            </tr>
+            <?php 
+            $balance = 0;
            } ?>
     
     </tbody>
@@ -106,4 +118,16 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 order 
 
 
 <?php include('../lib/footer.php'); ?>
+
+<script>
+    function confirmation() {
+        var answer = confirm("Do you want to delete this record?");
+    if(answer){
+            return true;
+    }else{
+            return false;
+    }
+}
+
+</script>
   
