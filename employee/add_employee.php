@@ -2,7 +2,10 @@
 include ('../lib/include.php');
 include('../lib/modal_header.php');
 $obj=new Queries();
-/// upload pic code
+//$sql="ALTER TABLE `alpp_emp` ADD `emp_supervisor` INT(11) NULL DEFAULT '0';";
+//$result = $link->query($sql);
+/// ALTER TABLE `alpp_emp` ADD `emp_supervisor` INT(11) NULL DEFAULT '0' ;
+$supervisor_manager_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type in (2,3) order by emp_name",array("*"));
 $pic='';     
 if(isset($_REQUEST['update_button']))  // update code
 {
@@ -38,7 +41,7 @@ if(isset($_REQUEST['update_button']))  // update code
                             'emp_email'        =>$_REQUEST['emp_email'],
                             'emp_password'      =>$_REQUEST['emp_password'],
                             'emp_type'      =>$_REQUEST['emp_type'],
-                            'emp_count'      =>$_REQUEST['years']
+                            'emp_supervisor'      =>$_REQUEST['emp_supervisor']
               ));
         if($submit || $submit0)
 	{
@@ -90,7 +93,7 @@ if(isset($_REQUEST['update_button']))  // update code
                             'emp_email'        =>$_REQUEST['emp_email'],
                             'emp_password'      =>$_REQUEST['emp_password'],
                             'emp_type'      =>$_REQUEST['emp_type'],
-                            'emp_count'      =>$_REQUEST['years'],
+                            'emp_supervisor'      =>$_REQUEST['emp_supervisor'],
                             'emp_pic'       =>$pic
               ));
         if($submit)
@@ -207,15 +210,23 @@ else
             <div class="col-sm-4">
             <input type="text" id="emp_current_contract" class="form-control" value="<?php echo $emp_current_contract; ?>" onchange="getyear(this.value,'<?php echo date('m/d/Y'); ?>')" placeholder="Contrato Actual" name="emp_current_contract">
             </div>
-         <!--
-         <label class="control-label col-sm-2">Years</label> 
-         -->
-        <div class="col-sm-4">
-            <input type="hidden" class="form-control" value="<?php echo $employee_list[0]['emp_count']; ?>" placeholder="years" name="years" id="years">
-        </div>
          
+         <label class="control-label col-sm-2">Supervisor/Jefe</label> 
+         
+        <div class="col-sm-4">
+            <select name="emp_supervisor" class="form-control">
+                <option value="">SELECT</option>
+                <?php
+                foreach ($supervisor_manager_list as $sup_data)
+                {
+                    $sel=$employee_list[0]['emp_supervisor']==$sup_data['emp_id'] ? 'selected' : '';?>
+                    <option value="<?php echo $sup_data['emp_id'];?>" <?php echo $sel;?>><?php echo $sup_data['emp_file']."-".$sup_data['emp_name'];?></option>
+                <?php 
+                }
+                ?>
+            </select>
+        </div>
     </div>
-
     <div class="form-group">
         <label class="control-label col-sm-2">Email</label>                     
         <div class="col-sm-4">

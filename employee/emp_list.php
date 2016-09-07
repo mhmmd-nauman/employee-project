@@ -3,6 +3,16 @@ header('Content-Type: text/html; charset=utf-8');
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
+$obj=new Queries();
+if($_REQUEST['viewworkers'] == 1){
+   $id = $_REQUEST['emp_id'];
+   if($id){
+        $str = " and emp_supervisor = $id";
+        $supervisor_data=$obj->select("alpp_emp","emp_id = $id",array("*"));
+        $title_supervisor = " - Supervisor/Jefe - ".$supervisor_data[0]['emp_name'];
+   }
+}
+$employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 $str order by emp_name",array("*"));
 ?>
 <script>
     $(document).ready(function(){
@@ -17,12 +27,11 @@ $objTransaction =new Transaction();
     <div class="box col-md-12">
         <div class="box-inner ">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>  Ver empleados </h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>  Ver empleados <?php echo $title_supervisor;?> </h2>
             </div>
            <div class="box-content">
             <?php 
-            $obj=new Queries();
-            $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 order by emp_name",array("*"));
+            
             if(isset($_REQUEST['emp_id']) && isset($_REQUEST['type']))	
             {	
                     $id = $_REQUEST['emp_id'];
@@ -59,7 +68,7 @@ $objTransaction =new Transaction();
             <thead>
                 <tr>
                     <th>Ficha</th>
-                    <th>Nombre</th>
+                    <th>Nombre<br>Supervisor/Jefe</th>
                     <th>Departamento</th>
                     <th>Rut</th>
                     <th>Saldo actual</th>
@@ -72,14 +81,15 @@ $objTransaction =new Transaction();
             <?php foreach($employee_list as $employee) {
                 
             $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." ");
-            $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD'])
+            $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);
+            $supervisor_data=$obj->select("alpp_emp","emp_id = ".$employee['emp_supervisor'],array("*"));
             ?>
         
             <tr>
                 <td>
                     <?php echo $employee['emp_file']; ?>
                 </td>
-                <td><?php echo $employee['emp_name']; ?></td>
+                <td><?php echo $employee['emp_name']; ?><br><span style="font-size: 10px;"><?php echo $supervisor_data[0]['emp_file'].'-'.$supervisor_data[0]['emp_name'];?></span></td>
                 <td><?php echo $employee['emp_department']; ?></td>
                 <td><?php echo $employee['emp_cellnum']; ?></td>
 

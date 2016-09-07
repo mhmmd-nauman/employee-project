@@ -7,7 +7,7 @@ $objTransaction =new Transaction();
 $obj=new Queries();
 $str = "";
 if($_SESSION['session_admin_is_super'] == "Y"){
-    $str = ",3,4,1";
+    //$str = ",3,4,1";
 } 
 $employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",array("*"));
 
@@ -31,7 +31,7 @@ $employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",
                     <th>Departamento</th>
                     <th>RUT</th>
                     <th>Type</th>
-                    
+                    <th style="text-align: center;">Workers</th>
                     <th>Actions</th>
                     
                     
@@ -40,7 +40,7 @@ $employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",
             </thead>
             <tbody>
                 <?php foreach($employee_list as $employee) {  
-            $balance = $objTransaction->GetEmpBalance($employee['emp_id']);
+            
             ?>
         
     <tr>
@@ -73,20 +73,22 @@ $employee_list=$obj->select("alpp_emp","emp_type in( 2 $str) order by emp_name",
                     case 4:
                         echo "Administrators";
                         break;
-                    } ?>
+                    } 
+                    $workers =$obj->select("alpp_emp","emp_supervisor = ".$employee['emp_id'],array("count(*) as total_workers"));
+                    ?>
         </td>
         
-<!--        <td>
-            <a class="btn btn-success btn-sm" href="emp_balance.php?emp_id=<?php echo $employee['emp_id']; ?>">
-            <?php //echo $balance; ?>
+        <td style="text-align: center;">
+            <a class="" href="emp_list.php?emp_id=<?php echo $employee['emp_id']; ?>&viewworkers=1">
+            <?php echo $workers[0]['total_workers']; ?>
             </a>
-            </td>-->
+            </td>
         <td>
         <?php if( $_SESSION['session_admin_role'] == 'admin' ){?>  
-            <a class=" btn-info btn-sm add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
+            <a class=" add_employee" href="add_employee.php?update=<?php echo $employee['emp_id']; ?>">
                <i class="glyphicon glyphicon-edit icon-white"></i>
-            </a>
-            <a class=" btn-danger btn-sm" onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
+            </a>&nbsp;
+            <a class=" " onclick="return confirmation();" href="emp_list.php?del=<?php echo $employee['emp_id']; ?>">
                 <i class="glyphicon glyphicon-trash icon-white"></i>
             </a>
         <?php }?>
