@@ -11,8 +11,15 @@ if(isset($_REQUEST['Search']))  /// insert code
       $searchqry = " and ( emp_name  LIKE '%$search%' or emp_file  LIKE '%$search%')"; 
    }
 }
-
-$employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 $searchqry order by emp_name ASC ",array("*"));
+if($_SESSION['session_admin_role'] == 'supervisor'){
+   $id = $_SESSION['session_admin_id'];
+   if($id){
+        $str = " and alpp_emp.emp_supervisor = $id";
+        //$supervisor_data=$obj->select("alpp_emp","emp_id = $id",array("*"));
+        //$title_supervisor = " - Supervisor/Jefe - ".$supervisor_data[0]['emp_name'];
+   }
+}
+$employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 $str $searchqry order by emp_name ASC ",array("*"));
 $leave_array=array("2"=>"Aprobado","0"=>"Pendiente","1"=>"Cancelado"); 
 if(isset($_REQUEST['submit']))  /// insert code
 {

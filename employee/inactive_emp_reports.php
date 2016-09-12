@@ -2,10 +2,16 @@
 include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
-?>
-<?php 
 $obj=new Queries();
-$employee_list=$obj->select("alpp_emp","emp_status = 1 and emp_type in ( 1,2) order by emp_name",array("*"));
+if($_SESSION['session_admin_role'] == 'supervisor'){
+    $id = $_SESSION['session_admin_id'];
+    if($id){
+        $str = " and emp_supervisor = $id";
+        $supervisor_data=$obj->select("alpp_emp","emp_id = $id",array("*"));
+        $title_supervisor = " - Supervisor/Jefe - ".$supervisor_data[0]['emp_name'];
+   }
+}
+$employee_list=$obj->select("alpp_emp","emp_status = 1 and  emp_type <> 4 $str order by emp_name",array("*"));
 //print_r($employee_list);
 ?>
 <link href="<?php echo SITE_ADDRESS; ?>bower_components/datatables/media/css/demo_table_1.css" rel="stylesheet">
@@ -13,7 +19,7 @@ $employee_list=$obj->select("alpp_emp","emp_status = 1 and emp_type in ( 1,2) or
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i>  En Empleados Activos </h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i>  En Empleados Activos <?php echo $title_supervisor;?></h2>
             </div>
            <div class="box-content">
                <br>

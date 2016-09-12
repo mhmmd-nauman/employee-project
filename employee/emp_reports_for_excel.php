@@ -3,7 +3,15 @@ include (dirname(__FILE__).'/../lib/include.php');
 //include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type in ( 1,2) order by emp_name",array("*"));
+if($_SESSION['session_admin_role'] == 'supervisor'){
+    $id = $_SESSION['session_admin_id'];
+    if($id){
+        $str = " and emp_supervisor = $id";
+        $supervisor_data=$objEmployee->GetAllEmployee("emp_id = $id",array("*"));
+        $title_supervisor = " - Supervisor/Jefe - ".$supervisor_data[0]['emp_name'];
+   }
+}
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type <> 4 $str order by emp_name",array("*"));
 if($_REQUEST['date']) 
     $date=date('Y-m-d',strtotime($_REQUEST['date']));
 else 

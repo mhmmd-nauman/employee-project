@@ -3,9 +3,17 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 //ALTER TABLE `alpp_leave` ADD `date` DATE NULL AFTER `leave_emp_id`;
 $obj=new Queries();
+if($_SESSION['session_admin_role'] == 'supervisor'){
+   $id = $_SESSION['session_admin_id'];
+   if($id){
+        $str = " and alpp_emp.emp_supervisor = $id";
+        $supervisor_data=$obj->select("alpp_emp","emp_id = $id",array("*"));
+        $title_supervisor = " - Supervisor/Jefe - ".$supervisor_data[0]['emp_name'];
+   }
+}
 $where='1';  
 if($_SESSION['session_admin_role']=='employee')    $where='leave_emp_id='.$_SESSION['session_admin_id'];
-$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id "," $where order by date desc",array("*")); ?>
+$leave_list=$obj->select("alpp_leave join alpp_emp on alpp_emp.emp_id=alpp_leave.leave_emp_id $str"," $where order by date desc",array("*")); ?>
 
 <?php
 if(isset($_REQUEST['leave_id']) && isset($_REQUEST['status']))	// code to edit status only 
@@ -79,7 +87,7 @@ function action(action_status,id){
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Historial</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Historial <?php echo $title_supervisor;?></h2>
             </div>
             
 

@@ -3,7 +3,15 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type <> 4 order by emp_name",array("*"));
+if($_SESSION['session_admin_role'] == 'supervisor'){
+    $id = $_SESSION['session_admin_id'];
+    if($id){
+        $str = " and emp_supervisor = $id";
+        $supervisor_data=$objEmployee->GetAllEmployee("emp_id = $id",array("*"));
+        $title_supervisor = " - Supervisor/Jefe - ".$supervisor_data[0]['emp_name'];
+   }
+}
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type <> 4 $str order by emp_name",array("*"));
 $month_array=array("01"=>"January","02"=>"February","03"=>"March","04"=>"April","05"=>"May","06"=>"June","07"=>"July","08"=>"August","09"=>"September","10"=>"October","11"=>"November","12"=>"December");
 
 if($_REQUEST['month']) { $month=$_REQUEST['month']; $year=$_REQUEST['year'];}
@@ -18,7 +26,7 @@ $last_day_this_month  = date($year.'-'.$month.'-t');
     <div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well" data-original-title="">
-                <h2><i class="glyphicon glyphicon-star-empty"></i> Report</h2>
+                <h2><i class="glyphicon glyphicon-star-empty"></i> Report <?php echo $title_supervisor;?></h2>
             </div>         
     <div class="box-content">    
         <form class="form-horizontal" role="form"  method="post" >  

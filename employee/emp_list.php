@@ -4,8 +4,9 @@ include (dirname(__FILE__).'/../lib/include.php');
 include (dirname(__FILE__).'/../lib/header.php'); 
 $objTransaction =new Transaction();
 $obj=new Queries();
-if($_REQUEST['viewworkers'] == 1){
+if($_REQUEST['viewworkers'] == 1 || $_SESSION['session_admin_role'] == 'supervisor'){
    $id = $_REQUEST['emp_id'];
+   if(empty($id))$id = $_SESSION['session_admin_id'];
    if($id){
         $str = " and emp_supervisor = $id";
         $supervisor_data=$obj->select("alpp_emp","emp_id = $id",array("*"));
@@ -68,7 +69,7 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 $str o
             <thead>
                 <tr>
                     <th>Ficha</th>
-                    <th>Nombre<br>Supervisor/Jefe</th>
+                    <th>Nombre<?php if($_SESSION['session_admin_role'] == 'admin' && $_REQUEST['viewworkers']!= 1){?><br>Supervisor/Jefe<?php }?></th>
                     <th>Departamento</th>
                     <th>Rut</th>
                     <th>Saldo actual</th>
@@ -78,18 +79,24 @@ $employee_list=$obj->select("alpp_emp","emp_status = 0 and  emp_type <> 4 $str o
                 </tr>
             </thead>
             <tbody>
-            <?php foreach($employee_list as $employee) {
+            <?php 
+            $title_supervisor="";
+            foreach($employee_list as $employee) {
                 
             $balance_detail= $objTransaction->GetEmpBalanceDetail($employee['emp_id']." ");
             $balance=($balance_detail['F']-$balance_detail['leavesI'])+($balance_detail['D']-$balance_detail['leavesD']);
-            $supervisor_data=$obj->select("alpp_emp","emp_id = ".$employee['emp_supervisor'],array("*"));
+            if($_SESSION['session_admin_role'] == 'admin' && $_REQUEST['viewworkers']!= 1){
+                $supervisor_data=$obj->select("alpp_emp","emp_id = ".$employee['emp_supervisor'],array("*"));
+                $title_supervisor = $supervisor_data[0]['emp_file'].'-'.$supervisor_data[0]['emp_name'];
+                
+            }
             ?>
         
             <tr>
                 <td>
                     <?php echo $employee['emp_file']; ?>
                 </td>
-                <td><?php echo $employee['emp_name']; ?><br><span style="font-size: 10px;"><?php echo $supervisor_data[0]['emp_file'].'-'.$supervisor_data[0]['emp_name'];?></span></td>
+                <td><?php echo $employee['emp_name']; ?><br><span style="font-size: 10px;"><?php echo $title_supervisor;?></span></td>
                 <td><?php echo $employee['emp_department']; ?></td>
                 <td><?php echo $employee['emp_cellnum']; ?></td>
 

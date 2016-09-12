@@ -2,7 +2,15 @@
 include (dirname(__FILE__).'/../lib/include.php');
 $objTransaction =new Transaction();
 $objEmployee =new Employee();
-$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type in ( 1,2) order by emp_name",array("*"));
+if($_SESSION['session_admin_role'] == 'supervisor'){
+    $id = $_SESSION['session_admin_id'];
+    if($id){
+        $str = " and emp_supervisor = $id";
+        $supervisor_data=$objEmployee->GetAllEmployee("emp_id = $id",array("*"));
+        $title_supervisor = "Supervisor/Jefe - ".$supervisor_data[0]['emp_name'];
+   }
+}
+$employee_list=$objEmployee->GetAllEmployee("emp_status = 0 and emp_type <> 4 $str order by emp_name",array("*"));
 if($_REQUEST['month']) { $month=$_REQUEST['month']; $year=$_REQUEST['year'];}
 else                   { $month=date('m'); $year=date('Y');}
 
@@ -28,7 +36,7 @@ window.print()
             $monthNum = sprintf("%02s", $month);
             $timestamp = mktime(0, 0, 0, $monthNum, 10);
             $monthName = date("F", $timestamp);
-            echo $monthName   ."</b>(".$first_day_this_month."  to  ". $last_day_this_month.")" ;?>
+            echo $monthName   ."</b>(".$first_day_this_month."  to  ". $last_day_this_month.")" ;?><br><?php echo $title_supervisor;?>
             </th>
         <td  style=" text-align: right;">         <img alt="Employee Logo" src="<?php echo SITE_ADDRESS; ?>img/logo20.png" height="50px" width="200px" ></td>
         </tr>
